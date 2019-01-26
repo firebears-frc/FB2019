@@ -49,14 +49,13 @@ public class Chassis extends Subsystem {
 
     public Chassis() {
         final Preferences config = Preferences.getInstance();
+
         int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
-        // addChild("RearRight",rearRight);
         rearRight.setInverted(false);
 
         int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 3);
         frontRight = new CANSparkMax(chassisFrontRightCanID, MotorType.kBrushless);
-        //addChild("FrontRight",frontRight);
         frontRight.setInverted(false);
 
         rightMotors = new SpeedControllerGroup(rearRight, frontRight);
@@ -64,12 +63,10 @@ public class Chassis extends Subsystem {
 
         int chassisFrontLeftCanID = config.getInt("chassis.frontleft.canID", 4);
         frontLeft = new CANSparkMax(chassisFrontLeftCanID, MotorType.kBrushless);
-        // addChild("FrontLeft",frontLeft);
         frontLeft.setInverted(false);
 
         int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 5);
         rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
-        // addChild("RearLeft",rearLeft);
         rearLeft.setInverted(false);
 
         leftMotors = new SpeedControllerGroup(frontLeft, rearLeft);
