@@ -85,6 +85,10 @@ public class Chassis extends Subsystem {
         robotDrive.arcadeDrive(speed, rotation);
     }
 
+    public void setBrakingMode(boolean braking) {
+        rearRight.setIdleMode(mode)
+    }
+
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new DriveCommand());
