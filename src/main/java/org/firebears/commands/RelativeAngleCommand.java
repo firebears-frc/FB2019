@@ -7,9 +7,12 @@
 
 package org.firebears.commands;
 
+import com.revrobotics.CANPIDController;
+
 import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RelativeAngleCommand extends Command {
 
@@ -19,12 +22,18 @@ public class RelativeAngleCommand extends Command {
   public RelativeAngleCommand(double a) {
     angle = a;
     requires(Robot.chassis);
+
+
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     targetAngle = Robot.chassis.getAngle() + angle;
+    setTimeout(10);
+
+  
+
 
   }
 
@@ -41,6 +50,12 @@ public class RelativeAngleCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if (isTimedOut()){
+      return true;
+    }
+    System.out.println(Robot.chassis.getAngle()); 
+    //System.out.println(getAngleDifference());
+    SmartDashboard.putNumber("difference", getAngleDifference()); 
     return getAngleDifference() < 5 && getAngleDifference() > -5;
   }
 

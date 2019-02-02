@@ -37,6 +37,7 @@ public class Chassis extends Subsystem {
     private CANEncoder rearLeftEncoder;
     private CANEncoder frontLeftEncoder;
     private AHRS navXBoard;
+    boolean brakingMode = false;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
@@ -115,6 +116,11 @@ public class Chassis extends Subsystem {
         if (frontLeft.setIdleMode(idleMode) != CANError.kOK) {
             System.out.println("Failed to set idleMode " + braking + " on frontLeft");
         }
+        brakingMode = braking;
+    }
+
+    public boolean isBrakingMode() {
+        return brakingMode;
     }
 
     @Override
