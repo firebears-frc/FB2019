@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -35,7 +36,7 @@ public class Chassis extends Subsystem {
     private CANEncoder frontRightEncoder;
     private CANEncoder rearLeftEncoder;
     private CANEncoder frontLeftEncoder;
-	private AHRS navXBoard;
+    private AHRS navXBoard;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
@@ -85,11 +86,15 @@ public class Chassis extends Subsystem {
 
         setBrakingMode(config.getBoolean("chassis.defaultbraking", false));
 
-        // try {
-		// 	navXBoard = new AHRS(edu.wpi.first.wpilibj.SerialPort.Port.kUSB);
-		// } catch (RuntimeException ex) {
-		// 	DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-		// }
+        try {
+            navXBoard = new AHRS(edu.wpi.first.wpilibj.SerialPort.Port.kUSB);
+        } catch (RuntimeException ex) {
+            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        }
+    }
+
+    public double getAngle() {
+        return navXBoard.getAngle();
     }
 
     public void drive(double speed, double rotation) {
@@ -101,7 +106,7 @@ public class Chassis extends Subsystem {
         if (rearRight.setIdleMode(idleMode) != CANError.kOK) {
             System.out.println("Failed to set idleMode " + braking + " on rightRear");
         }
-        if ( rearLeft.setIdleMode(idleMode) != CANError.kOK) {
+        if (rearLeft.setIdleMode(idleMode) != CANError.kOK) {
             System.out.println("Failed to set idleMode " + braking + " on rearLeft");
         }
         if (frontRight.setIdleMode(idleMode) != CANError.kOK) {
@@ -123,7 +128,8 @@ public class Chassis extends Subsystem {
         SmartDashboard.putBoolean("centerSensor", centerSensor.get());
         SmartDashboard.putBoolean("leftSensor", leftSensor.get());
         SmartDashboard.putNumber("distanceInInches", inchesTraveled());
-        if (navXBoard!=null) SmartDashboard.putNumber("navX.angle", navXBoard.getAngle());
+        if (navXBoard != null)
+            SmartDashboard.putNumber("navX.angle", navXBoard.getAngle());
     }
 
     public double inchesTraveledLeft() {
