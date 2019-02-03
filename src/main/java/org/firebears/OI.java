@@ -69,17 +69,19 @@ public class OI {
         controller1 = new XboxController(0);
 
 
-        lineFollowButton = new JoystickButton(controller1, 2);
+        lineFollowButton = new JoystickButton(controller1, 2);   //b
         lineFollowButton.whenPressed(new LineFollowCommand());
 
-        relativeAngleButton = new JoystickButton(controller1, 1);
-        relativeAngleButton.whenPressed(new RelativeAngleCommand(90));
+        relativeAngleButton = new JoystickButton(controller1, 1);  // a
+        relativeAngleButton.whenPressed(new PIDrelativeAngleCommand(90));
 
-        nRelativeAngleButton = new JoystickButton(controller1, 4);
-        nRelativeAngleButton.whenPressed(new RelativeAngleCommand(-90));
+        nRelativeAngleButton = new JoystickButton(controller1, 4);   // y
+        nRelativeAngleButton.whenPressed(new PIDrelativeAngleCommand(-45));
         
-        distanceButton = new JoystickButton(controller1, 3);
+        distanceButton = new JoystickButton(controller1, 3);   //x
         distanceButton.whenPressed(new DistanceCommand(60));
+        
+
 
         // SmartDashboard Buttons
         SmartDashboard.putData("AutonomousCommand", new AutonomousCommand());
