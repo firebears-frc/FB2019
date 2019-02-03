@@ -8,12 +8,7 @@
 package org.firebears.commands;
 
 import org.firebears.Robot;
-import org.firebears.subsystems.Chassis;
-
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
-
-
 
 public class DistanceCommand extends PIDCommand {
 
@@ -38,12 +33,22 @@ public class DistanceCommand extends PIDCommand {
   }
 
   protected void usePIDOutput(double output) {
-    double speed = output;
-    if ((speed - previousSpeed) > 0.05){
-      speed = previousSpeed + 0.05;
-    }
+    double speed = clamp((previousSpeed - 0.05), output, (previousSpeed + 0.05));
+    // if (speed > 0) {
+    //   if (speed > (previousSpeed + RAMP_RATE)) {
+    //     speed = previousSpeed + RAMP_RATE;
+    //   }
+    // } else {
+    //   if (speed < (previousSpeed - RAMP_RATE)) {
+    //     speed = previousSpeed - RAMP_RATE;
+    //   }
+    // }
     Robot.chassis.drive(speed, 0);
     previousSpeed = speed;
+  }
+
+  private double clamp(double minValue, double value, double maxValue) {
+    return Math.max(minValue, Math.min(value, maxValue));
   }
 
   protected double returnPIDInput() {
@@ -52,10 +57,10 @@ public class DistanceCommand extends PIDCommand {
 
   @Override
   protected boolean isFinished() {
-    if (isTimedOut()){
+    if (isTimedOut()) {
       return true;
     }
-    return getSetpoint() <= Robot.chassis.inchesTraveled();
+    return Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()) < 4;
   }
 
   @Override
