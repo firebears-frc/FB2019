@@ -34,15 +34,6 @@ public class DistanceCommand extends PIDCommand {
 
   protected void usePIDOutput(double output) {
     double speed = clamp((previousSpeed - 0.05), output, (previousSpeed + 0.05));
-    // if (speed > 0) {
-    //   if (speed > (previousSpeed + RAMP_RATE)) {
-    //     speed = previousSpeed + RAMP_RATE;
-    //   }
-    // } else {
-    //   if (speed < (previousSpeed - RAMP_RATE)) {
-    //     speed = previousSpeed - RAMP_RATE;
-    //   }
-    // }
     Robot.chassis.drive(speed, 0);
     previousSpeed = speed;
   }
