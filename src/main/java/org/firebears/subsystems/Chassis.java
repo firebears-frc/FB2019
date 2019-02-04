@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
@@ -38,6 +39,7 @@ public class Chassis extends Subsystem {
     private CANEncoder frontLeftEncoder;
     private AHRS navXBoard;
     boolean brakingMode = false;
+    private AnalogInput rangeFinder;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
@@ -92,6 +94,11 @@ public class Chassis extends Subsystem {
         } catch (RuntimeException ex) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
+
+        rangeFinder = new AnalogInput(0);
+    }
+    public double getDistanceToWall(){
+        return rangeFinder.getAverageVoltage() * 1.0;
     }
 
     public double getAngle() {
@@ -100,6 +107,10 @@ public class Chassis extends Subsystem {
 
     public void drive(double speed, double rotation) {
         robotDrive.arcadeDrive(speed, rotation);
+    }
+
+    public void tankDrive(double leftSpeed, double rightSpeed) {
+        robotDrive.tankDrive(leftSpeed, rightSpeed);
     }
 
     public void setBrakingMode(boolean braking) {
@@ -134,8 +145,10 @@ public class Chassis extends Subsystem {
         SmartDashboard.putBoolean("centerSensor", centerSensor.get());
         SmartDashboard.putBoolean("leftSensor", leftSensor.get());
         SmartDashboard.putNumber("distanceInInches", inchesTraveled());
-        if (navXBoard != null)
+        if (navXBoard != null)  {
             SmartDashboard.putNumber("navX.angle", navXBoard.getAngle());
+        }
+        SmartDashboard.putNumber("getDistanceToWall", getDistanceToWall()); 
     }
 
     public double inchesTraveledLeft() {
