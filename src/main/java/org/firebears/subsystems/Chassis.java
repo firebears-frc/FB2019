@@ -24,20 +24,17 @@ public class Chassis extends Subsystem {
 
     private CANSparkMax rearRight;
     private CANSparkMax frontRight;
-    private SpeedControllerGroup rightMotors;
     private CANSparkMax frontLeft;
     private CANSparkMax rearLeft;
-    private SpeedControllerGroup leftMotors;
     private DifferentialDrive robotDrive;
     public DigitalInput rightSensor;
     public DigitalInput centerSensor;
     public DigitalInput leftSensor;
-    private CANEncoder rearRightEncoder;
     private CANEncoder frontRightEncoder;
-    private CANEncoder rearLeftEncoder;
     private CANEncoder frontLeftEncoder;
     private AHRS navXBoard;
     boolean brakingMode = false;
+    float initialRoll;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
@@ -47,15 +44,14 @@ public class Chassis extends Subsystem {
         int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 5);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
         rearRight.setInverted(false);
-        rearRightEncoder = rearRight.getEncoder();
+    
 
         int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 4);
         frontRight = new CANSparkMax(chassisFrontRightCanID, MotorType.kBrushless);
         frontRight.setInverted(false);
         frontRightEncoder = frontRight.getEncoder();
 
-        rightMotors = new SpeedControllerGroup(rearRight, frontRight);
-        addChild("RightMotors", rightMotors);
+        rearRight.follow(frontRight);
 
         int chassisFrontLeftCanID = config.getInt("chassis.frontleft.canID", 3);
         frontLeft = new CANSparkMax(chassisFrontLeftCanID, MotorType.kBrushless);
@@ -65,12 +61,10 @@ public class Chassis extends Subsystem {
         int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 2);
         rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
         rearLeft.setInverted(false);
-        rearLeftEncoder = rearLeft.getEncoder();
 
-        leftMotors = new SpeedControllerGroup(frontLeft, rearLeft);
-        addChild("LeftMotors", leftMotors);
+        rearLeft.follow(frontLeft);
 
-        robotDrive = new DifferentialDrive(leftMotors, rightMotors);
+        robotDrive = new DifferentialDrive(frontLeft, frontRight);
         addChild("RobotDrive", robotDrive);
         robotDrive.setSafetyEnabled(true);
         robotDrive.setExpiration(0.1);
@@ -92,10 +86,16 @@ public class Chassis extends Subsystem {
         } catch (RuntimeException ex) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
+        initialRoll = navXBoard.getRoll();
     }
 
     public double getAngle() {
         return navXBoard.getAngle();
+    }
+
+    public boolean isTipping() {
+        float currentRoll = navXBoard.getRoll();
+        return Math.abs(currentRoll - initialRoll) > 7.0;
     }
 
     public void drive(double speed, double rotation) {
@@ -134,8 +134,9 @@ public class Chassis extends Subsystem {
         SmartDashboard.putBoolean("centerSensor", centerSensor.get());
         SmartDashboard.putBoolean("leftSensor", leftSensor.get());
         SmartDashboard.putNumber("distanceInInches", inchesTraveled());
-        if (navXBoard != null)
-            SmartDashboard.putNumber("navX.angle", navXBoard.getAngle());
+        SmartDashboard.putNumber("navX.angle", navXBoard.getAngle());
+        SmartDashboard.putBoolean("tipping over", isTipping());
+
     }
 
     public double inchesTraveledLeft() {
