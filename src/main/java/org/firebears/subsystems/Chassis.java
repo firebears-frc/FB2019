@@ -44,12 +44,12 @@ public class Chassis extends Subsystem {
     public Chassis() {
         final Preferences config = Preferences.getInstance();
 
-        int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
+        int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 5);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
         rearRight.setInverted(false);
         rearRightEncoder = rearRight.getEncoder();
 
-        int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 3);
+        int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 4);
         frontRight = new CANSparkMax(chassisFrontRightCanID, MotorType.kBrushless);
         frontRight.setInverted(false);
         frontRightEncoder = frontRight.getEncoder();
@@ -57,12 +57,12 @@ public class Chassis extends Subsystem {
         rightMotors = new SpeedControllerGroup(rearRight, frontRight);
         addChild("RightMotors", rightMotors);
 
-        int chassisFrontLeftCanID = config.getInt("chassis.frontleft.canID", 4);
+        int chassisFrontLeftCanID = config.getInt("chassis.frontleft.canID", 3);
         frontLeft = new CANSparkMax(chassisFrontLeftCanID, MotorType.kBrushless);
         frontLeft.setInverted(false);
         frontLeftEncoder = frontLeft.getEncoder();
 
-        int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 5);
+        int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 2);
         rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
         rearLeft.setInverted(false);
         rearLeftEncoder = rearLeft.getEncoder();
