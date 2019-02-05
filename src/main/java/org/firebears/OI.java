@@ -44,7 +44,8 @@ public class OI {
     public OI() {
 
         recordingFactory = new RecordingFactory();
-        
+        recordingFactory.addAll(Robot.chassis.getRecordables());
+
         controller1 = new XboxController(0);
 
         buttonA = new JoystickButton(controller1, 1); 
