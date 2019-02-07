@@ -42,9 +42,9 @@ public class RelativeAngleCommand extends Command {
   @Override
   protected void execute() {
     if (angle < 0) {
-      Robot.chassis.drive(0, -0.2);
+      Robot.chassis.drive(0, -0.3);
     } else {
-      Robot.chassis.drive(0, 0.2);
+      Robot.chassis.drive(0, 0.3);
     }
   }
 

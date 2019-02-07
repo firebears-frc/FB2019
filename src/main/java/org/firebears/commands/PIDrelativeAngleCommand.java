@@ -9,6 +9,7 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
@@ -19,8 +20,10 @@ public class PIDrelativeAngleCommand extends PIDCommand {
   boolean previousBrakingMode;
 
   public PIDrelativeAngleCommand(double rotation) {
-    // super("PIDrelativeAngleCommand", 0.0083, 0.0, 0.00083);
-    super("PIDrelativeAngleCommand", 0.0085, 0.0, 0.0);
+    super("PIDrelativeAngleCommand", 
+    Preferences.getInstance().getDouble("PIDrelativeAngleCommand.p", 0.0), 
+    Preferences.getInstance().getDouble("PIDrelativeAngleCommand.i", 0.0),
+    Preferences.getInstance().getDouble("PIDrelativeAngleCommand.d", 0.0));
 
     targetAngle = rotation;
     requires(Robot.chassis);
@@ -45,10 +48,11 @@ public class PIDrelativeAngleCommand extends PIDCommand {
   protected void usePIDOutput(double output) {
     double speed = clamp((previousSpeed - 0.05), output, (previousSpeed + 0.05));
     if (speed > 0.0 && speed < 0.15) {
-      speed = 0.15;
-    } else if (speed < 0 && speed > -0.15) {
+     speed = 0.15;
+   } else if (speed < 0 && speed > -0.15) {
       speed = -0.15;
     }
+    speed = clamp(-0.5, speed, 0.5);
 
     Robot.chassis.drive(0, speed);
     previousSpeed = speed;

@@ -40,16 +40,19 @@ public class Chassis extends Subsystem {
 
     public Chassis() {
         final Preferences config = Preferences.getInstance();
+double rampRate = config.getDouble("chassis.rampRate", 0.0);
 
         int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 5);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
         rearRight.setInverted(false);
+        rearRight.setRampRate(rampRate);
     
 
         int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 4);
         frontRight = new CANSparkMax(chassisFrontRightCanID, MotorType.kBrushless);
         frontRight.setInverted(false);
         frontRightEncoder = frontRight.getEncoder();
+        frontRight.setRampRate(rampRate);
 
         rearRight.follow(frontRight);
 
@@ -57,10 +60,12 @@ public class Chassis extends Subsystem {
         frontLeft = new CANSparkMax(chassisFrontLeftCanID, MotorType.kBrushless);
         frontLeft.setInverted(false);
         frontLeftEncoder = frontLeft.getEncoder();
+        frontLeft.setRampRate(rampRate);
 
         int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 2);
         rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
         rearLeft.setInverted(false);
+        rearLeft.setRampRate(rampRate);
 
         rearLeft.follow(frontLeft);
 
