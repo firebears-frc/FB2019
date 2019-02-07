@@ -1,19 +1,50 @@
 package org.firebears.util;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 
+/**
+ * Wrapper around {@code CANSparkMax} allowing us to do closed-loop driving.
+ */
 public class PIDSparkMotor implements SpeedController {
 
-	private CANSparkMax motor;
-	private boolean closedLoop = false;
+	public static final double MAX_RPM = 5700.0;
+	public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
-	public PIDSparkMotor(CANSparkMax m) {
+	private final CANSparkMax motor;
+	private final CANPIDController pidController;
+	private final CANEncoder encoder;
+	private boolean closedLoop = false;
+	private double currentSpeed = 0.0;
+
+	public PIDSparkMotor(CANSparkMax m, double kP, double kI, double kD) {
 		motor = m;
+		pidController = motor.getPIDController();
+		pidController.setP(kP);
+		pidController.setI(kI);
+		pidController.setD(kD);
+		pidController.setOutputRange(-1.0, 1.0);
+		encoder = motor.getEncoder();
 	}
 
 	public void setClosedLoop(boolean b) {
 		closedLoop = b;
+	}
+
+	public boolean isClosedLoop() {
+		return closedLoop;
+	}
+
+	public double inchesTraveled() {
+		return encoder.getPosition() / ENCODER_TICKS_PER_INCH;
+	}
+
+	public void driveToPosition(double inches)  {
+		double setPointPosition = inches * ENCODER_TICKS_PER_INCH;
+		pidController.setReference(setPointPosition, ControlType.kPosition);
 	}
 
 	/**
@@ -23,7 +54,13 @@ public class PIDSparkMotor implements SpeedController {
 	 */
 	@Override
 	public void set(double speed) {
-		motor.set(speed);
+		currentSpeed = speed;
+		if (closedLoop) {
+			double setPointVelocity = speed * MAX_RPM;
+			pidController.setReference(setPointVelocity, ControlType.kVelocity);
+		} else {
+			motor.set(speed);
+		}
 	}
 
 	/**
@@ -33,7 +70,11 @@ public class PIDSparkMotor implements SpeedController {
 	 */
 	@Override
 	public double get() {
-		return motor.get();
+		if (closedLoop) {
+			return currentSpeed;
+		} else {
+			return motor.get();
+		}
 	}
 
 	/**
