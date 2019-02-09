@@ -107,11 +107,8 @@ public class Chassis extends Subsystem {
 
     public void drive(double speed, double rotation) {
         robotDrive.arcadeDrive(speed, rotation);
-double rpm = frontLeftEncoder.getVelocity();
-if (rpm > maxRpm) { maxRpm = rpm; }
-System.out.println(rpm + "\t\t" + maxRpm);
     }
-    double maxRpm = 0.0;
+
 
     public void setBrakingMode(boolean braking) {
         IdleMode idleMode = braking ? IdleMode.kBrake : IdleMode.kCoast;
