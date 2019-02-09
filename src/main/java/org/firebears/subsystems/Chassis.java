@@ -1,6 +1,7 @@
 package org.firebears.subsystems;
 
 import org.firebears.commands.DriveCommand;
+import org.firebears.util.PIDSparkMotor;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
@@ -25,6 +26,8 @@ public class Chassis extends Subsystem {
     private CANSparkMax frontRight;
     private CANSparkMax frontLeft;
     private CANSparkMax rearLeft;
+    public PIDSparkMotor pidFrontRight;
+    public PIDSparkMotor pidFrontLeft;
     private DifferentialDrive robotDrive;
     public DigitalInput rightSensor;
     public DigitalInput centerSensor;
@@ -40,6 +43,10 @@ public class Chassis extends Subsystem {
     public Chassis() {
         final Preferences config = Preferences.getInstance();
         double rampRate = config.getDouble("chassis.rampRate", 0.0);
+        double kP = config.getDouble("chassis.p", 0.00015);
+        double kI = config.getDouble("chassis.i", 0.0);
+        double kD = config.getDouble("chassis.d", 0.0);
+        boolean closedLoop = config.getBoolean("chassis.closedLoop", false);
 
         int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
@@ -51,6 +58,8 @@ public class Chassis extends Subsystem {
         frontRight.setInverted(false);
         frontRightEncoder = frontRight.getEncoder();
         frontRight.setRampRate(rampRate);
+        pidFrontRight = new PIDSparkMotor(frontRight, kP, kI, kD);
+        pidFrontRight.setClosedLoop(closedLoop);
 
         rearRight.follow(frontRight);
 
@@ -59,6 +68,8 @@ public class Chassis extends Subsystem {
         frontLeft.setInverted(false);
         frontLeftEncoder = frontLeft.getEncoder();
         frontLeft.setRampRate(rampRate);
+        pidFrontLeft = new PIDSparkMotor(frontLeft, kP, kI, kD);
+        pidFrontLeft.setClosedLoop(closedLoop);
 
         int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 5);
         rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
@@ -67,7 +78,7 @@ public class Chassis extends Subsystem {
 
         rearLeft.follow(frontLeft);
 
-        robotDrive = new DifferentialDrive(frontLeft, frontRight);
+        robotDrive = new DifferentialDrive(pidFrontLeft, pidFrontRight);
         addChild("RobotDrive", robotDrive);
         robotDrive.setSafetyEnabled(true);
         robotDrive.setExpiration(0.1);

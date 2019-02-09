@@ -9,6 +9,8 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 import org.firebears.subsystems.Chassis;
+
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
@@ -50,9 +52,14 @@ public class RotateToAngleCommand extends PIDCommand {
     return getAngleDifference(Robot.chassis.getAngle(), targetAngle);
   }
 
+  private boolean isClosedLoop;
+  
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    isClosedLoop = Robot.chassis.pidFrontLeft.isClosedLoop();
+    Robot.chassis.pidFrontLeft.setClosedLoop(false);
+    Robot.chassis.pidFrontRight.setClosedLoop(false);
     timeout = System.currentTimeMillis() + 1000 * 5;
     turnValue = bound(angle - Robot.chassis.getAngle());
     targetAngle = bound(angle);
@@ -68,19 +75,21 @@ public class RotateToAngleCommand extends PIDCommand {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    double difference = getAngleDifference();
-    if (System.currentTimeMillis() >= timeout) {
-     return true;
-    } else {
+    //double difference = getAngleDifference();
+    //if (System.currentTimeMillis() >= timeout) {
+     //return true;
+    //} else {
 
       return Math.abs(Robot.chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;
     }
     // return false;
-  }
+  //}
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.chassis.pidFrontLeft.setClosedLoop(isClosedLoop);
+    Robot.chassis.pidFrontRight.setClosedLoop(isClosedLoop);
     Robot.chassis.drive(0.0, 0.0);
    
   }

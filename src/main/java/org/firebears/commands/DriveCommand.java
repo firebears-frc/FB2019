@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.firebears.Robot;
 import edu.wpi.first.wpilibj.Preferences;
 
-/**
+/** 
  *
  */
 public class DriveCommand extends Command {
@@ -27,7 +27,7 @@ public class DriveCommand extends Command {
     @Override
     protected void execute() {
         double speed = -1 * Robot.oi.controller1.getRawAxis(joystickSpeedAxis);
-        double rotation = Robot.oi.controller1.getRawAxis(joystickRotateAxis);
+        double rotation = Robot.oi.controller1.getRawAxis(joystickRotateAxis) * 0.7;
         Robot.chassis.drive(speed, rotation);
     }
 
