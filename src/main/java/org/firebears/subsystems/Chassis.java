@@ -40,15 +40,14 @@ public class Chassis extends Subsystem {
 
     public Chassis() {
         final Preferences config = Preferences.getInstance();
-double rampRate = config.getDouble("chassis.rampRate", 0.0);
+        double rampRate = config.getDouble("chassis.rampRate", 0.0);
 
-        int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 5);
+        int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
         rearRight.setInverted(false);
         rearRight.setRampRate(rampRate);
-    
 
-        int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 4);
+        int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 3);
         frontRight = new CANSparkMax(chassisFrontRightCanID, MotorType.kBrushless);
         frontRight.setInverted(false);
         frontRightEncoder = frontRight.getEncoder();
@@ -56,13 +55,13 @@ double rampRate = config.getDouble("chassis.rampRate", 0.0);
 
         rearRight.follow(frontRight);
 
-        int chassisFrontLeftCanID = config.getInt("chassis.frontleft.canID", 3);
+        int chassisFrontLeftCanID = config.getInt("chassis.frontleft.canID", 4);
         frontLeft = new CANSparkMax(chassisFrontLeftCanID, MotorType.kBrushless);
         frontLeft.setInverted(false);
         frontLeftEncoder = frontLeft.getEncoder();
         frontLeft.setRampRate(rampRate);
 
-        int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 2);
+        int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 5);
         rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
         rearLeft.setInverted(false);
         rearLeft.setRampRate(rampRate);
@@ -96,6 +95,10 @@ double rampRate = config.getDouble("chassis.rampRate", 0.0);
 
     public double getAngle() {
         return navXBoard.getAngle();
+    }
+
+    public void resetNavX() {
+        navXBoard.reset();
     }
 
     public boolean isTipping() {
@@ -155,4 +158,9 @@ double rampRate = config.getDouble("chassis.rampRate", 0.0);
     public double inchesTraveled() {
         return (inchesTraveledLeft() + inchesTraveledRight()) / 2;
     }
+
+    public double getVelocity() {
+        return frontLeftEncoder.getVelocity();
+    }
+
 }
