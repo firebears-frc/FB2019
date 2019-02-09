@@ -70,7 +70,7 @@ public class RotateToAngleCommand extends PIDCommand {
   protected boolean isFinished() {
     double difference = getAngleDifference();
     if (System.currentTimeMillis() >= timeout) {
-      return true;
+     return true;
     } else {
 
       return Math.abs(Robot.chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;

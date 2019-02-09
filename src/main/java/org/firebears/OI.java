@@ -80,7 +80,7 @@ public class OI {
         buttonA.whenPressed(new PIDrelativeAngleCommand(90));
 
         buttonY = new JoystickButton(controller1, 4);   
-        buttonY.whenPressed(new PIDrelativeAngleCommand(-10));
+        buttonY.whenPressed(new ResetNavXCommand());
 
         buttonRB = new JoystickButton(controller1, 6);
         buttonRB.whenPressed(new DistanceCommand(36));

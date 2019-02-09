@@ -50,9 +50,10 @@ public class DistanceCommand extends PIDCommand {
   @Override
   protected boolean isFinished() {
     if (isTimedOut()) {
+      System.out.println("TIMED OUT"); 
       return true;
     }
-    
+    System.out.println(Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()));
     return Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()) < 4;
   }
 

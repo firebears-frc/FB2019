@@ -17,12 +17,13 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class RightRocketAutoCommand extends CommandGroup {
   public RightRocketAutoCommand() {
     addSequential(new ResetNavXCommand());
-    // addSequential(new WaitCommand(.25));
-    addSequential(new DistanceCommand(24));
+    //addSequential(new WaitCommand(.25));
+    addSequential(new DistanceCommand(60));
     // addSequential(new WaitCommand(.25));
     addSequential(new RotateToAngleCommand(90));
-    addSequential(new DistanceCommand(24));
-    // addSequential(new WaitCommand(.25));
-    addSequential(new RotateToAngleCommand(180));
+    addSequential(new DistanceCommand(52));
+   //  addSequential(new WaitCommand(.25));
+    addSequential(new RotateToAngleCommand(30));
+    addSequential(new DistanceCommand(45));
   }
 }
