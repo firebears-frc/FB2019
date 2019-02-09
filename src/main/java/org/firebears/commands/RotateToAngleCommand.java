@@ -7,59 +7,57 @@
 
 package org.firebears.commands;
 
-
 import org.firebears.Robot;
 import org.firebears.subsystems.Chassis;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
-
 public class RotateToAngleCommand extends PIDCommand {
   protected double turnValue;
-	protected final double SPEED = 0.5;
-	protected double angleTolerance = 2;
-	protected double targetAngle;
-	double angle;
-	long timeout;
+  protected final double SPEED = 0.5;
+  protected double angleTolerance = 2;
+  protected double targetAngle;
+  double angle;
+  long timeout;
 
   public RotateToAngleCommand(double angle) {
-    super("RotateToAngleCommand",
-    Preferences.getInstance().getDouble("RotateToAngleCommand.p", 0.0),
-    Preferences.getInstance().getDouble("RotateToAngleCommand.i", 0.0),
-    Preferences.getInstance().getDouble("RotateToAngleCommand.d", 0.0));
+    super("RotateToAngleCommand", Preferences.getInstance().getDouble("RotateToAngleCommand.p", 0.0),
+        Preferences.getInstance().getDouble("RotateToAngleCommand.i", 0.0),
+        Preferences.getInstance().getDouble("RotateToAngleCommand.d", 0.0));
     requires(Robot.chassis);
-   
+
     this.angle = bound(angle);
-		
-		getPIDController().setInputRange(-180, 180);
-		getPIDController().setContinuous(true);
-		getPIDController().setAbsoluteTolerance(angleTolerance);
+
+    getPIDController().setInputRange(-180, 180);
+    getPIDController().setContinuous(true);
+    getPIDController().setAbsoluteTolerance(angleTolerance);
   }
- 
+
   private static double getAngleDifference(double angle1, double angle2) {
-		return bound(angle2 - angle1);
+    return bound(angle2 - angle1);
   }
-  
+
   protected static double bound(double angle) {
-		while (angle > 180)
-			angle -= 360;
-		while (angle < -180)
-			angle += 360;
-		return angle;
-	}
+    while (angle > 180)
+      angle -= 360;
+    while (angle < -180)
+      angle += 360;
+    return angle;
+  }
 
   private double getAngleDifference() {
-		return getAngleDifference(Robot.chassis.getAngle(), targetAngle);
-	}
+    return getAngleDifference(Robot.chassis.getAngle(), targetAngle);
+  }
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     timeout = System.currentTimeMillis() + 1000 * 5;
-		turnValue = bound(angle - Robot.chassis.getAngle());
-		targetAngle = bound(angle);
+    turnValue = bound(angle - Robot.chassis.getAngle());
+    targetAngle = bound(angle);
     getPIDController().setSetpoint(0.0);
-    System.out.println("Begin " + this);
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -71,21 +69,20 @@ public class RotateToAngleCommand extends PIDCommand {
   @Override
   protected boolean isFinished() {
     double difference = getAngleDifference();
-		if (System.currentTimeMillis() >= timeout) {
-        return true;
-    	} else {
+    if (System.currentTimeMillis() >= timeout) {
+      return true;
+    } else {
 
-return Math.abs(Robot.chassis.getVelocity()) < 1
- && Math.abs(getAngleDifference()) < angleTolerance;
-     }
-    //return false;
+      return Math.abs(Robot.chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;
+    }
+    // return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.chassis.drive(0.0, 0.0);
-    System.out.println("End " + this);
+   
   }
 
   // Called when another command which requires one or more of the same
@@ -97,7 +94,7 @@ return Math.abs(Robot.chassis.getVelocity()) < 1
 
   protected void usePIDOutput(double output) {
     output = Math.max(-SPEED, Math.min(output, SPEED));
-		Robot.chassis.drive(0, -output);
+    Robot.chassis.drive(0, -output);
   }
 
   protected double returnPIDInput() {

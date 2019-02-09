@@ -54,8 +54,6 @@ public class RelativeAngleCommand extends Command {
     if (isTimedOut()){
       return true;
     }
-    System.out.println(Robot.chassis.getAngle()); 
-    //System.out.println(getAngleDifference());
     SmartDashboard.putNumber("difference", getAngleDifference()); 
     return getAngleDifference() < 5 && getAngleDifference() > -5;
   }

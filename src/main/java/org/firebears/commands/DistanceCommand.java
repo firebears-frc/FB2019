@@ -30,7 +30,7 @@ public class DistanceCommand extends PIDCommand {
     previousSpeed = 0;
     previousBrakingMode = Robot.chassis.isBrakingMode();
     Robot.chassis.setBrakingMode(true);
-    System.out.println("Begin " + this);
+  
   }
 
   protected void usePIDOutput(double output) {
@@ -52,15 +52,15 @@ public class DistanceCommand extends PIDCommand {
     if (isTimedOut()) {
       return true;
     }
-    System.out.println(Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()));
+    
     return Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()) < 4;
   }
-  
+
   @Override
   protected void end() {
     Robot.chassis.drive(0, 0);
     Robot.chassis.setBrakingMode(previousBrakingMode);
-    System.out.println("End " + this);
+   
   }
 
   @Override
