@@ -30,7 +30,7 @@ public class DriveCommand extends Command {
     protected void execute() {
         double speed = -1 * Robot.oi.controller1.getRawAxis(joystickSpeedAxis);
         double rotation = Robot.oi.controller1.getRawAxis(joystickRotateAxis);
-        Robot.chassis.drive(speed, rotation);
+        Robot.chassis.drive(deadBand(speed), deadBand(rotation));
     }
 
     private double deadBand(double x){
