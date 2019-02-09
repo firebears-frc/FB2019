@@ -2,7 +2,6 @@ package org.firebears.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import javax.lang.model.util.ElementScanner6;
 
 import org.firebears.Robot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -34,7 +33,6 @@ public class DriveCommand extends Command {
         double speed = -1 * Robot.oi.controller1.getRawAxis(joystickSpeedAxis);
         double rotation = Robot.oi.controller1.getRawAxis(joystickRotateAxis);
         Robot.chassis.drive(deadBand(speed), deadBand(rotation));
-       // System.out.println("deadBand speed = " + deadBand(speed) + " deadBand rotation " + deadBand(rotation));
     }
 
     private double deadBand(double x) {
