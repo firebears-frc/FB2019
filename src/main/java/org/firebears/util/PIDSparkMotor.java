@@ -2,6 +2,7 @@ package org.firebears.util;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANError;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -44,7 +45,9 @@ public class PIDSparkMotor implements SpeedController {
 
 	public void driveToPosition(double inches)  {
 		double setPointPosition = inches * ENCODER_TICKS_PER_INCH;
-		pidController.setReference(setPointPosition, ControlType.kPosition);
+		if (pidController.setReference(setPointPosition, ControlType.kPosition) != CANError.kOK) {
+			System.out.println("ERROR: Failed to set Setpoint on " + this);
+		}
 	}
 
 	/**
@@ -57,7 +60,9 @@ public class PIDSparkMotor implements SpeedController {
 		currentSpeed = speed;
 		if (closedLoop) {
 			double setPointVelocity = speed * MAX_RPM;
-			pidController.setReference(setPointVelocity, ControlType.kVelocity);
+			if (pidController.setReference(setPointVelocity, ControlType.kVelocity) != CANError.kOK) {
+				System.out.println("ERROR: Failed to set setpoint on " + this);
+			}
 		} else {
 			motor.set(speed);
 		}
@@ -118,6 +123,11 @@ public class PIDSparkMotor implements SpeedController {
 	@Override
 	public void pidWrite(double output) {
 
+	}
+
+	@Override
+	public String toString() {
+		return "PIDSparkMotor(" + motor.getDeviceId() + ")";
 	}
 
 }

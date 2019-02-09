@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,8 +32,8 @@ public class Chassis extends Subsystem {
     private CANEncoder frontRightEncoder;
     private CANEncoder frontLeftEncoder;
     private AHRS navXBoard;
-    boolean brakingMode = false;
-    float initialRoll;
+    private boolean brakingMode = false;
+    private float initialRoll;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
@@ -108,21 +107,25 @@ public class Chassis extends Subsystem {
 
     public void drive(double speed, double rotation) {
         robotDrive.arcadeDrive(speed, rotation);
+double rpm = frontLeftEncoder.getVelocity();
+if (rpm > maxRpm) { maxRpm = rpm; }
+System.out.println(rpm + "\t\t" + maxRpm);
     }
+    double maxRpm = 0.0;
 
     public void setBrakingMode(boolean braking) {
         IdleMode idleMode = braking ? IdleMode.kBrake : IdleMode.kCoast;
         if (rearRight.setIdleMode(idleMode) != CANError.kOK) {
-            System.out.println("Failed to set idleMode " + braking + " on rightRear");
+            System.out.println("ERROR: Failed to set idleMode " + braking + " on rightRear");
         }
         if (rearLeft.setIdleMode(idleMode) != CANError.kOK) {
-            System.out.println("Failed to set idleMode " + braking + " on rearLeft");
+            System.out.println("ERROR: Failed to set idleMode " + braking + " on rearLeft");
         }
         if (frontRight.setIdleMode(idleMode) != CANError.kOK) {
-            System.out.println("Failed to set idleMode " + braking + " on frontRight");
+            System.out.println("ERROR: Failed to set idleMode " + braking + " on frontRight");
         }
         if (frontLeft.setIdleMode(idleMode) != CANError.kOK) {
-            System.out.println("Failed to set idleMode " + braking + " on frontLeft");
+            System.out.println("ERROR: Failed to set idleMode " + braking + " on frontLeft");
         }
         brakingMode = braking;
     }
