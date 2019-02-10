@@ -45,7 +45,7 @@ public class OI {
         buttonY.whenPressed(new ResetNavXCommand());
 
         buttonRB = new JoystickButton(controller1, 6);
-        buttonRB.whenPressed(new PlayRecordingCommand(recordingFactory));
+        buttonRB.whenPressed(new DistanceCommand(36));
 
         buttonLB = new JoystickButton(controller1, 5);
         buttonLB.whenPressed(new RotateToAngleCommand(90));
@@ -53,11 +53,20 @@ public class OI {
         buttonX = new JoystickButton(controller1, 3);   
         buttonX.whenPressed(new RightRocketAutoCommand());
 
+        buttonX = new JoystickButton(controller1, 3);   
+        buttonX.whenPressed(new RightRocketAutoCommand());
+
         buttonStart = new JoystickButton(controller1, 8);
-        buttonStart.whenPressed(new StartRecordingCommand(recordingFactory));
+        buttonStart.whenPressed(new LoadingStationCommand());
+
+        // buttonA = new JoystickButton(controller1, 6);
+        // buttonA.whenPressed(new PlayRecordingCommand(recordingFactory));
+
+        // buttonStart = new JoystickButton(controller1, 8);
+        // buttonStart.whenPressed(new StartRecordingCommand(recordingFactory));
         
-        buttonBack = new JoystickButton(controller1, 7);
-        buttonBack.whenPressed(new StopRecordingCommand(recordingFactory));
+        // buttonBack = new JoystickButton(controller1, 7);
+        // buttonBack.whenPressed(new StopRecordingCommand(recordingFactory));
     }
 
     public XboxController getController1() {
