@@ -1,11 +1,7 @@
 package org.firebears.subsystems;
 
 import org.firebears.commands.DriveCommand;
-import org.firebears.recording.Recordable;
-import org.firebears.recording.RecordingFactory.SpeedControllerRecordable;
-
-import java.util.Arrays;
-import java.util.List;
+import org.firebears.util.PIDSparkMotor;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
@@ -30,6 +26,8 @@ public class Chassis extends Subsystem {
     private CANSparkMax frontRight;
     private CANSparkMax frontLeft;
     private CANSparkMax rearLeft;
+    public PIDSparkMotor pidFrontRight;
+    public PIDSparkMotor pidFrontLeft;
     private DifferentialDrive robotDrive;
     public DigitalInput rightSensor;
     public DigitalInput centerSensor;
@@ -37,37 +35,50 @@ public class Chassis extends Subsystem {
     private CANEncoder frontRightEncoder;
     private CANEncoder frontLeftEncoder;
     private AHRS navXBoard;
-    boolean brakingMode = false;
-    float initialRoll;
+    private boolean brakingMode = false;
+    private float initialRoll;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
     public Chassis() {
         final Preferences config = Preferences.getInstance();
+        double rampRate = config.getDouble("chassis.rampRate", 0.0);
+        double kP = config.getDouble("chassis.p", 0.00015);
+        double kI = config.getDouble("chassis.i", 0.0);
+        double kD = config.getDouble("chassis.d", 0.0);
+        boolean closedLoop = config.getBoolean("chassis.closedLoop", false);
 
-        int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 5);
+        int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
         rearRight.setInverted(false);
-    
-        int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 4);
+        rearRight.setRampRate(rampRate);
+
+        int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 3);
         frontRight = new CANSparkMax(chassisFrontRightCanID, MotorType.kBrushless);
         frontRight.setInverted(false);
         frontRightEncoder = frontRight.getEncoder();
+        frontRight.setRampRate(rampRate);
+        pidFrontRight = new PIDSparkMotor(frontRight, kP, kI, kD);
+        pidFrontRight.setClosedLoop(closedLoop);
 
         rearRight.follow(frontRight);
 
-        int chassisFrontLeftCanID = config.getInt("chassis.frontleft.canID", 3);
+        int chassisFrontLeftCanID = config.getInt("chassis.frontleft.canID", 4);
         frontLeft = new CANSparkMax(chassisFrontLeftCanID, MotorType.kBrushless);
         frontLeft.setInverted(false);
         frontLeftEncoder = frontLeft.getEncoder();
+        frontLeft.setRampRate(rampRate);
+        pidFrontLeft = new PIDSparkMotor(frontLeft, kP, kI, kD);
+        pidFrontLeft.setClosedLoop(closedLoop);
 
-        int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 2);
+        int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 5);
         rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
         rearLeft.setInverted(false);
+        rearLeft.setRampRate(rampRate);
 
         rearLeft.follow(frontLeft);
 
-        robotDrive = new DifferentialDrive(frontLeft, frontRight);
+        robotDrive = new DifferentialDrive(pidFrontLeft, pidFrontRight);
         addChild("RobotDrive", robotDrive);
         robotDrive.setSafetyEnabled(true);
         robotDrive.setExpiration(0.1);
@@ -96,6 +107,10 @@ public class Chassis extends Subsystem {
         return navXBoard.getAngle();
     }
 
+    public void resetNavX() {
+        navXBoard.reset();
+    }
+
     public boolean isTipping() {
         float currentRoll = navXBoard.getRoll();
         return Math.abs(currentRoll - initialRoll) > 7.0;
@@ -112,16 +127,16 @@ public class Chassis extends Subsystem {
     public void setBrakingMode(boolean braking) {
         IdleMode idleMode = braking ? IdleMode.kBrake : IdleMode.kCoast;
         if (rearRight.setIdleMode(idleMode) != CANError.kOK) {
-            System.out.println("Failed to set idleMode " + braking + " on rightRear");
+            System.out.println("ERROR: Failed to set idleMode " + braking + " on rightRear");
         }
         if (rearLeft.setIdleMode(idleMode) != CANError.kOK) {
-            System.out.println("Failed to set idleMode " + braking + " on rearLeft");
+            System.out.println("ERROR: Failed to set idleMode " + braking + " on rearLeft");
         }
         if (frontRight.setIdleMode(idleMode) != CANError.kOK) {
-            System.out.println("Failed to set idleMode " + braking + " on frontRight");
+            System.out.println("ERROR: Failed to set idleMode " + braking + " on frontRight");
         }
         if (frontLeft.setIdleMode(idleMode) != CANError.kOK) {
-            System.out.println("Failed to set idleMode " + braking + " on frontLeft");
+            System.out.println("ERROR: Failed to set idleMode " + braking + " on frontLeft");
         }
         brakingMode = braking;
     }
@@ -157,8 +172,8 @@ public class Chassis extends Subsystem {
         return (inchesTraveledLeft() + inchesTraveledRight()) / 2;
     }
 
-    public List<Recordable> getRecordables() {
-        return Arrays.asList(new SpeedControllerRecordable(frontRight, "leftMotors"),
-                new SpeedControllerRecordable(frontLeft, "rightMotors"));
+    public double getVelocity() {
+        return frontLeftEncoder.getVelocity();
     }
+
 }

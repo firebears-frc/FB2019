@@ -24,12 +24,13 @@ public class DistanceCommand extends PIDCommand {
 
   @Override
   protected void initialize() {
-    setTimeout(5);
+    setTimeout(15);
     double initDistance = Robot.chassis.inchesTraveled();
     setSetpoint(initDistance + distanceGoal);
     previousSpeed = 0;
     previousBrakingMode = Robot.chassis.isBrakingMode();
     Robot.chassis.setBrakingMode(true);
+  
   }
 
   protected void usePIDOutput(double output) {
@@ -49,8 +50,10 @@ public class DistanceCommand extends PIDCommand {
   @Override
   protected boolean isFinished() {
     if (isTimedOut()) {
+      System.out.println("TIMED OUT"); 
       return true;
     }
+    System.out.println(Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()));
     return Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()) < 4;
   }
 
@@ -58,6 +61,11 @@ public class DistanceCommand extends PIDCommand {
   protected void end() {
     Robot.chassis.drive(0, 0);
     Robot.chassis.setBrakingMode(previousBrakingMode);
+   
   }
 
+  @Override
+  public String toString() {
+    return "DistanceCommand(" + distanceGoal + ")";
+  }
 }
