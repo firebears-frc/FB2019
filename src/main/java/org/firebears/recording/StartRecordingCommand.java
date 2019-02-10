@@ -1,5 +1,6 @@
 package org.firebears.recording;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 import java.io.*;
@@ -18,6 +19,8 @@ public class StartRecordingCommand extends Command {
     private Recording recording;
     private long startTime;
     protected static File recordingFile;
+    private final Preferences config = Preferences.getInstance();
+    private final boolean DEBUG = config.getBoolean("debug", false);
 
     public StartRecordingCommand(RecordingFactory factory) {
         this.factory = factory;
@@ -28,6 +31,7 @@ public class StartRecordingCommand extends Command {
         recording = factory.newRecording();
         startTime = System.currentTimeMillis();
         recordingFile = findTemporaryFile();
+        if (DEBUG)  { System.out.println("INITIALIZE: " + this); }
     }
 
     protected void execute() {

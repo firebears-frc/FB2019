@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.firebears.Robot;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -23,6 +24,8 @@ public class PlayRecordingCommand extends Command {
     private Iterator<RecordingLine> iter;
     RecordingLine currentLine;
     private boolean useLatestRecording;
+    private final Preferences config = Preferences.getInstance();
+    private final boolean DEBUG = config.getBoolean("debug", false);
 
     /**
      * Play the most recently recorded {@link Recording} created by any
@@ -76,6 +79,7 @@ public class PlayRecordingCommand extends Command {
             currentLine = iter.hasNext() ? iter.next() : null;
         }
         recording.setAllEnabled(true);
+        if (DEBUG)  { System.out.println("INITIALIZE: " + this); }
     }
 
     protected void execute() {
