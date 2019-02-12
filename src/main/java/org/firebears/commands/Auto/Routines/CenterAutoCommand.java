@@ -5,20 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.firebears.subsystems;
+package org.firebears.commands.Auto.Routines;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import org.firebears.commands.*;
 
-/**
- * Add your docs here.
- */
-public class AutoSelection extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+public class CenterAutoCommand extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public CenterAutoCommand() {
+    addSequential(new ResetNavXCommand());
+    addSequential(new DistanceCommand(60));
   }
 }
