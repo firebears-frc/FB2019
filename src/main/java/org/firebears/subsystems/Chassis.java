@@ -1,5 +1,6 @@
 package org.firebears.subsystems;
 
+import org.firebears.Robot;
 import org.firebears.commands.DriveCommand;
 import org.firebears.util.PIDSparkMotor;
 
@@ -10,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
@@ -37,6 +39,12 @@ public class Chassis extends Subsystem {
     private AHRS navXBoard;
     private boolean brakingMode = false;
     private float initialRoll;
+    private NetworkTableEntry tippingwidget;
+    private NetworkTableEntry getAnglewidget;
+    private NetworkTableEntry inchesTravelledwidget;
+    private NetworkTableEntry rightSensorwidget;
+    private NetworkTableEntry centerSensorwidget;
+    private NetworkTableEntry leftSensorwidget;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
@@ -101,6 +109,18 @@ public class Chassis extends Subsystem {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
         initialRoll = navXBoard.getRoll();
+
+        tippingwidget = Robot.programmerTab.add("Tipping", false).getEntry();
+
+        getAnglewidget = Robot.programmerTab.add("Angle", 0.0).getEntry();
+
+        inchesTravelledwidget = Robot.programmerTab.add("Inches Travelled", 0.0).getEntry();
+
+        rightSensorwidget = Robot.programmerTab.add("Right Sensor", false).getEntry();
+
+        centerSensorwidget = Robot.programmerTab.add("Center Sensor", false).getEntry();
+
+        leftSensorwidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
     }
 
     public double getAngle() {
@@ -152,12 +172,14 @@ public class Chassis extends Subsystem {
 
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("rightSensor", rightSensor.get());
-        SmartDashboard.putBoolean("centerSensor", centerSensor.get());
-        SmartDashboard.putBoolean("leftSensor", leftSensor.get());
-        SmartDashboard.putNumber("distanceInInches", inchesTraveled());
-        SmartDashboard.putNumber("navX.angle", navXBoard.getAngle());
-        SmartDashboard.putBoolean("tipping over", isTipping());
+
+        tippingwidget.setBoolean(isTipping());
+        getAnglewidget.setNumber(getAngle());
+        inchesTravelledwidget.setNumber(inchesTraveled());
+        rightSensorwidget.setBoolean(rightSensor.get());
+        centerSensorwidget.setBoolean(centerSensor.get());
+        leftSensorwidget.setBoolean(leftSensor.get());
+
     }
 
     public double inchesTraveledLeft() {
