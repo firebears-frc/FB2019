@@ -8,6 +8,8 @@
 package org.firebears.commands;
 
 import org.firebears.Robot;
+
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class DistanceCommand extends PIDCommand {
@@ -15,6 +17,8 @@ public class DistanceCommand extends PIDCommand {
   double distanceGoal;
   double previousSpeed;
   boolean previousBrakingMode;
+  private final Preferences config = Preferences.getInstance();
+  private final boolean DEBUG = config.getBoolean("debug", false);
 
   public DistanceCommand(double inches) {
     super("DistanceCommand", 0.024, 0.0, 0.0024);
@@ -30,7 +34,9 @@ public class DistanceCommand extends PIDCommand {
     previousSpeed = 0;
     previousBrakingMode = Robot.chassis.isBrakingMode();
     Robot.chassis.setBrakingMode(true);
-  
+    if (DEBUG) {
+      System.out.println("INITIALIZE: " + this);
+    }
   }
 
   protected void usePIDOutput(double output) {
@@ -50,10 +56,10 @@ public class DistanceCommand extends PIDCommand {
   @Override
   protected boolean isFinished() {
     if (isTimedOut()) {
-      System.out.println("TIMED OUT"); 
+      System.out.println("TIMED OUT");
       return true;
     }
-    System.out.println(Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()));
+    // System.out.println(Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()));
     return Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()) < 4;
   }
 
@@ -61,7 +67,7 @@ public class DistanceCommand extends PIDCommand {
   protected void end() {
     Robot.chassis.drive(0, 0);
     Robot.chassis.setBrakingMode(previousBrakingMode);
-   
+
   }
 
   @Override

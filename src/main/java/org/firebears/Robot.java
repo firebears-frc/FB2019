@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -100,6 +99,8 @@ public class Robot extends TimedRobot {
 
         powerDistributionPanel = new PowerDistributionPanel();
         powerDistributionPanel.clearStickyFaults();
+
+        lights.reset();
     }
 
     /**
@@ -108,7 +109,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
+        }
+        lights.reset();
     }
 
     @Override
@@ -128,6 +132,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.start();
         }
+        lights.reset();
     }
 
     /**
@@ -143,6 +148,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+        lights.reset();
     }
 
     /**

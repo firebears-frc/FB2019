@@ -24,6 +24,7 @@ public class PlayRecordingCommand extends Command {
     private Iterator<RecordingLine> iter;
     RecordingLine currentLine;
     private boolean useLatestRecording;
+    private final String label;
     private final Preferences config = Preferences.getInstance();
     private final boolean DEBUG = config.getBoolean("debug", false);
 
@@ -37,6 +38,7 @@ public class PlayRecordingCommand extends Command {
     	requires(Robot.chassis);
         this.factory = factory;
         useLatestRecording = true;
+        label = "DEFAULT";
     }
 
     /**
@@ -49,6 +51,7 @@ public class PlayRecordingCommand extends Command {
     public PlayRecordingCommand(RecordingFactory factory, File recordingFile) {
         this.factory = factory;
         this.recording = loadRecording(recordingFile);
+        label = recordingFile.getName();
     }
 
     /**
@@ -67,6 +70,7 @@ public class PlayRecordingCommand extends Command {
             InputStream stream = ClassLoader.getSystemResourceAsStream(fileName);
             this.recording = loadRecording(stream);
         }
+        label = fileName;
     }
 
     protected void initialize() {
@@ -132,5 +136,10 @@ public class PlayRecordingCommand extends Command {
             }
         }
         return recording;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayRecordingCommand(" + label + ")";
     }
 }
