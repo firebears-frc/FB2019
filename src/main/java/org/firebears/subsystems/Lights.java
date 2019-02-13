@@ -1,5 +1,7 @@
 package org.firebears.subsystems;
 
+import org.graalvm.compiler.virtual.phases.ea.PartialEscapeBlockState.Final;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -11,16 +13,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Lights extends Subsystem {
 
-	public static final int MAX_ANIMATIONS = 3;
+	public static final int MAX_ANIMATIONS = 7;
 	public static final int MAX_PIXELSTRIPS = 3;
+
+	public static final int TIPPINGLIGHT_ANIMATION = 0;
+	public static final int RED_ANIMATION = 1;
+	public static final int BLUE_ANIMATION = 2;
+	public static final int CARGOHATCHPANEL = 3;
+	public static final int RAINBOW_ANIMATION = 4;
+	public static final int PULSE_ANIMATION = 5;
+	public static final int ROCKET_ANIMATION = 6;
 	
-	public static final int PULSE_ANIMATION = 1;
-	public static final int RED_ANIMATION = 2;
-	public static final int BLUE_ANIMATION = 0;
-	
-	public static final int STRIP_0 = 0;
-	public static final int STRIP_1 = 1;
-	public static final int STRIP_2 = 2;
+	public static final int ELEVATOR_STRIP = 0;
+	public static final int SUPPORT_STRIP = 1;
+	public static final int AFRAME_STRIP = 2;
 	
 	private final I2C i2c;
 	private final DriverStation driverstation;
@@ -69,9 +75,9 @@ public class Lights extends Subsystem {
 			currentAnimation[s] = -1;
 			nextAnimation[s] = currentAnimation[s];
 		}
-		setAnimation(STRIP_0, PULSE_ANIMATION);
-		setAnimation(STRIP_1, PULSE_ANIMATION);
-		setAnimation(STRIP_2, PULSE_ANIMATION);
+		setAnimation(ELEVATOR_STRIP, RED_ANIMATION);
+		setAnimation(SUPPORT_STRIP, RED_ANIMATION);
+		setAnimation(AFRAME_STRIP, RED_ANIMATION);
 	}
 
 	/**
