@@ -114,4 +114,8 @@ public class RotateToAngleCommand extends PIDCommand {
   public String toString() {
     return "RotateToAngleCommand(" + angle + ")";
   }
+
+  public void setTargetAngle(double angle) {
+    targetAngle = bound(angle);
+  }
 }
