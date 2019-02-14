@@ -60,7 +60,7 @@ public class RotateToAngleCommand extends PIDCommand {
     isClosedLoop = Robot.chassis.pidFrontLeft.isClosedLoop();
     Robot.chassis.pidFrontLeft.setClosedLoop(false);
     Robot.chassis.pidFrontRight.setClosedLoop(false);
-    timeout = System.currentTimeMillis() + 1000 * 5;
+    timeout = System.currentTimeMillis() + 1000 * 50;
     turnValue = bound(angle - Robot.chassis.getAngle());
     targetAngle = bound(angle);
     getPIDController().setSetpoint(0.0);
