@@ -1,7 +1,8 @@
 package org.firebears;
 
+import org.firebears.commands.auto.*;
 import org.firebears.commands.*;
-import org.firebears.commands.Auto.Routines.RightRocketAutoCommand;
+import org.firebears.commands.auto.routines.RightRocketAutoCommand;
 import org.firebears.recording.PlayRecordingCommand;
 import org.firebears.recording.RecordingFactory;
 import org.firebears.recording.StartRecordingCommand;

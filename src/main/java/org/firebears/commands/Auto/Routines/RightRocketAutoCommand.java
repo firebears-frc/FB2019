@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.firebears.commands.Auto.Routines;
+package org.firebears.commands.auto.routines;
 
-import org.firebears.commands.DistanceCommand;
-import org.firebears.commands.RotateToAngleCommand;
+import org.firebears.commands.auto.*;
+
 import org.firebears.commands.ResetNavXCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

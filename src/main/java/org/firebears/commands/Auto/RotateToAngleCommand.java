@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.firebears.commands;
+package org.firebears.commands.auto;
 
 import org.firebears.Robot;
 import org.firebears.subsystems.Chassis;

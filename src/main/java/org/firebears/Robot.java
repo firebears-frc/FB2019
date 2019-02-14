@@ -19,9 +19,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.firebears.commands.*;
-import org.firebears.commands.Auto.Routines.CenterAutoCommand;
-import org.firebears.commands.Auto.Routines.LeftRocketAutoCommand;
-import org.firebears.commands.Auto.Routines.RightRocketAutoCommand;
+import org.firebears.commands.auto.routines.CenterAutoCommand;
+import org.firebears.commands.auto.routines.LeftRocketAutoCommand;
+import org.firebears.commands.auto.routines.RightRocketAutoCommand;
 import org.firebears.subsystems.*;
 import static org.firebears.util.Config.*;
 

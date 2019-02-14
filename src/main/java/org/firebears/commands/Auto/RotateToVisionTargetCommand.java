@@ -5,22 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.firebears.commands;
-
-import org.firebears.Robot;
+package org.firebears.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
+import org.firebears.subsystems.Vision;
 
-public class DriveToVisionTargetDistanceCommand extends DistanceCommand {
-  public DriveToVisionTargetDistanceCommand() {
-    super (0);
+public class RotateToVisionTargetCommand extends PIDrelativeAngleCommand {
+
+  private double x;
+
+  public RotateToVisionTargetCommand() {
+    super(0);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    double distance = Robot.vision.getVisionTargetDistance();
-    distanceGoal = distance;
     super.initialize();
+    x = Robot.vision.getVisionTargetAngleX();
+    setTargetAngle(x);
   }
+
 }
