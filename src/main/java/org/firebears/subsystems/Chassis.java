@@ -170,6 +170,15 @@ public class Chassis extends Subsystem {
         setDefaultCommand(new DriveCommand());
     }
 
+    public double getRampRate() {
+        return frontLeft.getRampRate();
+    }
+
+    public void setRampRate(double rampRate) {
+        frontLeft.setRampRate(rampRate);
+        frontRight.setRampRate(rampRate);
+    }
+
     @Override
     public void periodic() {
 

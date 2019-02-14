@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.firebears.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -48,7 +49,10 @@ public class Vision extends Subsystem {
 
     @Override
     public void periodic() {
-        // Put code here to be run every loop
+       SmartDashboard.putNumber("visionTrgetAngleX", getVisionTargetAngleX());
+       SmartDashboard.putNumber("visionTargetDistace", getVisionTargetDistance());
+       SmartDashboard.putNumber("visionTrgetPairs", getVisionTargetPairs());
+
 
     }
 

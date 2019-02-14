@@ -7,25 +7,20 @@
 
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.firebears.Robot;
-import org.firebears.subsystems.Chassis;
-import org.firebears.subsystems.Vision;
 
-public class RotateToVisionTargetCommand extends PIDrelativeAngleCommand {
+import edu.wpi.first.wpilibj.command.Command;
 
-  private double x;
-
-  public RotateToVisionTargetCommand() {
-    super(0);
+public class DriveToVisionTargetDistanceCommand extends DistanceCommand {
+  public DriveToVisionTargetDistanceCommand() {
+    super (0);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    double distance = Robot.vision.getVisionTargetDistance();
+    distanceGoal = distance;
     super.initialize();
-    x = Robot.vision.getVisionTargetAngleX();
-    setTargetAngle(x);
   }
-
 }

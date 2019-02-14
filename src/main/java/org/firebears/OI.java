@@ -60,7 +60,7 @@ public class OI {
         buttonX.whenPressed(new RightRocketAutoCommand());
 
         buttonStart = new JoystickButton(xboxController, 8);
-        buttonStart.whenPressed(new RotateToVisionTargetCommand());
+        buttonStart.whenPressed(new DriveToVisionTargetCommand());
 
         // buttonA = new JoystickButton(controller1, 6);
         // buttonA.whenPressed(new PlayRecordingCommand(recordingFactory));

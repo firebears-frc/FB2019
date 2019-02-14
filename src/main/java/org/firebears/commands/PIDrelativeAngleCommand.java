@@ -20,10 +20,9 @@ public class PIDrelativeAngleCommand extends PIDCommand {
   boolean previousBrakingMode;
 
   public PIDrelativeAngleCommand(double rotation) {
-    super("PIDrelativeAngleCommand", 
-    Preferences.getInstance().getDouble("PIDrelativeAngleCommand.p", 0.0), 
-    Preferences.getInstance().getDouble("PIDrelativeAngleCommand.i", 0.0),
-    Preferences.getInstance().getDouble("PIDrelativeAngleCommand.d", 0.0));
+    super("PIDrelativeAngleCommand", Preferences.getInstance().getDouble("PIDrelativeAngleCommand.p", 0.0),
+        Preferences.getInstance().getDouble("PIDrelativeAngleCommand.i", 0.0),
+        Preferences.getInstance().getDouble("PIDrelativeAngleCommand.d", 0.0));
 
     targetAngle = rotation;
     requires(Robot.chassis);
@@ -48,8 +47,8 @@ public class PIDrelativeAngleCommand extends PIDCommand {
   protected void usePIDOutput(double output) {
     double speed = clamp((previousSpeed - 0.05), output, (previousSpeed + 0.05));
     if (speed > 0.0 && speed < 0.15) {
-     speed = 0.15;
-   } else if (speed < 0 && speed > -0.15) {
+      speed = 0.15;
+    } else if (speed < 0 && speed > -0.15) {
       speed = -0.15;
     }
     speed = clamp(-0.5, speed, 0.5);
@@ -57,6 +56,14 @@ public class PIDrelativeAngleCommand extends PIDCommand {
     Robot.chassis.drive(0, speed);
     previousSpeed = speed;
 
+  }
+
+  protected static double bound(double angle) {
+    while (angle > 180)
+      angle -= 360;
+    while (angle < -180)
+      angle += 360;
+    return angle;
   }
 
   private double clamp(double minValue, double value, double maxValue) {
@@ -74,7 +81,7 @@ public class PIDrelativeAngleCommand extends PIDCommand {
       return true;
     }
     double getAngleDifference = Robot.chassis.getAngle() - getSetpoint();
-     return getAngleDifference < 3 && getAngleDifference > -3;
+    return getAngleDifference < 3 && getAngleDifference > -3;
   }
 
   // Called once after isFinished returns true
@@ -86,4 +93,9 @@ public class PIDrelativeAngleCommand extends PIDCommand {
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
+  public void setTargetAngle(double angle) {
+    double initAngle = Robot.chassis.getAngle();
+    targetAngle = bound(angle);
+    setSetpoint(initAngle + targetAngle);
+  }
 }

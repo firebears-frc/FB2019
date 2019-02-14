@@ -22,6 +22,7 @@ public class RotateToAngleCommand extends PIDCommand {
   protected double targetAngle;
   double angle;
   long timeout;
+  double rampRate;
 
   public RotateToAngleCommand(double angle) {
     super("RotateToAngleCommand", Preferences.getInstance().getDouble("RotateToAngleCommand.p", 0.0),
@@ -53,18 +54,20 @@ public class RotateToAngleCommand extends PIDCommand {
   }
 
   private boolean isClosedLoop;
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     isClosedLoop = Robot.chassis.pidFrontLeft.isClosedLoop();
     Robot.chassis.pidFrontLeft.setClosedLoop(false);
     Robot.chassis.pidFrontRight.setClosedLoop(false);
+    rampRate = Robot.chassis.getRampRate();
+    Robot.chassis.setRampRate(0.1);
     timeout = System.currentTimeMillis() + 1000 * 50;
     turnValue = bound(angle - Robot.chassis.getAngle());
     targetAngle = bound(angle);
     getPIDController().setSetpoint(0.0);
-    
+
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -75,15 +78,15 @@ public class RotateToAngleCommand extends PIDCommand {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    //double difference = getAngleDifference();
-    //if (System.currentTimeMillis() >= timeout) {
-     //return true;
-    //} else {
+    // double difference = getAngleDifference();
+    // if (System.currentTimeMillis() >= timeout) {
+    // return true;
+    // } else {
 
-      return Math.abs(Robot.chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;
-    }
-    // return false;
-  //}
+    return Math.abs(Robot.chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;
+  }
+  // return false;
+  // }
 
   // Called once after isFinished returns true
   @Override
@@ -91,7 +94,8 @@ public class RotateToAngleCommand extends PIDCommand {
     Robot.chassis.pidFrontLeft.setClosedLoop(isClosedLoop);
     Robot.chassis.pidFrontRight.setClosedLoop(isClosedLoop);
     Robot.chassis.drive(0.0, 0.0);
-   
+    Robot.chassis.setRampRate(rampRate);
+
   }
 
   // Called when another command which requires one or more of the same
