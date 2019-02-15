@@ -17,14 +17,14 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 
 public class Elevator extends PIDSubsystem {
 
-  WPI_TalonSRX motor1;
-  WPI_TalonSRX motor2;
+  private WPI_TalonSRX motor1;
+  private WPI_TalonSRX motor2;
 
-  double startingDistance;
+  private double startingDistance;
 
   private NetworkTableEntry elevatorHeightWidget;
 
-  final Preferences config = Preferences.getInstance();
+  private final Preferences config = Preferences.getInstance();
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 1),
@@ -32,6 +32,8 @@ public class Elevator extends PIDSubsystem {
 
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
     motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
+    addChild("motor1", motor1);
+    addChild("motor2", motor2);
 
     resetEncoder();
 
