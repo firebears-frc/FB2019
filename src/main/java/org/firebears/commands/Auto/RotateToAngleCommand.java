@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 public class RotateToAngleCommand extends PIDCommand {
   protected double turnValue;
   protected final double SPEED = 0.5;
-  protected double angleTolerance = 2;
+  protected double angleTolerance = 3;
   protected double targetAngle;
   double angle;
   long timeout;
@@ -63,7 +63,7 @@ public class RotateToAngleCommand extends PIDCommand {
     Robot.chassis.pidFrontRight.setClosedLoop(false);
     rampRate = Robot.chassis.getRampRate();
     Robot.chassis.setRampRate(0.1);
-    timeout = System.currentTimeMillis() + 1000 * 50;
+    timeout = System.currentTimeMillis() + 1000 * 5;
     turnValue = bound(angle - Robot.chassis.getAngle());
     targetAngle = bound(angle);
     getPIDController().setSetpoint(0.0);
@@ -78,15 +78,15 @@ public class RotateToAngleCommand extends PIDCommand {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    // double difference = getAngleDifference();
-    // if (System.currentTimeMillis() >= timeout) {
-    // return true;
-    // } else {
+    double difference = getAngleDifference();
+    if (System.currentTimeMillis() >= timeout) {
+      return true;
+    } else {
 
-    return Math.abs(Robot.chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;
+      return Math.abs(Robot.chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;
+    }
+    // return false;
   }
-  // return false;
-  // }
 
   // Called once after isFinished returns true
   @Override

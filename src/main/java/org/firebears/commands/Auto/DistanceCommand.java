@@ -28,7 +28,7 @@ public class DistanceCommand extends PIDCommand {
 
   @Override
   protected void initialize() {
-    setTimeout(15);
+    setTimeout(5);
     double initDistance = Robot.chassis.inchesTraveled();
     setSetpoint(initDistance + distanceGoal);
     previousSpeed = 0;

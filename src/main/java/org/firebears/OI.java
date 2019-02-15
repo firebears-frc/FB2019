@@ -2,7 +2,7 @@ package org.firebears;
 
 import org.firebears.commands.auto.*;
 import org.firebears.commands.*;
-import org.firebears.commands.auto.routines.RightRocketAutoCommand;
+import org.firebears.commands.auto.routines.*;
 import org.firebears.recording.PlayRecordingCommand;
 import org.firebears.recording.RecordingFactory;
 import org.firebears.recording.StartRecordingCommand;
@@ -53,12 +53,9 @@ public class OI {
 
         buttonLB = new JoystickButton(xboxController, 5);
         buttonLB.whenPressed(new RotateToAngleCommand(90));
-        
-        buttonX = new JoystickButton(xboxController, 3);   
-        buttonX.whenPressed(new RightRocketAutoCommand());
 
         buttonX = new JoystickButton(xboxController, 3);   
-        buttonX.whenPressed(new RightRocketAutoCommand());
+        buttonX.whenPressed(new CenterAutoCommand());
 
         buttonStart = new JoystickButton(xboxController, 8);
         buttonStart.whenPressed(new DriveToVisionTargetCommand());
