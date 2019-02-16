@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Elevator extends PIDSubsystem {
 
@@ -17,6 +20,7 @@ public class Elevator extends PIDSubsystem {
   WPI_TalonSRX motor1;
   WPI_TalonSRX motor2;
   SpeedControllerGroup motors;
+  public Encoder encoder;
 
   double startingDistance;
 
@@ -41,6 +45,10 @@ public class Elevator extends PIDSubsystem {
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
     bottomLimitSwitchWidget = Robot.programmerTab.add("bottom Limit", false).getEntry();
     topLimitSwitchWidget = Robot.programmerTab.add("Top Limit", false).getEntry();
+
+    DigitalInput encoderInputA = new DigitalInput(config.getInt("elevator.encoder.dio.A", 3));
+    DigitalInput encoderInputB = new DigitalInput(config.getInt("elevator.encoder.dio.B", 4));
+    encoder = new Encoder(encoderInputA, encoderInputB, false, EncodingType.k4X);
   }
 
   @Override
@@ -48,7 +56,9 @@ public class Elevator extends PIDSubsystem {
     elevatorHeightWidget.setNumber(inchesTraveled());
     bottomLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isRevLimitSwitchClosed());
     topLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
-    SmartDashboard.putNumber("elevator encoder", motor1.getSelectedSensorPosition()); // TODO - delete later
+    // SmartDashboard.putNumber("elevator encoder",
+    // motor1.getSelectedSensorPosition()); // TODO - delete later
+    SmartDashboard.putNumber("quad encoder", encoder.getDistance()); // TODO - delete later
   }
 
   @Override
@@ -56,7 +66,8 @@ public class Elevator extends PIDSubsystem {
   }
 
   public double inchesTraveled() {
-    double currentDistance = motor1.getSelectedSensorPosition();
+    // double currentDistance = motor1.getSelectedSensorPosition();
+    double currentDistance = encoder.getDistance();
     return Math.abs(currentDistance - startingDistance) / ENCODER_TICKS_PER_INCH;
   }
 
@@ -72,6 +83,7 @@ public class Elevator extends PIDSubsystem {
   }
 
   public void resetEncoder() {
-    startingDistance = motor1.getSelectedSensorPosition();
+    startingDistance = encoder.getDistance();
+    // startingDistance = motor1.getSelectedSensorPosition();
   }
 }
