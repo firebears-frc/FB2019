@@ -11,6 +11,7 @@ import org.firebears.recording.StopRecordingCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -92,6 +93,8 @@ public class OI {
         
         // buttonBack = new JoystickButton(controller1, 7);
         // buttonBack.whenPressed(new StopRecordingCommand(recordingFactory));
+
+        SmartDashboard.putData(new ResetElevatorEncoderCommand());
     }
 
     public XboxController getXboxController() {

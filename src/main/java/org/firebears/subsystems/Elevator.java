@@ -6,57 +6,58 @@ import org.firebears.Robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
 
+  public static final double ENCODER_TICKS_PER_INCH = 1.0;
+
   WPI_TalonSRX motor1;
   WPI_TalonSRX motor2;
+  SpeedControllerGroup motors;
 
   double startingDistance;
 
   private NetworkTableEntry elevatorHeightWidget;
-  private NetworkTableEntry forwardLimitSwitchWidget, reverseLimitSwitchWidget;
+  private NetworkTableEntry bottomLimitSwitchWidget, topLimitSwitchWidget;
 
   final Preferences config = Preferences.getInstance();
   private final boolean DEBUG = config.getBoolean("debug", false);
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 1),
-        Preferences.getInstance().getDouble("elevator.i", 0), Preferences.getInstance().getDouble("elevator.d", 0));
+        Preferences.getInstance().getDouble("elevator.i", 0), Preferences.getInstance().getDouble("elevator.d", 0),
+        Preferences.getInstance().getDouble("elevator.f", 0));
 
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
     motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
+    motors = new SpeedControllerGroup(motor1, motor2);
+    addChild("motors", motors);
 
     resetEncoder();
 
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
-    forwardLimitSwitchWidget = Robot.programmerTab.add("Forward Limit", false).getEntry();
-    reverseLimitSwitchWidget = Robot.programmerTab.add("Reverse Limit", false).getEntry();
+    bottomLimitSwitchWidget = Robot.programmerTab.add("bottom Limit", false).getEntry();
+    topLimitSwitchWidget = Robot.programmerTab.add("Top Limit", false).getEntry();
   }
 
   @Override
   public void periodic() {
-    if (motor1.getSensorCollection().isRevLimitSwitchClosed()) {
-      this.resetEncoder();
-      if (DEBUG) {
-        System.out.println("Elevator: reset encoder to zero");
-      }
-    }
     elevatorHeightWidget.setNumber(inchesTraveled());
-    forwardLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
-    reverseLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isRevLimitSwitchClosed());
-
+    bottomLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isRevLimitSwitchClosed());
+    topLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
+    SmartDashboard.putNumber("elevator encoder", motor1.getSelectedSensorPosition()); // TODO - delete later
   }
 
   @Override
   public void initDefaultCommand() {
-
   }
 
   public double inchesTraveled() {
     double currentDistance = motor1.getSelectedSensorPosition();
-    return Math.abs(currentDistance - startingDistance);
+    return Math.abs(currentDistance - startingDistance) / ENCODER_TICKS_PER_INCH;
   }
 
   @Override
@@ -71,6 +72,6 @@ public class Elevator extends PIDSubsystem {
   }
 
   public void resetEncoder() {
-    startingDistance = motor1.getSelectedSensorPosition(0);
+    startingDistance = motor1.getSelectedSensorPosition();
   }
 }
