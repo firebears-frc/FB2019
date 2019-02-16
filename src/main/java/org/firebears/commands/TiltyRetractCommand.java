@@ -7,6 +7,8 @@
 
 package org.firebears.commands;
 
+import org.firebears.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TiltyRetractCommand extends Command {
@@ -18,6 +20,7 @@ public class TiltyRetractCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.tilty.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -34,6 +37,7 @@ public class TiltyRetractCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.tilty.freeze();
   }
 
   // Called when another command which requires one or more of the same

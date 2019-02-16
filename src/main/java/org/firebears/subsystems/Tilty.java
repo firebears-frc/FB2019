@@ -41,4 +41,8 @@ public class Tilty extends Subsystem {
     public void retract() {
         // TODO
     }
+
+    public void freeze(){
+        //TODO
+    }
 }
