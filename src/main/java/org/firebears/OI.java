@@ -27,6 +27,12 @@ public class OI {
     private JoystickButton buttonLB;
     private JoystickButton buttonStart;
     private JoystickButton buttonBack;
+    private JoystickButton hatch1Button;
+    private JoystickButton hatch2Button;
+    private JoystickButton hatch3Button;
+    private JoystickButton cargo1Button;
+    private JoystickButton cargo2Button;
+    private JoystickButton cargo3Button;
     public final RecordingFactory recordingFactory;
     private Joystick joystick;
 
@@ -59,6 +65,24 @@ public class OI {
 
         buttonStart = new JoystickButton(xboxController, 8);
         buttonStart.whenPressed(new DriveToVisionTargetCommand());
+
+        hatch1Button = new JoystickButton(joystick, 11);
+        hatch1Button.whenPressed(new ElevatorCommand(18));
+
+        hatch2Button = new JoystickButton(joystick, 9);
+        hatch2Button.whenPressed(new ElevatorCommand(46));
+
+        hatch3Button = new JoystickButton(joystick, 7);
+        hatch3Button.whenPressed(new ElevatorCommand(74));
+
+        cargo1Button = new JoystickButton(joystick, 12);
+        cargo1Button.whenPressed(new ElevatorCommand(27));
+
+        cargo2Button = new JoystickButton(joystick, 10);
+        cargo2Button.whenPressed(new ElevatorCommand(54));
+
+        cargo3Button = new JoystickButton(joystick, 8);
+        cargo3Button.whenPressed(new ElevatorCommand(60));
 
         // buttonA = new JoystickButton(controller1, 6);
         // buttonA.whenPressed(new PlayRecordingCommand(recordingFactory));
