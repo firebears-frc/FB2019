@@ -87,7 +87,8 @@ public class Chassis extends Subsystem {
         rearLeft.follow(frontLeft);
 
         robotDrive = new DifferentialDrive(pidFrontLeft, pidFrontRight);
-        addChild("RobotDrive", robotDrive);
+      //  addChild("RobotDrive", robotDrive);
+    
         robotDrive.setSafetyEnabled(true);
         robotDrive.setExpiration(0.1);
         robotDrive.setMaxOutput(1.0);

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Elevator extends PIDSubsystem {
 
-  public static final double ENCODER_TICKS_PER_INCH = 1.0;
+  public static final double ENCODER_TICKS_PER_INCH = 48.7;
 
   WPI_TalonSRX motor1;
   WPI_TalonSRX motor2;
@@ -32,16 +32,22 @@ public class Elevator extends PIDSubsystem {
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 1),
-        Preferences.getInstance().getDouble("elevator.i", 0), Preferences.getInstance().getDouble("elevator.d", 0),
+        Preferences.getInstance().getDouble("elevator.i", 0),
+         Preferences.getInstance().getDouble("elevator.d", 0),
         Preferences.getInstance().getDouble("elevator.f", 0));
 
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
     motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
     motors = new SpeedControllerGroup(motor1, motor2);
+    motor1.setInverted(true);
+    motor2.setInverted(true);
     addChild("motors", motors);
+    motor1.enableCurrentLimit(true);
+    motor1.configContinuousCurrentLimit(5);
+    motor2.enableCurrentLimit(true);
+    motor2.configContinuousCurrentLimit(5);
 
-    resetEncoder();
-
+   
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
     bottomLimitSwitchWidget = Robot.programmerTab.add("bottom Limit", false).getEntry();
     topLimitSwitchWidget = Robot.programmerTab.add("Top Limit", false).getEntry();
@@ -49,6 +55,8 @@ public class Elevator extends PIDSubsystem {
     DigitalInput encoderInputA = new DigitalInput(config.getInt("elevator.encoder.dio.A", 3));
     DigitalInput encoderInputB = new DigitalInput(config.getInt("elevator.encoder.dio.B", 4));
     encoder = new Encoder(encoderInputA, encoderInputB, false, EncodingType.k4X);
+
+    resetEncoder();
   }
 
   @Override

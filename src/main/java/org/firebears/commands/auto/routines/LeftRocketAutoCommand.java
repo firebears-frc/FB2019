@@ -25,7 +25,7 @@ public class LeftRocketAutoCommand extends CommandGroup {
     addSequential(new DistanceCommand(52));
    //  addSequential(new WaitCommand(.25));
     addSequential(new RotateToAngleCommand(-30));
-   // addSequential(new DistanceCommand(45));
-   addSequential(new DriveToVisionTargetCommand());
+    addSequential(new DistanceCommand(35));
+   //addSequential(new DriveToVisionTargetCommand());
   }
 }

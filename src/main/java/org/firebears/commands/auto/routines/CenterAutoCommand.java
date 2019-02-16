@@ -18,7 +18,7 @@ public class CenterAutoCommand extends CommandGroup {
    */
   public CenterAutoCommand() {
     addSequential(new ResetNavXCommand());
-    addSequential(new DistanceCommand(60));
-    addSequential(new DriveToVisionTargetCommand());
+    addSequential(new DistanceCommand(72));
+   // addSequential(new DriveToVisionTargetCommand());
   }
 }

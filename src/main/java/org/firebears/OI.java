@@ -34,6 +34,8 @@ public class OI {
     private JoystickButton cargo1Button;
     private JoystickButton cargo2Button;
     private JoystickButton cargo3Button;
+    private JoystickButton cargoIntakeButton;
+    private JoystickButton cargoSpitButton;
     public final RecordingFactory recordingFactory;
     private Joystick joystick;
 
@@ -84,6 +86,12 @@ public class OI {
 
         cargo3Button = new JoystickButton(joystick, 8);
         cargo3Button.whenPressed(new ElevatorCommand(60));
+
+        cargoIntakeButton = new JoystickButton(joystick, 6);
+        cargoIntakeButton.whileHeld(new CargoIntakeCommand());
+
+        cargoSpitButton = new JoystickButton(joystick, 4);
+        cargoSpitButton.whileHeld(new CargoSpitCommand());
 
         // buttonA = new JoystickButton(controller1, 6);
         // buttonA.whenPressed(new PlayRecordingCommand(recordingFactory));
