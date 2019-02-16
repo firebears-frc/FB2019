@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.Preferences;
 public class CargoGrabber extends Subsystem {
     final Preferences config = Preferences.getInstance();
 WPI_TalonSRX motor;
-   private final double MOTOR_SPEED = 0.5;
+   private final double MOTOR_SPEED = 1.0;
     public CargoGrabber() {
         motor = new WPI_TalonSRX(config.getInt("cargoGrabber.motor.canID", 14));
     }
@@ -55,7 +55,7 @@ WPI_TalonSRX motor;
 }
 
 public void hold(){
-     motor.set(0.0);
+     motor.set(0);
 }
 }
 

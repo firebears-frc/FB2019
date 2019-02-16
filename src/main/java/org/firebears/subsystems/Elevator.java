@@ -31,7 +31,7 @@ public class Elevator extends PIDSubsystem {
   private final boolean DEBUG = config.getBoolean("debug", false);
 
   public Elevator() {
-    super("Elevator", Preferences.getInstance().getDouble("elevator.p", 1),
+    super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.11),
         Preferences.getInstance().getDouble("elevator.i", 0),
          Preferences.getInstance().getDouble("elevator.d", 0),
         Preferences.getInstance().getDouble("elevator.f", 0));
@@ -39,8 +39,6 @@ public class Elevator extends PIDSubsystem {
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
     motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
     motors = new SpeedControllerGroup(motor1, motor2);
-    motor1.setInverted(true);
-    motor2.setInverted(true);
     addChild("motors", motors);
     motor1.enableCurrentLimit(true);
     motor1.configContinuousCurrentLimit(5);
@@ -57,6 +55,7 @@ public class Elevator extends PIDSubsystem {
     encoder = new Encoder(encoderInputA, encoderInputB, false, EncodingType.k4X);
 
     resetEncoder();
+    setSetpoint(6);
   }
 
   @Override
@@ -86,8 +85,9 @@ public class Elevator extends PIDSubsystem {
 
   @Override
   protected void usePIDOutput(double output) {
-    motor1.set(output);
-    motor2.set(output);
+    output = Math.max(output, 0.04);
+    motor1.set(-output);
+    motor2.set(-output);
   }
 
   public void resetEncoder() {
