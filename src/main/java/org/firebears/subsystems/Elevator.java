@@ -1,30 +1,25 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.firebears.subsystems;
-import org.firebears.Robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import org.firebears.Robot;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-
 public class Elevator extends PIDSubsystem {
 
-  private WPI_TalonSRX motor1;
-  private WPI_TalonSRX motor2;
+  WPI_TalonSRX motor1;
+  WPI_TalonSRX motor2;
 
-  private double startingDistance;
+  double startingDistance;
 
   private NetworkTableEntry elevatorHeightWidget;
+  private NetworkTableEntry forwardLimitSwitchWidget, reverseLimitSwitchWidget;
 
-  private final Preferences config = Preferences.getInstance();
+  final Preferences config = Preferences.getInstance();
+  private final boolean DEBUG = config.getBoolean("debug", false);
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 1),
@@ -32,18 +27,26 @@ public class Elevator extends PIDSubsystem {
 
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
     motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
-    addChild("motor1", motor1);
-    addChild("motor2", motor2);
 
     resetEncoder();
 
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
+    forwardLimitSwitchWidget = Robot.programmerTab.add("Forward Limit", false).getEntry();
+    reverseLimitSwitchWidget = Robot.programmerTab.add("Reverse Limit", false).getEntry();
   }
 
-  
   @Override
   public void periodic() {
+    if (motor1.getSensorCollection().isRevLimitSwitchClosed()) {
+      this.resetEncoder();
+      if (DEBUG) {
+        System.out.println("Elevator: reset encoder to zero");
+      }
+    }
     elevatorHeightWidget.setNumber(inchesTraveled());
+    forwardLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
+    reverseLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isRevLimitSwitchClosed());
+
   }
 
   @Override
