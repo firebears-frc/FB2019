@@ -14,7 +14,7 @@ public class Tilty extends Subsystem {
     private final Preferences config = Preferences.getInstance();
 
     public Tilty() {
-        motor = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
+        motor = new WPI_TalonSRX(config.getInt("tilty.motor2.canID", 12));
         addChild("motor", motor);
     }
 
