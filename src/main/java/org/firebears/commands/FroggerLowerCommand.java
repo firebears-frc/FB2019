@@ -7,38 +7,39 @@
 
 package org.firebears.commands;
 
+import edu.wpi.first.wpilibj.command.Command;
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class TiltyExtendCommand extends Command {
-  public TiltyExtendCommand() {
-    requires(Robot.tilty);
+public class FroggerLowerCommand extends Command {
+  public FroggerLowerCommand() {
+    requires(Robot.frogger);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.tilty.extend();
-    
+    Robot.frogger.footDown();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if (Robot.frogger.getJumpMotor() == 0.0) {
+      return true;
+    }
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.tilty.freeze();
+    Robot.frogger.footStop();
   }
 
   // Called when another command which requires one or more of the same

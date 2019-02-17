@@ -13,19 +13,19 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class TiltyRetractCommand extends Command {
   public TiltyRetractCommand() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+   requires(Robot.tilty);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.tilty.retract();
+   
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.tilty.retract();
   }
 
   // Make this return true when this Command no longer needs to run execute()

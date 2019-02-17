@@ -9,12 +9,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  *
  */
 public class Tilty extends Subsystem {
+    private final double MOTOR_SPEED = 0.5;
 
-    private WPI_TalonSRX motor;
+     WPI_TalonSRX motor;
     private final Preferences config = Preferences.getInstance();
 
     public Tilty() {
-        motor = new WPI_TalonSRX(config.getInt("tilty.motor2.canID", 12));
+        motor = new WPI_TalonSRX(config.getInt("tilty.motor.canID", 12));
         addChild("motor", motor);
     }
 
@@ -32,17 +33,17 @@ public class Tilty extends Subsystem {
      * Raise the elevator for gameplay.
      */
     public void extend() {
-        // TODO
+        motor.set(MOTOR_SPEED);
     }
 
     /**
      * Lower the elevator to be within the frame perimeter.
      */
     public void retract() {
-        // TODO
+        motor.set(-MOTOR_SPEED);
     }
 
     public void freeze(){
-        //TODO
+        motor.set(0.0);
     }
 }
