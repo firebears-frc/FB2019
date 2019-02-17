@@ -2,13 +2,9 @@ package org.firebears.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 import org.firebears.Robot;
 import edu.wpi.first.wpilibj.Preferences;
 
-/** 
- *
- */
 public class DriveCommand extends Command {
 
     final Preferences config;
@@ -48,7 +44,7 @@ public class DriveCommand extends Command {
             return slope * x - (slope - 1);
         } else {
             return slope * x + (slope - 1);
-        } 
+        }
     }
 
     @Override

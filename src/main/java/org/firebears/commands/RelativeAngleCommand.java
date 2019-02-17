@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.firebears.commands;
 
 import com.revrobotics.CANPIDController;
@@ -23,22 +16,15 @@ public class RelativeAngleCommand extends Command {
     angle = a;
     requires(Robot.chassis);
 
-
   }
-  
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     targetAngle = Robot.chassis.getAngle() + angle;
     setTimeout(10);
 
-  
-
-
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     if (angle < 0) {
@@ -48,24 +34,19 @@ public class RelativeAngleCommand extends Command {
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (isTimedOut()){
+    if (isTimedOut()) {
       return true;
     }
-    SmartDashboard.putNumber("difference", getAngleDifference()); 
+    SmartDashboard.putNumber("difference", getAngleDifference());
     return getAngleDifference() < 5 && getAngleDifference() > -5;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.chassis.drive(0, 0);
   }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
 
   private static double getAngleDifference(double angle1, double angle2) {
     return bound(angle2 - angle1);

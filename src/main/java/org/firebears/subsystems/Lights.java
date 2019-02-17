@@ -1,6 +1,5 @@
 package org.firebears.subsystems;
 
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -22,11 +21,11 @@ public class Lights extends Subsystem {
 	public static final int RAINBOW_ANIMATION = 4;
 	public static final int PULSE_ANIMATION = 5;
 	public static final int ROCKET_ANIMATION = 6;
-	
+
 	public static final int ELEVATOR_STRIP = 0;
 	public static final int SUPPORT_STRIP = 1;
 	public static final int AFRAME_STRIP = 2;
-	
+
 	private final I2C i2c;
 	private final DriverStation driverstation;
 	private final boolean DEBUG;
@@ -34,20 +33,21 @@ public class Lights extends Subsystem {
 	private byte[] dataBack = new byte[0];
 	private int[] currentAnimation = new int[MAX_PIXELSTRIPS];
 	private int[] nextAnimation = new int[MAX_PIXELSTRIPS];
-	
-    public Lights() {
-        final Preferences config = Preferences.getInstance();
-        i2c =  new I2C(Port.kOnboard, config.getInt("lights.i2cAddress", 4));
-        driverstation = DriverStation.getInstance();
-        DEBUG = config.getBoolean("debug", false);
-    }
 
-    @Override
-    public void initDefaultCommand() { }
+	public Lights() {
+		final Preferences config = Preferences.getInstance();
+		i2c = new I2C(Port.kOnboard, config.getInt("lights.i2cAddress", 4));
+		driverstation = DriverStation.getInstance();
+		DEBUG = config.getBoolean("debug", false);
+	}
 
-    /**
-     * Find all changed animations and push the changes out to the Arduino.
-     */
+	@Override
+	public void initDefaultCommand() {
+	}
+
+	/**
+	 * Find all changed animations and push the changes out to the Arduino.
+	 */
 	private synchronized boolean sendAllAnimations() {
 		boolean messagesSent = false;
 		for (int s = 0; s < MAX_PIXELSTRIPS; s++) {
@@ -65,7 +65,7 @@ public class Lights extends Subsystem {
 		}
 		return messagesSent;
 	}
-	
+
 	/**
 	 * Reset all strips to their startup animations.
 	 */
@@ -81,22 +81,22 @@ public class Lights extends Subsystem {
 
 	/**
 	 * Change one strip's animation.
+	 * 
 	 * @param s Strip number.
 	 * @param a Animation number.
 	 */
 	private synchronized void setAnimation(int s, int a) {
 		nextAnimation[s] = a;
 	}
-	
+
 	/**
 	 * Change the lights animations based on changes within the robot.
 	 */
-    @Override
-    public void periodic() {
-    	
-        // TODO: Put lights orchestration here
-    	
-    	sendAllAnimations();
-    }
-}
+	@Override
+	public void periodic() {
 
+		// TODO: Put lights orchestration here
+
+		sendAllAnimations();
+	}
+}

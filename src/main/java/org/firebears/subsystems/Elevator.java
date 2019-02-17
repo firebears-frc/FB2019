@@ -32,8 +32,7 @@ public class Elevator extends PIDSubsystem {
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.11),
-        Preferences.getInstance().getDouble("elevator.i", 0),
-         Preferences.getInstance().getDouble("elevator.d", 0),
+        Preferences.getInstance().getDouble("elevator.i", 0), Preferences.getInstance().getDouble("elevator.d", 0),
         Preferences.getInstance().getDouble("elevator.f", 0));
 
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
@@ -45,7 +44,6 @@ public class Elevator extends PIDSubsystem {
     motor2.enableCurrentLimit(true);
     motor2.configContinuousCurrentLimit(5);
 
-   
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
     bottomLimitSwitchWidget = Robot.programmerTab.add("bottom Limit", false).getEntry();
     topLimitSwitchWidget = Robot.programmerTab.add("Top Limit", false).getEntry();

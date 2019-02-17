@@ -8,13 +8,12 @@ import java.util.*;
  * zero.
  */
 public class Recording extends LinkedList<RecordingLine> {
-	private static final long serialVersionUID = 1L;
-	
-	final private Recordable[] recordables;
+    private static final long serialVersionUID = 1L;
+
+    final private Recordable[] recordables;
 
     /**
-     * @param recordables
-     *            an array of {@code Recordable} objects.
+     * @param recordables an array of {@code Recordable} objects.
      */
     Recording(Recordable... recordables) {
         this.recordables = recordables;
@@ -24,8 +23,8 @@ public class Recording extends LinkedList<RecordingLine> {
      * Add one {@link RecordingLine} to this {@link Recording} based on the current
      * values in all current {@code Recordables}.
      * 
-     * @param currentTime
-     *            time in milliseconds, relative to the start of the recording.
+     * @param currentTime time in milliseconds, relative to the start of the
+     *                    recording.
      * @return a new {@code RecordingLine}.
      */
     public RecordingLine addLine(long currentTime) {
@@ -38,9 +37,8 @@ public class Recording extends LinkedList<RecordingLine> {
      * Set all the data values into the recordables. This will cause all motors to
      * execute at the recordingLine's values.
      * 
-     * @param recordingLine
-     *            a line that will be set into all {@code Recordables} for the given
-     *            delta time.
+     * @param recordingLine a line that will be set into all {@code Recordables} for
+     *                      the given delta time.
      */
     public void executeLine(RecordingLine recordingLine) {
         recordingLine.executeLine(recordables);
@@ -50,7 +48,7 @@ public class Recording extends LinkedList<RecordingLine> {
      * Enable or disable all recordables.
      */
     public void setAllEnabled(boolean enable) {
-        for (Recordable recordable : recordables)  {
+        for (Recordable recordable : recordables) {
             recordable.setSettable(enable);
         }
     }

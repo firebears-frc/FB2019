@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.firebears.commands.auto;
 
 import org.firebears.Robot;
@@ -27,11 +20,8 @@ public class PIDrelativeAngleCommand extends PIDCommand {
     targetAngle = rotation;
     requires(Robot.chassis);
 
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     setTimeout(10);
@@ -43,7 +33,6 @@ public class PIDrelativeAngleCommand extends PIDCommand {
 
   }
 
-  // Called repeatedly when this Command is scheduled to run
   protected void usePIDOutput(double output) {
     double speed = clamp((previousSpeed - 0.05), output, (previousSpeed + 0.05));
     if (speed > 0.0 && speed < 0.15) {
@@ -74,7 +63,6 @@ public class PIDrelativeAngleCommand extends PIDCommand {
     return Robot.chassis.getAngle();
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     if (isTimedOut()) {
@@ -84,15 +72,12 @@ public class PIDrelativeAngleCommand extends PIDCommand {
     return getAngleDifference < 3 && getAngleDifference > -3;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.chassis.drive(0, 0);
     Robot.chassis.setBrakingMode(previousBrakingMode);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   public void setTargetAngle(double angle) {
     double initAngle = Robot.chassis.getAngle();
     targetAngle = bound(angle);

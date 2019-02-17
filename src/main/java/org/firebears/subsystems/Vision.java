@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 
-
 public class Vision extends Subsystem {
 
     NetworkTable visionTargetTable;
@@ -43,29 +42,20 @@ public class Vision extends Subsystem {
     @Override
     public void initDefaultCommand() {
 
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
     }
 
     @Override
     public void periodic() {
-       SmartDashboard.putNumber("visionTrgetAngleX", getVisionTargetAngleX());
-       SmartDashboard.putNumber("visionTargetDistace", getVisionTargetDistance());
-       SmartDashboard.putNumber("visionTrgetPairs", getVisionTargetPairs());
-
+        SmartDashboard.putNumber("visionTrgetAngleX", getVisionTargetAngleX());
+        SmartDashboard.putNumber("visionTargetDistace", getVisionTargetDistance());
+        SmartDashboard.putNumber("visionTrgetPairs", getVisionTargetPairs());
 
     }
-
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-    /**
-     * @return Returns value of Angle X from networktable
-     */
 
     public double getVisionTargetAngleX() {
         return visionTargetTable.getEntry(VISION_TARGET_ANGLE_X).getDouble(0);
     }
-    
+
     public double getVisionTargetAngleY() {
         return visionTargetTable.getEntry(VISION_TARGET_ANGLE_X).getDouble(0);
     }
