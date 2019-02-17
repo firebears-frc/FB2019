@@ -29,7 +29,7 @@ public class RecordingFactory {
     }
 
     /**
-     * @param recordables list of  {@code Recordable} objects.
+     * @param recordables list of {@code Recordable} objects.
      */
     public void addAll(List<Recordable> recordables) {
         for (Recordable recordable : recordables) {
@@ -77,8 +77,8 @@ public class RecordingFactory {
             double[] datapoint = new double[recordableList.size()];
             String line;
             while ((line = reader.readLine()) != null) {
-                char firstCharacter = line.length()>0 ? line.charAt(0) : ' ';
-                if (!Character.isDigit(firstCharacter) && firstCharacter != '.')  {
+                char firstCharacter = line.length() > 0 ? line.charAt(0) : ' ';
+                if (!Character.isDigit(firstCharacter) && firstCharacter != '.') {
                     continue;
                 }
                 long deltaTime = readDataLine(line, datapoint);
@@ -237,9 +237,10 @@ public class RecordingFactory {
         public void setSettable(boolean enable) {
         }
     }
-    
+
     /**
-     * An object for recording the values that will be played back into a {@link PIDController}.
+     * An object for recording the values that will be played back into a
+     * {@link PIDController}.
      */
     public static class PIDRecordable implements Recordable {
 

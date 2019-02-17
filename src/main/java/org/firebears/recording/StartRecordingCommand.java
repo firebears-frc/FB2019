@@ -9,8 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Create a recording as a CSV file on the RoboRIO.  New files will be named based on the current
- * date and time.  If a USB drive is plugged into the robot, all recordings will be saved to that drive.
+ * Create a recording as a CSV file on the RoboRIO. New files will be named
+ * based on the current date and time. If a USB drive is plugged into the robot,
+ * all recordings will be saved to that drive.
  */
 public class StartRecordingCommand extends Command {
     static boolean isRecording = false;
@@ -31,7 +32,9 @@ public class StartRecordingCommand extends Command {
         recording = factory.newRecording();
         startTime = System.currentTimeMillis();
         recordingFile = findTemporaryFile();
-        if (DEBUG)  { System.out.println("INITIALIZE: " + this); }
+        if (DEBUG) {
+            System.out.println("INITIALIZE: " + this);
+        }
     }
 
     protected void execute() {
@@ -58,7 +61,7 @@ public class StartRecordingCommand extends Command {
         if (!dir.exists()) {
             dir = new File(System.getProperty("java.io.tmpdir"));
         }
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm"); 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
         String fileName = String.format("recording-%s.csv", dateFormat.format(new Date()));
         File file = new File(dir, fileName);
         return file;

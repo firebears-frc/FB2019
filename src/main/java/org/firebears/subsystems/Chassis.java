@@ -20,9 +20,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class Chassis extends Subsystem {
 
     private CANSparkMax rearRight;
@@ -225,11 +222,14 @@ public class Chassis extends Subsystem {
     /**
      * Thread runnable to monitor the Arduino connection to the Lidar.
      */
-    public  class LidarRunner implements Runnable {
+    public class LidarRunner implements Runnable {
         public void run() {
             while (true) {
                 lidarArduino.getSlavebyte();
-                try {Thread.sleep(20);} catch (InterruptedException e) {}
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                }
             }
         }
     }

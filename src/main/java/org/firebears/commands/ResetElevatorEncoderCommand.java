@@ -5,8 +5,8 @@ import org.firebears.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Indicate that the elevator is at the bottom.
- * This zeros out the starting distance.
+ * Indicate that the elevator is at the bottom. This zeros out the starting
+ * distance.
  */
 public class ResetElevatorEncoderCommand extends Command {
   public ResetElevatorEncoderCommand() {
@@ -30,6 +30,5 @@ public class ResetElevatorEncoderCommand extends Command {
   @Override
   protected void end() {
   }
-
 
 }

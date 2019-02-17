@@ -5,13 +5,10 @@ import edu.wpi.first.wpilibj.Preferences;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-/**
- *
- */
 public class Tilty extends Subsystem {
     private final double MOTOR_SPEED = 0.5;
 
-     WPI_TalonSRX motor;
+    WPI_TalonSRX motor;
     private final Preferences config = Preferences.getInstance();
 
     public Tilty() {
@@ -43,7 +40,7 @@ public class Tilty extends Subsystem {
         motor.set(-MOTOR_SPEED);
     }
 
-    public void freeze(){
+    public void freeze() {
         motor.set(0.0);
     }
 }

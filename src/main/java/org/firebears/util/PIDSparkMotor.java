@@ -43,7 +43,7 @@ public class PIDSparkMotor implements SpeedController {
 		return encoder.getPosition() / ENCODER_TICKS_PER_INCH;
 	}
 
-	public void driveToPosition(double inches)  {
+	public void driveToPosition(double inches) {
 		double setPointPosition = inches * ENCODER_TICKS_PER_INCH;
 		if (pidController.setReference(setPointPosition, ControlType.kPosition) != CANError.kOK) {
 			System.out.println("ERROR: Failed to set Setpoint on " + this);

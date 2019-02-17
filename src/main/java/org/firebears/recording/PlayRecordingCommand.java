@@ -35,7 +35,7 @@ public class PlayRecordingCommand extends Command {
      * @param factory the current factory for creating {@link Recording} objects.
      */
     public PlayRecordingCommand(RecordingFactory factory) {
-    	requires(Robot.chassis);
+        requires(Robot.chassis);
         this.factory = factory;
         useLatestRecording = true;
         label = "DEFAULT";
@@ -83,7 +83,9 @@ public class PlayRecordingCommand extends Command {
             currentLine = iter.hasNext() ? iter.next() : null;
         }
         recording.setAllEnabled(true);
-        if (DEBUG)  { System.out.println("INITIALIZE: " + this); }
+        if (DEBUG) {
+            System.out.println("INITIALIZE: " + this);
+        }
     }
 
     protected void execute() {

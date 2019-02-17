@@ -12,10 +12,8 @@ public class RecordingLine implements Comparable<RecordingLine> {
      * Create one new {@code RecordingLine} based on the current values of all the
      * {@code Recordables}.
      * 
-     * @param currentTime
-     *            Current time in milliseconds.
-     * @param recordables
-     *            An array of recordable objects.
+     * @param currentTime Current time in milliseconds.
+     * @param recordables An array of recordable objects.
      */
     RecordingLine(long currentTime, Recordable... recordables) {
         this.time = currentTime;
@@ -28,10 +26,8 @@ public class RecordingLine implements Comparable<RecordingLine> {
     /**
      * Create one new {@code RecordingLine} based on a sequence of numbers.
      * 
-     * @param currentTime
-     *            Current time in milliseconds.
-     * @param datapoint
-     *            an array of numbers.
+     * @param currentTime Current time in milliseconds.
+     * @param datapoint   an array of numbers.
      */
     RecordingLine(long currentTime, double... datapoint) {
         this.time = currentTime;
@@ -54,8 +50,7 @@ public class RecordingLine implements Comparable<RecordingLine> {
     }
 
     /**
-     * @param previousTime
-     *            time in milliseconds.
+     * @param previousTime time in milliseconds.
      * @return a comma-separated-value line.
      */
     String toCsv(long previousTime) {
@@ -74,12 +69,12 @@ public class RecordingLine implements Comparable<RecordingLine> {
     long getTime() {
         return time;
     }
-    
+
     /**
-     * Set all the data values into the settable recordables.
-     * This will cause all motors to execute at this lines values.
+     * Set all the data values into the settable recordables. This will cause all
+     * motors to execute at this lines values.
      */
-    void executeLine(Recordable... recordables)  {
+    void executeLine(Recordable... recordables) {
         for (int i = 0; i < data.length; i++) {
             if (recordables[i].isSettable()) {
                 recordables[i].set(data[i]);

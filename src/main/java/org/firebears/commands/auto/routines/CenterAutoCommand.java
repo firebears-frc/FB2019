@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.firebears.commands.auto.routines;
 
 import org.firebears.commands.*;
@@ -19,6 +12,6 @@ public class CenterAutoCommand extends CommandGroup {
   public CenterAutoCommand() {
     addSequential(new ResetNavXCommand());
     addSequential(new DistanceCommand(72));
-   // addSequential(new DriveToVisionTargetCommand());
+    // addSequential(new DriveToVisionTargetCommand());
   }
 }
