@@ -11,6 +11,7 @@
 
 package org.firebears.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import org.firebears.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -31,6 +32,7 @@ WPI_TalonSRX motor;
    private final double MOTOR_SPEED = 1.0;
     public CargoGrabber() {
         motor = new WPI_TalonSRX(config.getInt("cargoGrabber.motor.canID", 14));
+        motor.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
@@ -55,7 +57,7 @@ WPI_TalonSRX motor;
 }
 
 public void hold(){
-     motor.set(0);
+     motor.set(0.2);
 }
 }
 
