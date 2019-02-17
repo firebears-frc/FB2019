@@ -1,5 +1,21 @@
 package org.firebears;
 
+import static org.firebears.util.Config.cleanAllPreferences;
+import static org.firebears.util.Config.loadConfiguration;
+import static org.firebears.util.Config.printPreferences;
+
+import org.firebears.commands.auto.routines.CenterAutoCommand;
+import org.firebears.commands.auto.routines.LeftRocketAutoCommand;
+import org.firebears.commands.auto.routines.RightRocketAutoCommand;
+import org.firebears.subsystems.CargoGrabber;
+import org.firebears.subsystems.Chassis;
+import org.firebears.subsystems.Elevator;
+import org.firebears.subsystems.Frogger;
+import org.firebears.subsystems.HatchGrabber;
+import org.firebears.subsystems.Lights;
+import org.firebears.subsystems.Tilty;
+import org.firebears.subsystems.Vision;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,12 +24,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.firebears.commands.*;
-import org.firebears.commands.auto.routines.CenterAutoCommand;
-import org.firebears.commands.auto.routines.LeftRocketAutoCommand;
-import org.firebears.commands.auto.routines.RightRocketAutoCommand;
-import org.firebears.subsystems.*;
-import static org.firebears.util.Config.*;
 
 public class Robot extends TimedRobot {
 

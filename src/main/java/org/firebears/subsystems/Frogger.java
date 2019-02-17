@@ -1,12 +1,9 @@
 package org.firebears.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import org.firebears.commands.*;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
+
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Frogger extends Subsystem {
     final Preferences config = Preferences.getInstance();

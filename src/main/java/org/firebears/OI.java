@@ -1,12 +1,19 @@
 package org.firebears;
 
-import org.firebears.commands.auto.*;
-import org.firebears.commands.*;
-import org.firebears.commands.auto.routines.*;
-import org.firebears.recording.PlayRecordingCommand;
+import org.firebears.commands.CargoIntakeCommand;
+import org.firebears.commands.CargoSpitCommand;
+import org.firebears.commands.ElevatorCommand;
+import org.firebears.commands.HatchHoldCommand;
+import org.firebears.commands.HatchReleaseCommand;
+import org.firebears.commands.LineFollowCommand;
+import org.firebears.commands.ResetElevatorEncoderCommand;
+import org.firebears.commands.ResetNavXCommand;
+import org.firebears.commands.auto.DistanceCommand;
+import org.firebears.commands.auto.DriveToVisionTargetCommand;
+import org.firebears.commands.auto.PIDrelativeAngleCommand;
+import org.firebears.commands.auto.RotateToAngleCommand;
+import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.recording.RecordingFactory;
-import org.firebears.recording.StartRecordingCommand;
-import org.firebears.recording.StopRecordingCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -33,6 +40,8 @@ public class OI {
     private JoystickButton groundCargoButton;
     private JoystickButton cargoIntakeButton;
     private JoystickButton cargoSpitButton;
+    private JoystickButton hatchHoldButton;
+    private JoystickButton hatchReleaseButton;
     public final RecordingFactory recordingFactory;
     private Joystick joystick;
 
@@ -91,6 +100,12 @@ public class OI {
 
         cargoSpitButton = new JoystickButton(joystick, 4);
         cargoSpitButton.whileHeld(new CargoSpitCommand());
+
+        hatchHoldButton = new JoystickButton(joystick, 5);
+        hatchHoldButton.whenPressed(new HatchHoldCommand());
+
+        hatchReleaseButton = new JoystickButton(joystick, 3);
+        hatchReleaseButton.whenPressed(new HatchReleaseCommand());
 
         // buttonA = new JoystickButton(controller1, 6);
         // buttonA.whenPressed(new PlayRecordingCommand(recordingFactory));

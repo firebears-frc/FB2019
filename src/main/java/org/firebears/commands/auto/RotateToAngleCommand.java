@@ -1,11 +1,8 @@
 package org.firebears.commands.auto;
 
 import org.firebears.Robot;
-import org.firebears.subsystems.Chassis;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class RotateToAngleCommand extends PIDCommand {

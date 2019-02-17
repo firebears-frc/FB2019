@@ -2,10 +2,8 @@ package org.firebears.util;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
-import org.firebears.Robot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SPI_Arduino {
 

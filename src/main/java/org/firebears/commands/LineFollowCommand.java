@@ -1,13 +1,9 @@
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-
-import javax.lang.model.util.ElementScanner6;
-
-import org.firebears.Robot;
-import org.firebears.subsystems.Chassis;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class LineFollowCommand extends Command {
 

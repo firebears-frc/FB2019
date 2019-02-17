@@ -1,7 +1,5 @@
 package org.firebears.commands;
 
-import com.revrobotics.CANPIDController;
-
 import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;

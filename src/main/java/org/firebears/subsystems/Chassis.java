@@ -1,10 +1,5 @@
 package org.firebears.subsystems;
 
-import org.firebears.Robot;
-import org.firebears.commands.DriveCommand;
-import org.firebears.util.PIDSparkMotor;
-import org.firebears.util.SPI_Arduino;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANError;
@@ -12,13 +7,17 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.firebears.Robot;
+import org.firebears.commands.DriveCommand;
+import org.firebears.util.PIDSparkMotor;
+import org.firebears.util.SPI_Arduino;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem {
 

@@ -1,9 +1,6 @@
 package org.firebears.commands.auto;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.firebears.Robot;
-import org.firebears.subsystems.Chassis;
-import org.firebears.subsystems.Vision;
 
 public class RotateToVisionTargetCommand extends PIDrelativeAngleCommand {
 

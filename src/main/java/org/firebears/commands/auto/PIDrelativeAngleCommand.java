@@ -3,7 +3,6 @@ package org.firebears.commands.auto;
 import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class PIDrelativeAngleCommand extends PIDCommand {
