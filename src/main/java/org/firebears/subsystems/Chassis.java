@@ -3,6 +3,7 @@ package org.firebears.subsystems;
 import org.firebears.Robot;
 import org.firebears.commands.DriveCommand;
 import org.firebears.util.PIDSparkMotor;
+import org.firebears.util.SPI_Arduino;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
@@ -45,6 +46,10 @@ public class Chassis extends Subsystem {
     private NetworkTableEntry rightSensorwidget;
     private NetworkTableEntry centerSensorwidget;
     private NetworkTableEntry leftSensorwidget;
+    private NetworkTableEntry lidarDistancewidget;
+
+    public SPI_Arduino lidarArduino = null;
+    public Thread lidarThread = null;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
@@ -87,8 +92,8 @@ public class Chassis extends Subsystem {
         rearLeft.follow(frontLeft);
 
         robotDrive = new DifferentialDrive(pidFrontLeft, pidFrontRight);
-      //  addChild("RobotDrive", robotDrive);
-    
+        addChild("RobotDrive", robotDrive);
+
         robotDrive.setSafetyEnabled(true);
         robotDrive.setExpiration(0.1);
         robotDrive.setMaxOutput(1.0);
@@ -112,16 +117,18 @@ public class Chassis extends Subsystem {
         initialRoll = navXBoard.getRoll();
 
         tippingwidget = Robot.programmerTab.add("Tipping", false).getEntry();
-
         getAnglewidget = Robot.programmerTab.add("Angle", 0.0).getEntry();
-
         inchesTravelledwidget = Robot.programmerTab.add("Inches Travelled", 0.0).getEntry();
-
         rightSensorwidget = Robot.programmerTab.add("Right Sensor", false).getEntry();
-
         centerSensorwidget = Robot.programmerTab.add("Center Sensor", false).getEntry();
-
         leftSensorwidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
+        lidarDistancewidget = Robot.programmerTab.add("Lidar Inches", false).getEntry();
+
+        if (config.getBoolean("chassis.lidarEnable", true)) {
+            lidarArduino = new SPI_Arduino();
+            lidarThread = new Thread(new LidarRunner());
+            lidarThread.start();
+        }
     }
 
     public double getAngle() {
@@ -182,14 +189,13 @@ public class Chassis extends Subsystem {
 
     @Override
     public void periodic() {
-
         tippingwidget.setBoolean(isTipping());
         getAnglewidget.setNumber(getAngle());
         inchesTravelledwidget.setNumber(inchesTraveled());
         rightSensorwidget.setBoolean(rightSensor.get());
         centerSensorwidget.setBoolean(centerSensor.get());
         leftSensorwidget.setBoolean(leftSensor.get());
-
+        lidarDistancewidget.setNumber(getLidarDistanceInches());
     }
 
     public double inchesTraveledLeft() {
@@ -208,4 +214,23 @@ public class Chassis extends Subsystem {
         return frontLeftEncoder.getVelocity();
     }
 
+    public double getLidarDistanceInches() {
+        if (lidarArduino != null) {
+            return lidarArduino.getdistanceAA();
+        } else {
+            return -1.0;
+        }
+    }
+
+    /**
+     * Thread runnable to monitor the Arduino connection to the Lidar.
+     */
+    public  class LidarRunner implements Runnable {
+        public void run() {
+            while (true) {
+                lidarArduino.getSlavebyte();
+                try {Thread.sleep(20);} catch (InterruptedException e) {}
+            }
+        }
+    }
 }
