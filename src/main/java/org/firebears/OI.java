@@ -3,6 +3,7 @@ package org.firebears;
 import org.firebears.commands.CargoIntakeCommand;
 import org.firebears.commands.CargoSpitCommand;
 import org.firebears.commands.ElevatorCommand;
+import org.firebears.commands.FroggerLowerCommand;
 import org.firebears.commands.HatchHoldCommand;
 import org.firebears.commands.HatchReleaseCommand;
 import org.firebears.commands.LineFollowCommand;
@@ -73,27 +74,28 @@ public class OI {
         buttonX.whenPressed(new CenterAutoCommand());
 
         buttonStart = new JoystickButton(xboxController, 8);
-        buttonStart.whenPressed(new DriveToVisionTargetCommand());
+        buttonStart.whenPressed(new FroggerLowerCommand());
 
-        // hatch1Button = new JoystickButton(joystick, 11);
-        // hatch1Button.whenPressed(new ElevatorCommand(18));
+         hatch1Button = new JoystickButton(joystick, 11);
+         hatch1Button.whenPressed(new ElevatorCommand(4));
 
-        // hatch2Button = new JoystickButton(joystick, 9);
-        // hatch2Button.whenPressed(new ElevatorCommand(46));
+        hatch2Button = new JoystickButton(joystick, 9);
+         hatch2Button.whenPressed(new ElevatorCommand(35));
 
-        // hatch3Button = new JoystickButton(joystick, 7);
-        // hatch3Button.whenPressed(new ElevatorCommand(74));
+         hatch3Button = new JoystickButton(joystick, 7);
+         hatch3Button.whenPressed(new ElevatorCommand(61));
+
         groundCargoButton = new JoystickButton(joystick, 1);
         groundCargoButton.whenPressed(new ElevatorCommand(2));
 
         cargo1Button = new JoystickButton(joystick, 12);
-        cargo1Button.whenPressed(new ElevatorCommand(36));
+        cargo1Button.whenPressed(new ElevatorCommand(26));
 
-        // cargo2Button = new JoystickButton(joystick, 10);
-        // cargo2Button.whenPressed(new ElevatorCommand(54));
+         cargo2Button = new JoystickButton(joystick, 10);
+         cargo2Button.whenPressed(new ElevatorCommand(53));
 
-        // cargo3Button = new JoystickButton(joystick, 8);
-        // cargo3Button.whenPressed(new ElevatorCommand(60));
+        cargo3Button = new JoystickButton(joystick, 8);
+         cargo3Button.whenPressed(new ElevatorCommand(78));
 
         cargoIntakeButton = new JoystickButton(joystick, 6);
         cargoIntakeButton.whileHeld(new CargoIntakeCommand());

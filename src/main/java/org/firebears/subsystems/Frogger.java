@@ -9,8 +9,8 @@ public class Frogger extends Subsystem {
     final Preferences config = Preferences.getInstance();
     WPI_TalonSRX jumpMotor;
     WPI_TalonSRX forwardMotor;
-    private final double FROGGER_SPEED = 0.5;
-    private final double DRIVE_SPEED = 0.5;
+    private final double FROGGER_SPEED = 0.2;
+    private final double DRIVE_SPEED = 0.2;
 
     public Frogger() {
         jumpMotor = new WPI_TalonSRX(config.getInt("frogger.jumpMotor.canID", 11));
@@ -50,5 +50,7 @@ public class Frogger extends Subsystem {
     public double getJumpMotor() {
         return jumpMotor.get();
     }
-
+//public boolean isLimitHit(){
+   // if jumpMotor.limit
+//}
 }

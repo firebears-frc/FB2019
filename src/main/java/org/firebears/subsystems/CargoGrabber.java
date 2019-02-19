@@ -13,7 +13,7 @@ public class CargoGrabber extends Subsystem {
     private final double MOTOR_SPEED = 1.0;
 
     public CargoGrabber() {
-        motor = new WPI_TalonSRX(config.getInt("cargoGrabber.motor.canID", 14));
+        motor = new WPI_TalonSRX(config.getInt("cargoGrabber.motor.canID", 13));
         motor.setNeutralMode(NeutralMode.Brake);
     }
 

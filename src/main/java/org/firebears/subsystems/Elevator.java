@@ -40,9 +40,13 @@ public class Elevator extends PIDSubsystem {
     motors = new SpeedControllerGroup(motor1, motor2);
     addChild("motors", motors);
     motor1.enableCurrentLimit(true);
-    motor1.configContinuousCurrentLimit(5);
+    motor1.configContinuousCurrentLimit(10);
+    //motor1.configPeakCurrentLimit(15);
+    //motor1.configPeakCurrentDuration(1000);
     motor2.enableCurrentLimit(true);
-    motor2.configContinuousCurrentLimit(5);
+    motor2.configContinuousCurrentLimit(10);
+   // motor2.configPeakCurrentLimit(15);
+   // motor2.configPeakCurrentDuration(1000);
 
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
     bottomLimitSwitchWidget = Robot.programmerTab.add("bottom Limit", false).getEntry();
@@ -83,7 +87,7 @@ public class Elevator extends PIDSubsystem {
 
   @Override
   protected void usePIDOutput(double output) {
-    output = Math.max(output, 0.04);
+    output = Math.max(output, 0.03);
     motor1.set(-output);
     motor2.set(-output);
   }

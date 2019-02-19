@@ -13,7 +13,7 @@ public class HatchGrabber extends Subsystem {
     public DigitalInput rotationSensor;
 
     public HatchGrabber() {
-        motor = new WPI_TalonSRX(config.getInt("hatchGrabber.motor.canID", 13));
+        motor = new WPI_TalonSRX(config.getInt("hatchGrabber.motor.canID", 14));
         addChild(motor);
         int chassisRightSensorDio = config.getInt("chassis.rotationSensor.dio", 5);
         rotationSensor = new DigitalInput(chassisRightSensorDio);

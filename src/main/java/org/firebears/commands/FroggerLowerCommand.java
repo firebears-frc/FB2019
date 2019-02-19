@@ -10,6 +10,7 @@ public class FroggerLowerCommand extends Command {
 
   @Override
   protected void initialize() {
+    setTimeout(3);
 
   }
 
@@ -20,6 +21,9 @@ public class FroggerLowerCommand extends Command {
 
   @Override
   protected boolean isFinished() {
+    if (isTimedOut()){
+      return true;
+    }
     if (Robot.frogger.getJumpMotor() == 0.0) {
       return true;
     }
