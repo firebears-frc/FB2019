@@ -13,6 +13,7 @@ public class Tilty extends Subsystem {
 
     public Tilty() {
         motor = new WPI_TalonSRX(config.getInt("tilty.motor.canID", 12));
+        motor.configFactoryDefault();
         addChild("motor", motor);
     }
 

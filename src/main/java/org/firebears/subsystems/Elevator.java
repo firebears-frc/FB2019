@@ -28,7 +28,6 @@ public class Elevator extends PIDSubsystem {
   private NetworkTableEntry bottomLimitSwitchWidget, topLimitSwitchWidget;
 
   final Preferences config = Preferences.getInstance();
-  private final boolean DEBUG = config.getBoolean("debug", false);
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.11),
@@ -41,8 +40,10 @@ public class Elevator extends PIDSubsystem {
     motor2.follow(motor1);
     addChild("motors", motors);
     
+    motor1.configFactoryDefault();
     motor1.configContinuousCurrentLimit(10, 10);
     motor1.enableCurrentLimit(true);
+    motor2.configFactoryDefault();
     motor2.configContinuousCurrentLimit(10, 10);
     motor2.enableCurrentLimit(true);
     //motor1.configPeakCurrentLimit(15);

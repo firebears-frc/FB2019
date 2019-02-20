@@ -15,6 +15,8 @@ public class Frogger extends Subsystem {
     public Frogger() {
         jumpMotor = new WPI_TalonSRX(config.getInt("frogger.jumpMotor.canID", 11));
         forwardMotor = new WPI_TalonSRX(config.getInt("frogger.forwardMotor.canID", 17));
+        jumpMotor.configFactoryDefault();
+        forwardMotor.configFactoryDefault();
     }
 
     @Override
