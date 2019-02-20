@@ -39,9 +39,9 @@ public class Chassis extends Subsystem {
     private NetworkTableEntry tippingwidget;
     private NetworkTableEntry getAnglewidget;
     private NetworkTableEntry inchesTravelledwidget;
-    private NetworkTableEntry rightSensorwidget;
-    private NetworkTableEntry centerSensorwidget;
-    private NetworkTableEntry leftSensorwidget;
+    // private NetworkTableEntry rightSensorwidget;
+    // private NetworkTableEntry centerSensorwidget;
+    // private NetworkTableEntry leftSensorwidget;
     private NetworkTableEntry lidarDistancewidget;
 
     public SPI_Arduino lidarArduino = null;
@@ -113,11 +113,11 @@ public class Chassis extends Subsystem {
         initialRoll = navXBoard.getRoll();
 
         tippingwidget = Robot.programmerTab.add("Tipping", false).getEntry();
-        getAnglewidget = Robot.programmerTab.add("Angle", 0.0).getEntry();
+        getAnglewidget = Robot.programmerTab.add("NavX Angle", 0.0).getEntry();
         inchesTravelledwidget = Robot.programmerTab.add("Inches Travelled", 0.0).getEntry();
-        rightSensorwidget = Robot.programmerTab.add("Right Sensor", false).getEntry();
-        centerSensorwidget = Robot.programmerTab.add("Center Sensor", false).getEntry();
-        leftSensorwidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
+        // rightSensorwidget = Robot.programmerTab.add("Right Sensor", false).getEntry();
+        // centerSensorwidget = Robot.programmerTab.add("Center Sensor", false).getEntry();
+        // leftSensorwidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
         lidarDistancewidget = Robot.programmerTab.add("Lidar Inches", false).getEntry();
 
         if (config.getBoolean("chassis.lidarEnable", true)) {
@@ -188,9 +188,9 @@ public class Chassis extends Subsystem {
         tippingwidget.setBoolean(isTipping());
         getAnglewidget.setNumber(getAngle());
         inchesTravelledwidget.setNumber(inchesTraveled());
-        rightSensorwidget.setBoolean(rightSensor.get());
-        centerSensorwidget.setBoolean(centerSensor.get());
-        leftSensorwidget.setBoolean(leftSensor.get());
+        // rightSensorwidget.setBoolean(rightSensor.get());
+        // centerSensorwidget.setBoolean(centerSensor.get());
+        // leftSensorwidget.setBoolean(leftSensor.get());
         lidarDistancewidget.setNumber(getLidarDistanceInches());
     }
 

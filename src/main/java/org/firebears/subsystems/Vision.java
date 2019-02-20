@@ -1,5 +1,7 @@
 package org.firebears.subsystems;
 
+import org.firebears.Robot;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,8 +33,15 @@ public class Vision extends Subsystem {
 
     public static final String VISION_TARGET_WIDTH = "visionTarget.width";
 
+    private NetworkTableEntry angleXWidget;
+    private NetworkTableEntry distanceWidget;
+    private NetworkTableEntry targetCountWidget;
+
     public Vision() {
         visionTargetTable = NetworkTableInstance.getDefault().getTable(VISION_TARGET_TABLE_NAME);
+        angleXWidget = Robot.programmerTab.add("Vision Angle X", 0.0).getEntry();
+        distanceWidget = Robot.programmerTab.add("Vision Distance", 0.0).getEntry();
+        targetCountWidget = Robot.programmerTab.add("Vision Target Pairs", 0.0).getEntry();
     }
 
     @Override
@@ -42,11 +51,10 @@ public class Vision extends Subsystem {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("visionTrgetAngleX", getVisionTargetAngleX());
-        SmartDashboard.putNumber("visionTargetDistace", getVisionTargetDistance());
-        SmartDashboard.putNumber("visionTrgetPairs", getVisionTargetPairs());
-
-    }
+        angleXWidget.setNumber(getVisionTargetAngleX());
+        distanceWidget.setNumber(getVisionTargetDistance());
+        targetCountWidget.setNumber(getVisionTargetPairs());
+   }
 
     public double getVisionTargetAngleX() {
         return visionTargetTable.getEntry(VISION_TARGET_ANGLE_X).getDouble(0);

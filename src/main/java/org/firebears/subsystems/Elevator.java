@@ -49,8 +49,8 @@ public class Elevator extends PIDSubsystem {
    // motor2.configPeakCurrentDuration(1000);
 
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
-    bottomLimitSwitchWidget = Robot.programmerTab.add("bottom Limit", false).getEntry();
-    topLimitSwitchWidget = Robot.programmerTab.add("Top Limit", false).getEntry();
+    bottomLimitSwitchWidget = Robot.programmerTab.add("Elevator bottom Limit", false).getEntry();
+    topLimitSwitchWidget = Robot.programmerTab.add("Elevator Top Limit", false).getEntry();
 
     DigitalInput encoderInputA = new DigitalInput(config.getInt("elevator.encoder.dio.A", 3));
     DigitalInput encoderInputB = new DigitalInput(config.getInt("elevator.encoder.dio.B", 4));
