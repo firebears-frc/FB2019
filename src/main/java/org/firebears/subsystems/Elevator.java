@@ -38,13 +38,15 @@ public class Elevator extends PIDSubsystem {
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
     motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
     motors = new SpeedControllerGroup(motor1, motor2);
+    motor2.follow(motor1);
     addChild("motors", motors);
+    
+    motor1.configContinuousCurrentLimit(10, 10);
     motor1.enableCurrentLimit(true);
-    motor1.configContinuousCurrentLimit(10);
+    motor2.configContinuousCurrentLimit(10, 10);
+    motor2.enableCurrentLimit(true);
     //motor1.configPeakCurrentLimit(15);
     //motor1.configPeakCurrentDuration(1000);
-    motor2.enableCurrentLimit(true);
-    motor2.configContinuousCurrentLimit(10);
    // motor2.configPeakCurrentLimit(15);
    // motor2.configPeakCurrentDuration(1000);
 
