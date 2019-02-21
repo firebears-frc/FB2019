@@ -41,18 +41,23 @@ public final class Config {
         final NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("Preferences");
         SortedSet<String> sortedKeys = new TreeSet<String>(config.getKeys());
         for (String key : sortedKeys) {
-            switch (networkTable.getEntry(key).getType()) {
-                case kBoolean :
-                outStream.printf("%s=%b%n", key, config.getBoolean(key, false));
-                break;
-                case kDouble :
-                outStream.printf("%s=%f%n", key, config.getDouble(key, 0.0));
-                break;
-                case kString :
-                outStream.printf("%s=%f%n", key, config.getString(key, null));
-                break;
-                default: 
-                outStream.printf("%s=%s%n", key, config.getString(key, "UNKNOWN"));
+            try {
+                switch (networkTable.getEntry(key).getType()) {
+                case kBoolean:
+                    outStream.printf("%s=%b%n", key, config.getBoolean(key, false));
+                    break;
+                case kDouble:
+                    outStream.printf("%s=%f%n", key, config.getDouble(key, 0.0));
+                    break;
+                case kString:
+                    outStream.printf("%s=%f%n", key, config.getString(key, null));
+                    break;
+                default:
+                    outStream.printf("%s=%s%n", key, config.getString(key, "UNKNOWN"));
+                }
+            } catch (Exception e) {
+                System.out.println("ERROR: Config problem for property: " + key);
+                e.printStackTrace();
             }
         }
     }

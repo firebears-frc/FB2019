@@ -49,6 +49,8 @@ public class Chassis extends Subsystem {
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
+    public static final double WHEEL_BASE_INCHES = 22.0;
+
     public Chassis() {
         final Preferences config = Preferences.getInstance();
         double rampRate = config.getDouble("chassis.rampRate", 0.0);
