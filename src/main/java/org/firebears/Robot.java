@@ -120,6 +120,7 @@ public class Robot extends TimedRobot {
         }
         lights.reset();
         elevator.enable();
+        elevator.setSetpoint(6);
     }
 
     @Override

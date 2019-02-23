@@ -42,11 +42,11 @@ public class Elevator extends PIDSubsystem {
     addChild("motors", motors);
 
     motor1.configFactoryDefault();
-    motor1.configContinuousCurrentLimit(10, 10);
     motor1.enableCurrentLimit(true);
+    motor1.configContinuousCurrentLimit(10);
     motor2.configFactoryDefault();
-    motor2.configContinuousCurrentLimit(10, 10);
     motor2.enableCurrentLimit(true);
+    motor2.configContinuousCurrentLimit(10);
     // motor1.configPeakCurrentLimit(15);
     // motor1.configPeakCurrentDuration(1000);
     // motor2.configPeakCurrentLimit(15);
@@ -56,8 +56,8 @@ public class Elevator extends PIDSubsystem {
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
     bottomLimitSwitchWidget = Robot.programmerTab.add("Elevator bottom Limit", false).getEntry();
     topLimitSwitchWidget = Robot.programmerTab.add("Elevator Top Limit", false).getEntry();
-    motor1CurrenthWidget = Robot.programmerTab.add("Motor " + motor1.getDeviceID() + " current", false).getEntry();
-    motor2CurrenthWidget = Robot.programmerTab.add("Motor " + motor2.getDeviceID() + " current", false).getEntry();
+    motor1CurrenthWidget = Robot.programmerTab.add("Motor " + motor1.getDeviceID() + " current", -1.0).getEntry();
+    motor2CurrenthWidget = Robot.programmerTab.add("Motor " + motor2.getDeviceID() + " current", -1.0).getEntry();
 
     DigitalInput encoderInputA = new DigitalInput(config.getInt("elevator.encoder.dio.A", 3));
     DigitalInput encoderInputB = new DigitalInput(config.getInt("elevator.encoder.dio.B", 4));
@@ -93,7 +93,7 @@ public class Elevator extends PIDSubsystem {
   @Override
   protected void usePIDOutput(double output) {
     output = Math.max(output, 0.03);
-    motor1.set(-output);
+    motor1.set(output);
   }
 
   public void resetEncoder() {
