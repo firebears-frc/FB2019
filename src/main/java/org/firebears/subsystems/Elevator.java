@@ -20,6 +20,8 @@ public class Elevator extends PIDSubsystem {
   private final WPI_TalonSRX motor2;
   private final SpeedControllerGroup motors;
   private final Encoder encoder;
+  public DigitalInput elevatorHighASensor;
+  public DigitalInput elevatorHighBSensor;
 
   double startingDistance;
 
@@ -62,6 +64,9 @@ public class Elevator extends PIDSubsystem {
     DigitalInput encoderInputA = new DigitalInput(config.getInt("elevator.encoder.dio.A", 3));
     DigitalInput encoderInputB = new DigitalInput(config.getInt("elevator.encoder.dio.B", 4));
     encoder = new Encoder(encoderInputA, encoderInputB, false, EncodingType.k4X);
+
+    elevatorHighASensor = new DigitalInput(config.getInt("elevator.highA.dio", 0));
+    elevatorHighBSensor = new DigitalInput(config.getInt("elevator.highB.dio", 1));
 
     resetEncoder();
     setSetpoint(6);

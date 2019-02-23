@@ -102,14 +102,14 @@ public class Chassis extends Subsystem {
         robotDrive.setExpiration(0.1);
         robotDrive.setMaxOutput(1.0);
 
-        int chassisRightSensorDio = config.getInt("chassis.rightSensor.dio", 0);
-        rightSensor = new DigitalInput(chassisRightSensorDio);
+        // int chassisRightSensorDio = config.getInt("chassis.rightSensor.dio", 0);
+        // rightSensor = new DigitalInput(chassisRightSensorDio);
 
-        int chassisCenterSensorDio = config.getInt("chassis.centerSensor.dio", 1);
-        centerSensor = new DigitalInput(chassisCenterSensorDio);
+        // int chassisCenterSensorDio = config.getInt("chassis.centerSensor.dio", 1);
+        // centerSensor = new DigitalInput(chassisCenterSensorDio);
 
-        int chassisLeftSensorDio = config.getInt("chassis.leftSensor.dio", 2);
-        leftSensor = new DigitalInput(chassisLeftSensorDio);
+        // int chassisLeftSensorDio = config.getInt("chassis.leftSensor.dio", 2);
+        // leftSensor = new DigitalInput(chassisLeftSensorDio);
 
         setBrakingMode(config.getBoolean("chassis.defaultbraking", false));
 
