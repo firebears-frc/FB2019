@@ -43,10 +43,10 @@ public class Elevator extends PIDSubsystem {
 
     motor1.configFactoryDefault();
     motor1.enableCurrentLimit(true);
-    motor1.configContinuousCurrentLimit(10);
+    motor1.configContinuousCurrentLimit(15);
     motor2.configFactoryDefault();
     motor2.enableCurrentLimit(true);
-    motor2.configContinuousCurrentLimit(10);
+    motor2.configContinuousCurrentLimit(15);
     // motor1.configPeakCurrentLimit(15);
     // motor1.configPeakCurrentDuration(1000);
     // motor2.configPeakCurrentLimit(15);
@@ -72,8 +72,8 @@ public class Elevator extends PIDSubsystem {
     elevatorHeightWidget.setNumber(inchesTraveled());
     bottomLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isRevLimitSwitchClosed());
     topLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
-    motor1CurrenthWidget.setNumber(motor1.getOutputCurrent());
-    motor2CurrenthWidget.setNumber(motor2.getOutputCurrent());
+    motor1CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(0));
+    motor2CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(1));
   }
 
   @Override
@@ -93,11 +93,10 @@ public class Elevator extends PIDSubsystem {
   @Override
   protected void usePIDOutput(double output) {
     output = Math.max(output, 0.03);
-    motor1.set(output);
+    motors.set(output);
   }
 
   public void resetEncoder() {
     startingDistance = encoder.getDistance();
-    // startingDistance = motor1.getSelectedSensorPosition();
   }
 }

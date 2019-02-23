@@ -43,7 +43,6 @@ public class PIDSparkCommand extends Command {
   protected void execute() {
     pidLeft.driveToPosition(initDistanceLeft + distanceGoalLeft);
     pidRight.driveToPosition(initDistanceRight + distanceGoalRight);
-    System.out.println("EXECUTE: " + this + "\t" + (initDistanceLeft + distanceGoalLeft));
   }
 
   @Override
@@ -54,7 +53,6 @@ public class PIDSparkCommand extends Command {
     }
     double leftError = (initDistanceLeft + distanceGoalLeft) - pidLeft.inchesTraveled();
     double rightError = (initDistanceRight + distanceGoalRight) - pidRight.inchesTraveled();
-    System.out.println("IS_FINISHED: " + this + "\t" + leftError + "\t" + rightError);
     return Math.abs(leftError) <= TOLERANCE && Math.abs(rightError) <= TOLERANCE;
   }
 
@@ -62,7 +60,6 @@ public class PIDSparkCommand extends Command {
   protected void end() {
     pidLeft.set(0.0);
     pidRight.set(0.0);
-    System.out.println("END: " + this);
   }
 
   @Override
