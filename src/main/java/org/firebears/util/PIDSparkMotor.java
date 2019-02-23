@@ -14,12 +14,14 @@ public class PIDSparkMotor implements SpeedController {
 
 	public static final double MAX_RPM = 5700.0;
 	public static final double ENCODER_TICKS_PER_INCH = 0.4449;
+	public static final int SECONDARY_SLOT = 1;
 
 	private final CANSparkMax motor;
 	private final CANPIDController pidController;
 	private final CANEncoder encoder;
 	private boolean closedLoop = false;
 	private double currentSpeed = 0.0;
+	private boolean invertEncoder = false;
 
 	public PIDSparkMotor(CANSparkMax m, double kP, double kI, double kD) {
 		motor = m;
@@ -31,6 +33,12 @@ public class PIDSparkMotor implements SpeedController {
 		encoder = motor.getEncoder();
 	}
 
+	public void setSecondaryPID(double kP, double kI, double kD)  {
+		pidController.setP(kP, SECONDARY_SLOT);
+		pidController.setI(kI, SECONDARY_SLOT);
+		pidController.setD(kD, SECONDARY_SLOT);
+	}
+
 	public void setClosedLoop(boolean b) {
 		closedLoop = b;
 	}
@@ -39,13 +47,17 @@ public class PIDSparkMotor implements SpeedController {
 		return closedLoop;
 	}
 
+	public void setInvertEncoder(boolean b) {
+		invertEncoder = b;
+	}
+
 	public double inchesTraveled() {
-		return encoder.getPosition() / ENCODER_TICKS_PER_INCH;
+		return (invertEncoder ? -1 : 1) * encoder.getPosition() / ENCODER_TICKS_PER_INCH;
 	}
 
 	public void driveToPosition(double inches) {
-		double setPointPosition = inches * ENCODER_TICKS_PER_INCH;
-		if (pidController.setReference(setPointPosition, ControlType.kPosition) != CANError.kOK) {
+		double setPointPosition = (invertEncoder ? -1 : 1) * inches * ENCODER_TICKS_PER_INCH;
+		if (pidController.setReference(setPointPosition, ControlType.kPosition, SECONDARY_SLOT) != CANError.kOK) {
 			System.out.println("ERROR: Failed to set Setpoint on " + this);
 		}
 	}

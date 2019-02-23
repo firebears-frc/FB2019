@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem {
 
@@ -57,6 +58,9 @@ public class Chassis extends Subsystem {
         double kP = config.getDouble("chassis.p", 0.00015);
         double kI = config.getDouble("chassis.i", 0.0);
         double kD = config.getDouble("chassis.d", 0.0);
+        double kP2 = config.getDouble("chassis.secondary.p", 0.015);
+        double kI2 = config.getDouble("chassis.secondary.i", 0.0);
+        double kD2 = config.getDouble("chassis.secondary.d", 0.0);
         boolean closedLoop = config.getBoolean("chassis.closedLoop", false);
 
         int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
@@ -71,6 +75,8 @@ public class Chassis extends Subsystem {
         frontRight.setRampRate(rampRate);
         pidFrontRight = new PIDSparkMotor(frontRight, kP, kI, kD);
         pidFrontRight.setClosedLoop(closedLoop);
+        pidFrontRight.setInvertEncoder(true);
+        pidFrontRight.setSecondaryPID(kP2, kI2, kD2);
 
         rearRight.follow(frontRight);
 
@@ -194,6 +200,8 @@ public class Chassis extends Subsystem {
         // centerSensorwidget.setBoolean(centerSensor.get());
         // leftSensorwidget.setBoolean(leftSensor.get());
         lidarDistancewidget.setNumber(getLidarDistanceInches());
+        SmartDashboard.putNumber("left inches", pidFrontLeft.inchesTraveled());
+        SmartDashboard.putNumber("right inches", pidFrontRight.inchesTraveled());
     }
 
     public double inchesTraveledLeft() {
