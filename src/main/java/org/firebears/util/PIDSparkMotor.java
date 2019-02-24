@@ -37,6 +37,7 @@ public class PIDSparkMotor implements SpeedController {
 		pidController.setP(kP, SECONDARY_SLOT);
 		pidController.setI(kI, SECONDARY_SLOT);
 		pidController.setD(kD, SECONDARY_SLOT);
+		pidController.setOutputRange(-1.0, 1.0, SECONDARY_SLOT);
 	}
 
 	public void setClosedLoop(boolean b) {

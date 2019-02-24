@@ -45,14 +45,14 @@ public class Elevator extends PIDSubsystem {
 
     motor1.configFactoryDefault();
     motor1.enableCurrentLimit(true);
-    motor1.configContinuousCurrentLimit(15);
+    motor1.configContinuousCurrentLimit(10);
     motor2.configFactoryDefault();
     motor2.enableCurrentLimit(true);
-    motor2.configContinuousCurrentLimit(15);
-    // motor1.configPeakCurrentLimit(15);
-    // motor1.configPeakCurrentDuration(1000);
-    // motor2.configPeakCurrentLimit(15);
-    // motor2.configPeakCurrentDuration(1000);
+    motor2.configContinuousCurrentLimit(10);
+    motor1.configPeakCurrentLimit(50);
+    motor1.configPeakCurrentDuration(1000);
+    motor2.configPeakCurrentLimit(50);
+    motor2.configPeakCurrentDuration(1000);
     motor2.follow(motor1);
 
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
