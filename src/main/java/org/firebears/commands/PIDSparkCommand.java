@@ -6,6 +6,10 @@ import org.firebears.util.PIDSparkMotor;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+   * Command that uses the PID software inside the Chassis' SparkMAX motor controllers to 
+   * move specific distances or angles.
+   */
 public class PIDSparkCommand extends Command {
 
   public static final double TOLERANCE = 1.0;
@@ -17,19 +21,25 @@ public class PIDSparkCommand extends Command {
   private double initDistanceLeft;
   private double initDistanceRight;
 
+  /**
+   * Move the left and right sides specific distances.
+   */
   public PIDSparkCommand(double leftInches, double rightInches) {
     requires(Robot.chassis);
     distanceGoalLeft = leftInches;
     distanceGoalRight = rightInches;
-    setTimeout(5.0);
+    setTimeout();
   }
 
+  /**
+   * Rotate a specific number of degrees.
+   */
   public PIDSparkCommand(double degrees) {
     requires(Robot.chassis);
     double circumference = Chassis.WHEEL_BASE_INCHES * Math.PI;
     distanceGoalLeft = circumference * degrees / 360.0;
     distanceGoalRight = -1.0 * circumference * degrees / 360.0;
-    setTimeout(5.0);
+    setTimeout();
   }
 
   @Override
@@ -37,6 +47,15 @@ public class PIDSparkCommand extends Command {
     initDistanceLeft = pidLeft.inchesTraveled();
     initDistanceRight = pidRight.inchesTraveled();
     System.out.println("INITIALIZE: " + this + "\t" + initDistanceLeft);
+  }
+
+  /**
+   * Set a reasonable timeout, assuming that the robot can move 60 inches per second.
+   */
+  private void setTimeout() {
+    double maxDistance = Math.max(Math.abs(distanceGoalLeft), Math.abs(distanceGoalRight));
+    double time = maxDistance / 60.0;
+    setTimeout( Math.max(1.0, Math.min(time, 10.0)));
   }
 
   @Override

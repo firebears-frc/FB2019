@@ -7,6 +7,7 @@ import org.firebears.commands.FroggerLowerCommand;
 import org.firebears.commands.HatchHoldCommand;
 import org.firebears.commands.HatchReleaseCommand;
 import org.firebears.commands.LineFollowCommand;
+import org.firebears.commands.PIDSparkCommand;
 import org.firebears.commands.ResetElevatorEncoderCommand;
 import org.firebears.commands.ResetNavXCommand;
 import org.firebears.commands.auto.DistanceCommand;
@@ -55,14 +56,21 @@ public class OI {
         xboxController = new XboxController(0);
         joystick = new Joystick(1);
 
-        buttonB = new JoystickButton(xboxController, 2);
-        buttonB.whenPressed(new LineFollowCommand());
-
         buttonA = new JoystickButton(xboxController, 1);
-        buttonA.whenPressed(new PIDrelativeAngleCommand(90));
+        // buttonA.whenPressed(new PIDrelativeAngleCommand(90));
+        buttonA.whenPressed(new PIDSparkCommand(24, 24));
+
+        buttonB = new JoystickButton(xboxController, 2);
+        // buttonB.whenPressed(new LineFollowCommand());
+        buttonB.whenPressed(new PIDSparkCommand(36, 36));
+
+        buttonX = new JoystickButton(xboxController, 3);
+        // buttonX.whenPressed(new CenterAutoCommand());
+        buttonX.whenPressed(new PIDSparkCommand(-45));
 
         buttonY = new JoystickButton(xboxController, 4);
-        buttonY.whenPressed(new ResetNavXCommand());
+        // buttonY.whenPressed(new ResetNavXCommand());
+        buttonY.whenPressed(new PIDSparkCommand(90));
 
         buttonRB = new JoystickButton(xboxController, 6);
         buttonRB.whenPressed(new DistanceCommand(36));
@@ -70,20 +78,17 @@ public class OI {
         buttonLB = new JoystickButton(xboxController, 5);
         buttonLB.whenPressed(new RotateToAngleCommand(90));
 
-        buttonX = new JoystickButton(xboxController, 3);
-        buttonX.whenPressed(new CenterAutoCommand());
-
         buttonStart = new JoystickButton(xboxController, 8);
         buttonStart.whenPressed(new FroggerLowerCommand());
 
-         hatch1Button = new JoystickButton(joystick, 11);
-         hatch1Button.whenPressed(new ElevatorCommand(4));
+        hatch1Button = new JoystickButton(joystick, 11);
+        hatch1Button.whenPressed(new ElevatorCommand(4));
 
         hatch2Button = new JoystickButton(joystick, 9);
-         hatch2Button.whenPressed(new ElevatorCommand(35));
+        hatch2Button.whenPressed(new ElevatorCommand(35));
 
-         hatch3Button = new JoystickButton(joystick, 7);
-         hatch3Button.whenPressed(new ElevatorCommand(61));
+        hatch3Button = new JoystickButton(joystick, 7);
+        hatch3Button.whenPressed(new ElevatorCommand(61));
 
         groundCargoButton = new JoystickButton(joystick, 1);
         groundCargoButton.whenPressed(new ElevatorCommand(2));
@@ -91,11 +96,11 @@ public class OI {
         cargo1Button = new JoystickButton(joystick, 12);
         cargo1Button.whenPressed(new ElevatorCommand(26));
 
-         cargo2Button = new JoystickButton(joystick, 10);
-         cargo2Button.whenPressed(new ElevatorCommand(53));
+        cargo2Button = new JoystickButton(joystick, 10);
+        cargo2Button.whenPressed(new ElevatorCommand(53));
 
         cargo3Button = new JoystickButton(joystick, 8);
-         cargo3Button.whenPressed(new ElevatorCommand(78));
+        cargo3Button.whenPressed(new ElevatorCommand(78));
 
         cargoIntakeButton = new JoystickButton(joystick, 6);
         cargoIntakeButton.whileHeld(new CargoIntakeCommand());
