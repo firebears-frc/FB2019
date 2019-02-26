@@ -93,7 +93,7 @@ public class OI {
         buttonStart.whenPressed(new FroggerLowerCommand());
 
         hatch1Button = new JoystickButton(joystick, 11);
-        hatch1Button.whenPressed(new ElevatorCommand(4));
+        hatch1Button.whenPressed(new ElevatorCommand(6));
 
         hatch2Button = new JoystickButton(joystick, 9);
         hatch2Button.whenPressed(new ElevatorCommand(35));
@@ -108,7 +108,7 @@ public class OI {
         cargo1Button.whenPressed(new ElevatorCommand(26));
 
         cargo2Button = new JoystickButton(joystick, 10);
-        cargo2Button.whenPressed(new ElevatorCommand(53));
+        cargo2Button.whenPressed(new ElevatorCommand(57));
 
         cargo3Button = new JoystickButton(joystick, 8);
         cargo3Button.whenPressed(new ElevatorCommand(78));
