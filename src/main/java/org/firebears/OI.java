@@ -1,5 +1,7 @@
 package org.firebears;
 
+
+
 import org.firebears.commands.CargoIntakeCommand;
 import org.firebears.commands.CargoSpitCommand;
 import org.firebears.commands.ElevatorCommand;
@@ -19,6 +21,7 @@ import org.firebears.recording.RecordingFactory;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,6 +34,8 @@ public class OI {
     private JoystickButton buttonX;
     private JoystickButton buttonRB;
     private JoystickButton buttonLB;
+    private JoystickButton buttonRTrig;
+    private JoystickButton buttonLTrig;
     private JoystickButton buttonStart;
     private JoystickButton buttonBack;
     private JoystickButton hatch1Button;
@@ -72,11 +77,17 @@ public class OI {
         // buttonY.whenPressed(new ResetNavXCommand());
         buttonY.whenPressed(new PIDSparkCommand(90));
 
+       // buttonRTrig = new JoystickButton(xboxController, buttonNumber);
+       // buttonRTrig.whileHeld(new CargoIntakeCommand());
+
+       // buttonLTrig = new JoystickButton(xboxController, buttonNumber);
+       // buttonLTrig.whileHeld(new CargoSpitCommand());
+
         buttonRB = new JoystickButton(xboxController, 6);
-        buttonRB.whenPressed(new DistanceCommand(36));
+        buttonRB.whenPressed(new HatchReleaseCommand());
 
         buttonLB = new JoystickButton(xboxController, 5);
-        buttonLB.whenPressed(new RotateToAngleCommand(90));
+        buttonLB.whenPressed(new HatchHoldCommand());
 
         buttonStart = new JoystickButton(xboxController, 8);
         buttonStart.whenPressed(new FroggerLowerCommand());
@@ -108,11 +119,11 @@ public class OI {
         cargoSpitButton = new JoystickButton(joystick, 4);
         cargoSpitButton.whileHeld(new CargoSpitCommand());
 
-        hatchHoldButton = new JoystickButton(joystick, 5);
-        hatchHoldButton.whenPressed(new HatchHoldCommand());
+        //hatchHoldButton = new JoystickButton(joystick, 5);
+        //hatchHoldButton.whenPressed(new HatchHoldCommand());
 
-        hatchReleaseButton = new JoystickButton(joystick, 3);
-        hatchReleaseButton.whenPressed(new HatchReleaseCommand());
+        //hatchReleaseButton = new JoystickButton(joystick, 3);
+        //hatchReleaseButton.whenPressed(new HatchReleaseCommand());
 
         // buttonA = new JoystickButton(controller1, 6);
         // buttonA.whenPressed(new PlayRecordingCommand(recordingFactory));
