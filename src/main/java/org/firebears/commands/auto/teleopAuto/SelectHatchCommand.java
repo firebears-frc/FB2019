@@ -8,13 +8,18 @@
 package org.firebears.commands.auto.teleopAuto;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
-public class SelectHatchCommand extends Command {
+public class SelectHatchCommand extends ConditionalCommand {
   public SelectHatchCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
-
+@Override
+protected boolean condition() {
+  
+  return false;
+}
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
