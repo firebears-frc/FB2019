@@ -11,6 +11,6 @@
     ".project": true
   },
   "wpilib.autoStartRioLog": false,
-  "wpilib.deployOffline": true,
-  "wpilib.offline": true
+  "wpilib.deployOffline": false,
+  "wpilib.offline": false
 }
