@@ -10,6 +10,7 @@ import org.firebears.commands.HatchHoldCommand;
 import org.firebears.commands.HatchReleaseCommand;
 import org.firebears.commands.LineFollowCommand;
 import org.firebears.commands.PIDSparkCommand;
+import org.firebears.commands.RelativeAngleCommand;
 import org.firebears.commands.ResetElevatorEncoderCommand;
 import org.firebears.commands.ResetNavXCommand;
 import org.firebears.commands.auto.DistanceCommand;
@@ -62,20 +63,16 @@ public class OI {
         joystick = new Joystick(1);
 
         buttonA = new JoystickButton(xboxController, 1);
-        // buttonA.whenPressed(new PIDrelativeAngleCommand(90));
-        buttonA.whenPressed(new PIDSparkCommand(24, 24));
-
+        buttonA.whenPressed(new PIDrelativeAngleCommand(90));
+        
         buttonB = new JoystickButton(xboxController, 2);
-        // buttonB.whenPressed(new LineFollowCommand());
-        buttonB.whenPressed(new PIDSparkCommand(36, 36));
+        buttonB.whenPressed(new LineFollowCommand());
 
         buttonX = new JoystickButton(xboxController, 3);
-        // buttonX.whenPressed(new CenterAutoCommand());
-        buttonX.whenPressed(new PIDSparkCommand(-45));
+        buttonX.whenPressed(new CenterAutoCommand());
 
         buttonY = new JoystickButton(xboxController, 4);
-        // buttonY.whenPressed(new ResetNavXCommand());
-        buttonY.whenPressed(new PIDSparkCommand(90));
+        buttonY.whenPressed(new ResetNavXCommand());
 
        // buttonRTrig = new JoystickButton(xboxController, buttonNumber);
        // buttonRTrig.whileHeld(new CargoIntakeCommand());

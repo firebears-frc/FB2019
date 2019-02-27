@@ -30,8 +30,8 @@ public class CargoGrabber extends Subsystem {
         cargoLeftSensor = new DigitalInput(config.getInt("cargoGrabcber.cargoLeft.dio", 7));
         cargoRightSensor = new DigitalInput(config.getInt("cargoGrabcber.cargoRight.dio", 8));
         leftSensorWidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
-        rightSensorWidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
-        cargoCapturedSensorWidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
+        rightSensorWidget = Robot.programmerTab.add("Right Sensor", false).getEntry();
+        cargoCapturedSensorWidget = Robot.programmerTab.add("Center Sensor", false).getEntry();
     }
 
     @Override
