@@ -22,7 +22,7 @@ public class HatchReleaseCommand extends Command {
 
     @Override
     protected boolean isFinished() {
-        if (Robot.hatchGrabber.getSensorValue()) {
+        if (Robot.hatchGrabber.getRotationSensorValue()) {
             return true;
         }
         return false;

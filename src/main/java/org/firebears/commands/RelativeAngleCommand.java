@@ -25,10 +25,15 @@ public class RelativeAngleCommand extends Command {
 
   @Override
   protected void execute() {
-    if (angle < 0) {
-      Robot.chassis.drive(0, -0.3);
+    double diff = getAngleDifference();
+    if (diff < -25) {
+      Robot.chassis.drive(0, -0.4);
+    } else if (diff < 0) {
+      Robot.chassis.drive(0, -0.2);
+    } else if (diff > 25) {
+      Robot.chassis.drive(0, 0.4);
     } else {
-      Robot.chassis.drive(0, 0.3);
+      Robot.chassis.drive(0, 0.2);
     }
   }
 
@@ -38,7 +43,7 @@ public class RelativeAngleCommand extends Command {
       return true;
     }
     SmartDashboard.putNumber("difference", getAngleDifference());
-    return getAngleDifference() < 5 && getAngleDifference() > -5;
+    return getAngleDifference() < 1 && getAngleDifference() > -1;
   }
 
   @Override

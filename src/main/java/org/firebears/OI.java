@@ -8,6 +8,7 @@ import org.firebears.commands.HatchHoldCommand;
 import org.firebears.commands.HatchReleaseCommand;
 import org.firebears.commands.LineFollowCommand;
 import org.firebears.commands.PIDSparkCommand;
+import org.firebears.commands.RelativeAngleCommand;
 import org.firebears.commands.ResetElevatorEncoderCommand;
 import org.firebears.commands.ResetNavXCommand;
 import org.firebears.commands.auto.DistanceCommand;
@@ -15,6 +16,7 @@ import org.firebears.commands.auto.DriveToVisionTargetCommand;
 import org.firebears.commands.auto.PIDrelativeAngleCommand;
 import org.firebears.commands.auto.RotateToAngleCommand;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
+import org.firebears.commands.auto.teleopAuto.SelectHatchCommand;
 import org.firebears.recording.RecordingFactory;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,6 +24,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.firebears.commands.auto.teleopAuto.*;
 
 public class OI {
 
@@ -79,25 +82,25 @@ public class OI {
         buttonReleaseHatch.whenPressed(new HatchReleaseCommand());
         // joystick/button box
         hatch1Button = new JoystickButton(joystick, 11);
-        hatch1Button.whenPressed(new ElevatorCommand(6));
+        hatch1Button.whenPressed(new SelectHatchCommand());
 
         hatch2Button = new JoystickButton(joystick, 9);
-        hatch2Button.whenPressed(new ElevatorCommand(35));
+        hatch2Button.whenPressed(new ElevatorHatchPlaceCommand(35));
 
         hatch3Button = new JoystickButton(joystick, 7);
-        hatch3Button.whenPressed(new ElevatorCommand(61));
+        hatch3Button.whenPressed(new ElevatorHatchPlaceCommand(61));
 
         groundCargoButton = new JoystickButton(joystick, 1);
         groundCargoButton.whenPressed(new ElevatorCommand(2));
 
         cargo1Button = new JoystickButton(joystick, 12);
-        cargo1Button.whenPressed(new ElevatorCommand(26));
+        cargo1Button.whenPressed(new ElevatorCargoCommand(26));
 
         cargo2Button = new JoystickButton(joystick, 10);
-        cargo2Button.whenPressed(new ElevatorCommand(57));
+        cargo2Button.whenPressed(new ElevatorCargoCommand(57));
 
         cargo3Button = new JoystickButton(joystick, 8);
-        cargo3Button.whenPressed(new ElevatorCommand(78));
+        cargo3Button.whenPressed(new ElevatorCargoCommand(78));
 
         SmartDashboard.putData(new ResetElevatorEncoderCommand());
     }
