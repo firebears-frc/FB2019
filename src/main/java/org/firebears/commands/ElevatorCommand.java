@@ -24,7 +24,7 @@ public class ElevatorCommand extends Command {
 
   @Override
   protected boolean isFinished() {
-    return true;
+    return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 4;
   }
 
   @Override

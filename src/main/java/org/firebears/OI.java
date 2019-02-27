@@ -1,7 +1,5 @@
 package org.firebears;
 
-
-
 import org.firebears.commands.CargoIntakeCommand;
 import org.firebears.commands.CargoSpitCommand;
 import org.firebears.commands.ElevatorCommand;
@@ -28,16 +26,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI {
 
     private XboxController xboxController;
-    private JoystickButton buttonB;
-    private JoystickButton buttonA;
-    private JoystickButton buttonY;
-    private JoystickButton buttonX;
-    private JoystickButton buttonRB;
-    private JoystickButton buttonLB;
-    private JoystickButton buttonRTrig;
-    private JoystickButton buttonLTrig;
-    private JoystickButton buttonStart;
-    private JoystickButton buttonBack;
+    private JoystickButton buttonTurn180; // b 2
+    private JoystickButton buttonTurn90; // a 1
+    private JoystickButton buttonY; // y 4 free button
+    private JoystickButton buttonTurn45; // x 3
+    private JoystickButton buttonReleaseHatch; // right bumper 6
+    private JoystickButton buttonGrabHatch; // left bumper 5
+    private JoystickButton buttonSuckCargo; // right trigger
+    private JoystickButton buttonSpitCargo; // left trigger
+    private Joystick joystick;
     private JoystickButton hatch1Button;
     private JoystickButton hatch2Button;
     private JoystickButton hatch3Button;
@@ -45,12 +42,7 @@ public class OI {
     private JoystickButton cargo2Button;
     private JoystickButton cargo3Button;
     private JoystickButton groundCargoButton;
-    private JoystickButton cargoIntakeButton;
-    private JoystickButton cargoSpitButton;
-    private JoystickButton hatchHoldButton;
-    private JoystickButton hatchReleaseButton;
     public final RecordingFactory recordingFactory;
-    private Joystick joystick;
 
     public OI() {
 
@@ -61,37 +53,31 @@ public class OI {
         xboxController = new XboxController(0);
         joystick = new Joystick(1);
 
-        buttonA = new JoystickButton(xboxController, 1);
-        // buttonA.whenPressed(new PIDrelativeAngleCommand(90));
-        buttonA.whenPressed(new PIDSparkCommand(24, 24));
+        // xbox
+        buttonTurn45 = new JoystickButton(xboxController, 3);
+        buttonTurn45.whenPressed(new PIDrelativeAngleCommand(45));
 
-        buttonB = new JoystickButton(xboxController, 2);
-        // buttonB.whenPressed(new LineFollowCommand());
-        buttonB.whenPressed(new PIDSparkCommand(36, 36));
+        buttonTurn90 = new JoystickButton(xboxController, 1);
+        buttonTurn90.whenPressed(new PIDrelativeAngleCommand(90));
 
-        buttonX = new JoystickButton(xboxController, 3);
-        // buttonX.whenPressed(new CenterAutoCommand());
-        buttonX.whenPressed(new PIDSparkCommand(-45));
+        buttonTurn180 = new JoystickButton(xboxController, 2);
+        buttonTurn180.whenPressed(new PIDrelativeAngleCommand(180));
 
-        buttonY = new JoystickButton(xboxController, 4);
-        // buttonY.whenPressed(new ResetNavXCommand());
-        buttonY.whenPressed(new PIDSparkCommand(90));
+        // buttonY = new JoystickButton(xboxController, 4);
+        // buttonY.whenPressed(new Command());
 
-       // buttonRTrig = new JoystickButton(xboxController, buttonNumber);
-       // buttonRTrig.whileHeld(new CargoIntakeCommand());
+        // buttonSuckCargo = new JoystickButton(xboxController, buttonNumber);
+        // buttonSuckCargo.whileHeld(new CargoIntakeCommand());
 
-       // buttonLTrig = new JoystickButton(xboxController, buttonNumber);
-       // buttonLTrig.whileHeld(new CargoSpitCommand());
+        // buttonSpitCargo = new JoystickButton(xboxController, buttonNumber);
+        // buttonSpitCargo.whileHeld(new CargoSpitCommand());
 
-        buttonRB = new JoystickButton(xboxController, 6);
-        buttonRB.whenPressed(new HatchReleaseCommand());
+        buttonGrabHatch = new JoystickButton(xboxController, 5);
+        buttonGrabHatch.whenPressed(new HatchHoldCommand());
 
-        buttonLB = new JoystickButton(xboxController, 5);
-        buttonLB.whenPressed(new HatchHoldCommand());
-
-        buttonStart = new JoystickButton(xboxController, 8);
-        buttonStart.whenPressed(new FroggerLowerCommand());
-
+        buttonReleaseHatch = new JoystickButton(xboxController, 6);
+        buttonReleaseHatch.whenPressed(new HatchReleaseCommand());
+        // joystick/button box
         hatch1Button = new JoystickButton(joystick, 11);
         hatch1Button.whenPressed(new ElevatorCommand(6));
 
@@ -112,27 +98,6 @@ public class OI {
 
         cargo3Button = new JoystickButton(joystick, 8);
         cargo3Button.whenPressed(new ElevatorCommand(78));
-
-        cargoIntakeButton = new JoystickButton(joystick, 6);
-        cargoIntakeButton.whileHeld(new CargoIntakeCommand());
-
-        cargoSpitButton = new JoystickButton(joystick, 4);
-        cargoSpitButton.whileHeld(new CargoSpitCommand());
-
-        //hatchHoldButton = new JoystickButton(joystick, 5);
-        //hatchHoldButton.whenPressed(new HatchHoldCommand());
-
-        //hatchReleaseButton = new JoystickButton(joystick, 3);
-        //hatchReleaseButton.whenPressed(new HatchReleaseCommand());
-
-        // buttonA = new JoystickButton(controller1, 6);
-        // buttonA.whenPressed(new PlayRecordingCommand(recordingFactory));
-
-        // buttonStart = new JoystickButton(controller1, 8);
-        // buttonStart.whenPressed(new StartRecordingCommand(recordingFactory));
-
-        // buttonBack = new JoystickButton(controller1, 7);
-        // buttonBack.whenPressed(new StopRecordingCommand(recordingFactory));
 
         SmartDashboard.putData(new ResetElevatorEncoderCommand());
     }
