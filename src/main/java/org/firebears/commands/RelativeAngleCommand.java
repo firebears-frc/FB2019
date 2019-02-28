@@ -3,24 +3,22 @@ package org.firebears.commands;
 import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RelativeAngleCommand extends Command {
 
-  private double angle;
+  private final double angle;
   private double targetAngle;
 
   public RelativeAngleCommand(double a) {
     angle = a;
     requires(Robot.chassis);
-
   }
 
   @Override
   protected void initialize() {
-    targetAngle = Robot.chassis.getAngle() + angle;
+    setTargetAngle(Robot.chassis.getAngle() + angle);
     setTimeout(10);
-
+    System.out.println("INITIALIZE: " + this);
   }
 
   @Override
@@ -42,7 +40,6 @@ public class RelativeAngleCommand extends Command {
     if (isTimedOut()) {
       return true;
     }
-    SmartDashboard.putNumber("difference", getAngleDifference());
     return getAngleDifference() < 1 && getAngleDifference() > -1;
   }
 
@@ -72,5 +69,14 @@ public class RelativeAngleCommand extends Command {
    */
   private double getAngleDifference() {
     return getAngleDifference(Robot.chassis.getAngle(), targetAngle);
+  }
+
+  public void setTargetAngle(double angle) {
+    targetAngle = bound(angle);
+  }
+
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName() + "(" + angle + ")";
   }
 }

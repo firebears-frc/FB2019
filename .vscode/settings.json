@@ -10,7 +10,7 @@
     ".classpath": true,
     ".project": true
   },
-  "wpilib.autoStartRioLog": false,
-  "wpilib.deployOffline": true,
-  "wpilib.offline": true
+  "wpilib.autoStartRioLog": true,
+  "wpilib.deployOffline": false,
+  "wpilib.offline": false
 }

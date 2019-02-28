@@ -32,6 +32,7 @@ public class CargoGrabber extends Subsystem {
         leftSensorWidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
         rightSensorWidget = Robot.programmerTab.add("Right Sensor", false).getEntry();
         cargoCapturedSensorWidget = Robot.programmerTab.add("Center Sensor", false).getEntry();
+        addChild("motor", motor);
     }
 
     @Override
