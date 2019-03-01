@@ -17,7 +17,7 @@ public class Lights extends Subsystem {
 
 	
 
-	public static final int MAX_ANIMATIONS = 7;
+	public static final int MAX_ANIMATIONS = 8;
 	public static final int MAX_PIXELSTRIPS = 3;
 
 	public static final int TIPPINGLIGHT_ANIMATION = 0;
@@ -27,6 +27,7 @@ public class Lights extends Subsystem {
 	public static final int RAINBOW_ANIMATION = 4;
 	public static final int PULSE_ANIMATION = 5;
 	public static final int ROCKET_ANIMATION = 6;
+    public static final int ISEEYOU_ANIMATION = 7;  
 
 	public static final int ELEVATOR_STRIP = 0;
 	public static final int SUPPORT_STRIP = 1;
@@ -134,8 +135,24 @@ public class Lights extends Subsystem {
 			setAnimation(SUPPORT_STRIP, defaultAnimation);
 			setAnimation(AFRAME_STRIP, defaultAnimation);
 			// TODO : add lots more lights orchestration here
+		}  if (Robot.vision.getVisionTargetConfidence() > 0.8){
+			setAnimation(ELEVATOR_STRIP, ISEEYOU_ANIMATION);
+			setAnimation(SUPPORT_STRIP, ISEEYOU_ANIMATION);
+			setAnimation(AFRAME_STRIP, ISEEYOU_ANIMATION);
+		}  else {
+			setAnimation(ELEVATOR_STRIP, defaultAnimation);
+			setAnimation(SUPPORT_STRIP, defaultAnimation);
+			setAnimation(AFRAME_STRIP, defaultAnimation);
+		}   if (driverstation.getAlliance() == DriverStation.Alliance.Blue) {
+			setAnimation(ELEVATOR_STRIP, BLUE_ANIMATION);
+			setAnimation(SUPPORT_STRIP, BLUE_ANIMATION);
+			setAnimation(AFRAME_STRIP, BLUE_ANIMATION);
+		} else if (driverstation.getAlliance() == DriverStation.Alliance.Red) {
+			setAnimation(ELEVATOR_STRIP, RED_ANIMATION);
+			setAnimation(SUPPORT_STRIP, RED_ANIMATION);
+			setAnimation(AFRAME_STRIP, RED_ANIMATION);
+		
 		}
-
 		sendAllAnimations();
 	}
 }
