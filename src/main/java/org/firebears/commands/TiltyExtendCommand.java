@@ -11,7 +11,7 @@ public class TiltyExtendCommand extends Command {
 
   @Override
   protected void initialize() {
-
+    setTimeout(10);
   }
 
   @Override
@@ -22,15 +22,14 @@ public class TiltyExtendCommand extends Command {
 
   @Override
   protected boolean isFinished() {
-    return false;
+    if (isTimedOut()) {
+      return true;
+    }
+    return Robot.tilty.isExtended();
   }
 
   @Override
   protected void end() {
     Robot.tilty.freeze();
-  }
-
-  @Override
-  protected void interrupted() {
   }
 }
