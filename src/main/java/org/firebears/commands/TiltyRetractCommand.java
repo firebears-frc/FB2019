@@ -11,7 +11,7 @@ public class TiltyRetractCommand extends Command {
 
   @Override
   protected void initialize() {
-
+    setTimeout(10);
   }
 
   @Override
@@ -21,7 +21,10 @@ public class TiltyRetractCommand extends Command {
 
   @Override
   protected boolean isFinished() {
-    return false;
+    if (isTimedOut()) {
+      return true;
+    }
+    return Robot.tilty.isRetracted();
   }
 
   @Override
