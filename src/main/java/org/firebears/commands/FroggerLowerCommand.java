@@ -24,7 +24,7 @@ public class FroggerLowerCommand extends Command {
     if (isTimedOut()){
       return true;
     }
-    if (Robot.frogger.getJumpMotor() == 0.0) {
+    if (Robot.frogger.isDownwardsLimitHit() == true) {
       return true;
     }
     return false;

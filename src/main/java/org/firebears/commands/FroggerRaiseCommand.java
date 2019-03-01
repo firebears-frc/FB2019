@@ -23,6 +23,8 @@ public class FroggerRaiseCommand extends Command {
   protected boolean isFinished() {
     if (isTimedOut()) {
       return true;
+    } if (Robot.frogger.isUpwardsLimitHit() == true){
+      return true;
     }
     return false;
   }

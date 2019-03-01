@@ -4,6 +4,7 @@ import org.firebears.commands.CargoIntakeCommand;
 import org.firebears.commands.CargoSpitCommand;
 import org.firebears.commands.ElevatorCommand;
 import org.firebears.commands.FroggerLowerCommand;
+import org.firebears.commands.FroggerRaiseCommand;
 import org.firebears.commands.HatchHoldCommand;
 import org.firebears.commands.HatchReleaseCommand;
 import org.firebears.commands.LineFollowCommand;
@@ -103,6 +104,8 @@ public class OI {
         cargo3Button.whenPressed(new ElevatorCargoCommand(78));
 
         SmartDashboard.putData(new ResetElevatorEncoderCommand());
+        // SmartDashboard.putData(new FroggerLowerCommand());
+        // SmartDashboard.putData(new FroggerRaiseCommand());
     }
 
     public XboxController getXboxController() {
