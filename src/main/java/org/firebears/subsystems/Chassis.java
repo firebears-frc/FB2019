@@ -22,6 +22,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem {
 
+    private double InchesAvg;
+    private double InchesNew;
+    private double changeRateOfLidarAvg = 0.6;
+
     private CANSparkMax rearRight;
     private CANSparkMax frontRight;
     private CANSparkMax frontLeft;
@@ -197,6 +201,8 @@ public class Chassis extends Subsystem {
         lidarDistancewidget.setNumber(getLidarDistanceInches());
         SmartDashboard.putNumber("left inches", pidFrontLeft.inchesTraveled());
         SmartDashboard.putNumber("right inches", pidFrontRight.inchesTraveled());
+        InchesNew = lidarArduino.getdistanceAA() * changeRateOfLidarAvg;
+        InchesAvg = InchesAvg * (1 - changeRateOfLidarAvg) + InchesNew;
     }
 
     public double inchesTraveledLeft() {
@@ -217,7 +223,7 @@ public class Chassis extends Subsystem {
 
     public double getLidarDistanceInches() {
         if (lidarArduino != null) {
-            return lidarArduino.getdistanceAA() + 5;
+            return InchesAvg;
         } else {
             return -1.0;
         }
