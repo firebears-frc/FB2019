@@ -39,10 +39,8 @@ public class Chassis extends Subsystem {
     private float initialRoll;
     private NetworkTableEntry tippingwidget;
     private NetworkTableEntry getAnglewidget;
+    private NetworkTableEntry getPitchwidget;
     private NetworkTableEntry inchesTravelledwidget;
-    // private NetworkTableEntry rightSensorwidget;
-    // private NetworkTableEntry centerSensorwidget;
-    // private NetworkTableEntry leftSensorwidget;
     private NetworkTableEntry lidarDistancewidget;
 
     public SPI_Arduino lidarArduino = null;
@@ -101,16 +99,6 @@ public class Chassis extends Subsystem {
         robotDrive.setSafetyEnabled(true);
         robotDrive.setExpiration(0.1);
         robotDrive.setMaxOutput(1.0);
-
-        // int chassisRightSensorDio = config.getInt("chassis.rightSensor.dio", 0);
-        // rightSensor = new DigitalInput(chassisRightSensorDio);
-
-        // int chassisCenterSensorDio = config.getInt("chassis.centerSensor.dio", 1);
-        // centerSensor = new DigitalInput(chassisCenterSensorDio);
-
-        // int chassisLeftSensorDio = config.getInt("chassis.leftSensor.dio", 2);
-        // leftSensor = new DigitalInput(chassisLeftSensorDio);
-
         setBrakingMode(config.getBoolean("chassis.defaultbraking", false));
 
         try {
@@ -120,12 +108,10 @@ public class Chassis extends Subsystem {
         }
         initialRoll = navXBoard.getRoll();
 
-        tippingwidget = Robot.programmerTab.add("Tipping", false).withPosition(6, 10).getEntry();
-        getAnglewidget = Robot.programmerTab.add("NavX Angle", 0.0).withSize(4, 2).withPosition(20, 8).getEntry();
-        inchesTravelledwidget = Robot.programmerTab.add("Inches Travelled", 0.0).withSize(4, 2).withPosition(20, 8).getEntry();
-        // rightSensorwidget = Robot.programmerTab.add("Right Sensor", false).getEntry();
-        // centerSensorwidget = Robot.programmerTab.add("Center Sensor", false).getEntry();
-        // leftSensorwidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
+        tippingwidget = Robot.programmerTab.add("Tipping", false).withPosition(24, 6).getEntry();
+        getAnglewidget = Robot.programmerTab.add("NavX Angle", 0.0).withSize(4, 2).withPosition(0, 0).getEntry();
+        getPitchwidget = Robot.programmerTab.add("NavX Pitch", 0.0).withSize(4, 2).withPosition(0, 2).getEntry();
+        inchesTravelledwidget = Robot.programmerTab.add("Inches Travelled", 0.0).withSize(4, 2).withPosition(20, 6).getEntry();
         lidarDistancewidget = Robot.programmerTab.add("Lidar Inches", 0.0).withSize(4, 2).withPosition(6, 0).getEntry();
 
         if (config.getBoolean("chassis.lidarEnable", true)) {
@@ -137,6 +123,10 @@ public class Chassis extends Subsystem {
 
     public double getAngle() {
         return navXBoard.getAngle();
+    }
+
+    public double getPitchAngle() {
+        return navXBoard.getRoll();
     }
 
     public void resetNavX() {
@@ -195,10 +185,8 @@ public class Chassis extends Subsystem {
     public void periodic() {
         tippingwidget.setBoolean(isTipping());
         getAnglewidget.setNumber(getAngle());
+        getPitchwidget.setNumber(getPitchAngle());
         inchesTravelledwidget.setNumber(inchesTraveled());
-        // rightSensorwidget.setBoolean(rightSensor.get());
-        // centerSensorwidget.setBoolean(centerSensor.get());
-        // leftSensorwidget.setBoolean(leftSensor.get());
         lidarDistancewidget.setNumber(getLidarDistanceInches());
         SmartDashboard.putNumber("left inches", pidFrontLeft.inchesTraveled());
         SmartDashboard.putNumber("right inches", pidFrontRight.inchesTraveled());

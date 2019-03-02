@@ -14,7 +14,9 @@ public class FroggerClimbCommand extends CommandGroup {
    * Add your docs here.
    */
   public FroggerClimbCommand() {
-    addSequential(new FroggerLowerCommand());
+    addSequential(new ElevatorCommand(24));
+    // Drive forward until 1 inch from Hab
+    addSequential(new FroggerLowerCommand());  // Lower frogger while lowering elevator
     addSequential(new FroggerDriveCommand());
     addSequential(new FroggerRaiseCommand());
   }

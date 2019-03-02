@@ -32,6 +32,7 @@ public class Elevator extends PIDSubsystem {
   private final NetworkTableEntry motor2CurrenthWidget;
 
   final Preferences config = Preferences.getInstance();
+  private double minimumElevatorSpeed = 0.03;
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.11),
@@ -97,11 +98,19 @@ public class Elevator extends PIDSubsystem {
 
   @Override
   protected void usePIDOutput(double output) {
-    output = Math.max(output, 0.03);
+    output = Math.max(output, minimumElevatorSpeed);
     motors.set(output);
   }
 
   public void resetEncoder() {
     startingDistance = encoder.getDistance();
+  }
+
+  public double getMinElevatorSpeed() {
+    return minimumElevatorSpeed;
+  }
+
+  public void setMinElevatorSpeed(double speed) {
+    minimumElevatorSpeed = speed;
   }
 }
