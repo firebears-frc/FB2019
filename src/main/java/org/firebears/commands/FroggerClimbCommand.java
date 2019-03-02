@@ -3,6 +3,12 @@ package org.firebears.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.firebears.Robot;
 
+/**
+ * Climb onto Hab 3.
+ * 
+ * When this command starts, the elevator should be up above Hab 3 and the chassis
+ * should have been driven forward so it barely touches the Hab.
+ */
 public class FroggerClimbCommand extends Command {
 
   private double elevatorMinSpeed;
