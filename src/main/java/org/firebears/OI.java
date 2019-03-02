@@ -117,7 +117,7 @@ public class OI {
         SmartDashboard.putData(new FroggerRaiseCommand());
         SmartDashboard.putData(new FroggerDriveCommand());
         SmartDashboard.putData(new FroggerClimbCommand());
-        SmartDashboard.putData(new DriveToWallCommand(12));
+        SmartDashboard.putData(new DriveToWallCommand(20));
     }
 
     public XboxController getXboxController() {
