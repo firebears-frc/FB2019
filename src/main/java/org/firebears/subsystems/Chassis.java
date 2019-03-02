@@ -141,7 +141,7 @@ public class Chassis extends Subsystem {
     }
 
     public boolean isTipping() {
-        float currentRoll = getPitchAngle();
+        double currentRoll = getPitchAngle();
         return Math.abs(currentRoll - initialRoll) > 7.0;
     }
 
