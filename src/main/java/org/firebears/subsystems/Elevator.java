@@ -99,6 +99,10 @@ public class Elevator extends PIDSubsystem {
   @Override
   protected void usePIDOutput(double output) {
     output = Math.max(output, minimumElevatorSpeed);
+    setSpeed(output);
+  }
+
+  public void setSpeed(double output) {
     motors.set(output);
   }
 
