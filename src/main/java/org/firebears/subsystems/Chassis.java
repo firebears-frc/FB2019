@@ -45,7 +45,8 @@ public class Chassis extends Subsystem {
 
     public SPI_Arduino lidarArduino = null;
     public Thread lidarThread = null;
-    public boolean navXUsePitchAngle = true;
+    private boolean navXUsePitchAngle = true;
+    private double navXPitchOffset = 0.0;
 
     public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 
@@ -62,6 +63,7 @@ public class Chassis extends Subsystem {
         double kD2 = config.getDouble("chassis.secondary.d", 0.0);
         boolean closedLoop = config.getBoolean("chassis.closedLoop", false);
         navXUsePitchAngle = config.getBoolean("chassis.navXUsePitchAngle", true);
+        navXPitchOffset = config.getDouble("chassis.navXPitchOffset", 5.0);
 
         int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
@@ -130,9 +132,9 @@ public class Chassis extends Subsystem {
     public double getPitchAngle() {
         // return navXBoard.getRoll();
         if (navXUsePitchAngle) {
-            return navXBoard.getPitch();
+            return navXBoard.getPitch() + navXPitchOffset;
         } else {
-            return navXBoard.getRoll();
+            return navXBoard.getRoll() + navXPitchOffset;
         }
     }
 
