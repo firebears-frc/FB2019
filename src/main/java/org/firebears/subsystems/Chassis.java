@@ -210,7 +210,7 @@ public class Chassis extends Subsystem {
 
     public double getLidarDistanceInches() {
         if (lidarArduino != null) {
-            return lidarArduino.getdistanceAA();
+            return lidarArduino.getdistanceAA() + 5;
         } else {
             return -1.0;
         }

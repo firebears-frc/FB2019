@@ -1,5 +1,6 @@
 package org.firebears;
 
+import org.firebears.commands.*;
 import org.firebears.commands.FroggerClimbCommand;
 import org.firebears.commands.CargoIntakeCommand;
 import org.firebears.commands.CargoSpitCommand;
@@ -116,6 +117,7 @@ public class OI {
         SmartDashboard.putData(new FroggerRaiseCommand());
         SmartDashboard.putData(new FroggerDriveCommand());
         SmartDashboard.putData(new FroggerClimbCommand());
+        SmartDashboard.putData(new DriveToWallCommand(12));
     }
 
     public XboxController getXboxController() {
