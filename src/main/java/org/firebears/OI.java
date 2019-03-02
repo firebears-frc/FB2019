@@ -1,10 +1,12 @@
 package org.firebears;
 
+import org.firebears.commands.FroggerClimbCommand;
 import org.firebears.commands.CargoIntakeCommand;
 import org.firebears.commands.CargoSpitCommand;
 import org.firebears.commands.ElevatorCommand;
 import org.firebears.commands.FroggerLowerCommand;
 import org.firebears.commands.FroggerRaiseCommand;
+import org.firebears.commands.FroggerDriveCommand;
 import org.firebears.commands.HatchHoldCommand;
 import org.firebears.commands.HatchReleaseCommand;
 import org.firebears.commands.LineFollowCommand;
@@ -46,6 +48,7 @@ public class OI {
     private JoystickButton cargo2Button;
     private JoystickButton cargo3Button;
     private JoystickButton groundCargoButton;
+    private JoystickButton climbButton;
     public final RecordingFactory recordingFactory;
 
     public OI() {
@@ -103,9 +106,16 @@ public class OI {
         cargo3Button = new JoystickButton(joystick, 8);
         cargo3Button.whenPressed(new ElevatorCargoCommand(78));
 
+        climbButton = new JoystickButton(joystick, 2);
+        climbButton.whenPressed(new FroggerLowerCommand());
+
+
         SmartDashboard.putData(new ResetElevatorEncoderCommand());
-        // SmartDashboard.putData(new FroggerLowerCommand());
-        // SmartDashboard.putData(new FroggerRaiseCommand());
+        SmartDashboard.putData(new DriveToVisionTargetCommand());
+        SmartDashboard.putData(new FroggerLowerCommand());
+        SmartDashboard.putData(new FroggerRaiseCommand());
+        SmartDashboard.putData(new FroggerDriveCommand());
+        SmartDashboard.putData(new FroggerClimbCommand());
     }
 
     public XboxController getXboxController() {

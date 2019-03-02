@@ -9,8 +9,12 @@ public class DriveToVisionTargetDistanceCommand extends DistanceCommand {
 
   @Override
   protected void initialize() {
-    double distance = Robot.vision.getVisionTargetDistance();
-    distanceGoal = distance - 24;
-    super.initialize();
+    if (Robot.vision.getVisionTargetConfidence() == 0.0) {
+      this.cancel();
+    } else {
+      double distance = Robot.vision.getVisionTargetDistance();
+      distanceGoal = distance - 23;
+      super.initialize();
+    }
   }
 }

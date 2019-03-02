@@ -2,7 +2,9 @@ package org.firebears.commands.auto;
 
 import org.firebears.Robot;
 
-public class RotateToVisionTargetCommand extends PIDrelativeAngleCommand {
+import org.firebears.commands.*;
+
+public class RotateToVisionTargetCommand extends RelativeAngleCommand {
 
   private double x;
 
@@ -12,9 +14,13 @@ public class RotateToVisionTargetCommand extends PIDrelativeAngleCommand {
 
   @Override
   protected void initialize() {
-    super.initialize();
-    x = Robot.vision.getVisionTargetAngleX();
-    setTargetAngle(x);
+    if (Robot.vision.getVisionTargetConfidence() == 0.0) {
+      this.cancel();
+    } else {
+      super.initialize();
+      x = Robot.vision.getVisionTargetAngleX();
+      setTargetAngle(Robot.chassis.getAngle() + x);
+    }
   }
 
 }

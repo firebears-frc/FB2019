@@ -11,7 +11,7 @@ public class FroggerRaiseCommand extends Command {
 
   @Override
   protected void initialize() {
-    setTimeout(2);
+    setTimeout(1);
   }
 
   @Override
@@ -23,8 +23,8 @@ public class FroggerRaiseCommand extends Command {
   protected boolean isFinished() {
     if (isTimedOut()) {
       return true;
-    } if (Robot.frogger.isUpwardsLimitHit() == true){
-      return true;
+    // } if (Robot.frogger.isUpwardsLimitHit() == true){
+    //   return true;
     }
     return false;
   }

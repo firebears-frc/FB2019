@@ -1,6 +1,7 @@
 package org.firebears.commands.auto.routines;
 
 import org.firebears.commands.auto.*;
+import org.firebears.commands.HatchReleaseCommand;
 
 import org.firebears.commands.ResetNavXCommand;
 
@@ -14,13 +15,13 @@ public class RightRocketAutoCommand extends CommandGroup {
     addSequential(new RotateToAngleCommand(90));
     addSequential(new DistanceCommand(52));
     addSequential(new RotateToAngleCommand(30));
-    addSequential(new DistanceCommand(35));
-    // addSequential(new DriveToVisionTargetCommand());
+   addSequential(new DistanceCommand(35));
+     addSequential(new DriveToVisionTargetCommand());
     //addSequential(new ElevatorCommand(62));
     // addSequential(new DistanceCommand(4));
-    //addSequential(new HatchReleaseCommand());
-     //addSequential(new DistanceCommand(-6));
+    addSequential(new HatchReleaseCommand());
+    addSequential(new DistanceCommand(-6));
      //addSequential(new ElevatorCommand(2));
-    // addSequential(new RotateToAngleCommand(180));
+     addSequential(new RotateToAngleCommand(180));
   }
 }

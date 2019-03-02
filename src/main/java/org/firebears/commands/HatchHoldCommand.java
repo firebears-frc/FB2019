@@ -13,6 +13,7 @@ public class HatchHoldCommand extends Command {
 
     @Override
     protected void initialize() {
+        setTimeout(3);
     }
 
     @Override
@@ -24,6 +25,9 @@ public class HatchHoldCommand extends Command {
     protected boolean isFinished() {
         if (Robot.hatchGrabber.getRotationSensorValue()) {
             return false;
+        }
+        if (isTimedOut()){
+            return true;
         }
         return true;
     }

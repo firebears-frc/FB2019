@@ -20,9 +20,9 @@ public class Tilty extends Subsystem {
 
     public Tilty() {
         motor = new WPI_TalonSRX(config.getInt("tilty.motor.canID", 12));
-        motor.configFactoryDefault();
-          //motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-          //motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+            motor.configFactoryDefault();
+            motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+            motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
         addChild("motor", motor);
 
         extendedLimitSwitchWidget = Robot.programmerTab.add("Tilty extention limit", false).getEntry();
@@ -41,7 +41,6 @@ public class Tilty extends Subsystem {
     public void initDefaultCommand() {
 
     }
-
     @Override
     public void periodic() {
         extendedLimitSwitchWidget.setBoolean(motor.getSensorCollection().isFwdLimitSwitchClosed());

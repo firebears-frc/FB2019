@@ -25,13 +25,13 @@ public class RelativeAngleCommand extends Command {
   protected void execute() {
     double diff = getAngleDifference();
     if (diff < -25) {
-      Robot.chassis.drive(0, -0.4);
+      Robot.chassis.drive(0, -0.5);
     } else if (diff < 0) {
-      Robot.chassis.drive(0, -0.2);
+      Robot.chassis.drive(0, -0.35);
     } else if (diff > 25) {
-      Robot.chassis.drive(0, 0.4);
+      Robot.chassis.drive(0, 0.5);
     } else {
-      Robot.chassis.drive(0, 0.2);
+      Robot.chassis.drive(0, 0.35);
     }
   }
 

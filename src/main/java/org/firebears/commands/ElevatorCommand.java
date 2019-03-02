@@ -15,6 +15,7 @@ public class ElevatorCommand extends Command {
 
   @Override
   protected void initialize() {
+    setTimeout(3);
   }
 
   @Override
@@ -24,6 +25,9 @@ public class ElevatorCommand extends Command {
 
   @Override
   protected boolean isFinished() {
+    if (isTimedOut()){
+      return true;
+    }
     return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 4;
   }
 
