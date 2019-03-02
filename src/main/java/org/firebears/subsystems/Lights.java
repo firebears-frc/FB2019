@@ -92,7 +92,7 @@ public class Lights extends Subsystem {
 	}
 
 	public void setCelebrateMode(boolean celebrate) {
-		
+
 		if (celebrate) {
 			celebrateTimeout = System.currentTimeMillis() + 3 * 1000L;
 		} else {
@@ -117,7 +117,7 @@ public class Lights extends Subsystem {
 	}
 
 	/**
-	 * indecaits we want a cargo piece
+	 * indecaits we want a cargo piece.
 	 */
 	public boolean isCargoMode() {
 		if (cargoaniamtionTimeout < 0 || System.currentTimeMillis() > cargoaniamtionTimeout) {
@@ -126,7 +126,9 @@ public class Lights extends Subsystem {
 		} else {
 			return true;
 		}
-	}
+	}/**
+	* indecaits we want a hatch panel.
+	*/
 	
 	public void setHatchPanelMode(boolean hatchpanelanimation) {
 		if (hatchpanelanimation) {
