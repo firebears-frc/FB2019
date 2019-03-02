@@ -120,13 +120,13 @@ public class Chassis extends Subsystem {
         }
         initialRoll = navXBoard.getRoll();
 
-        tippingwidget = Robot.programmerTab.add("Tipping", false).getEntry();
-        getAnglewidget = Robot.programmerTab.add("NavX Angle", 0.0).getEntry();
-        inchesTravelledwidget = Robot.programmerTab.add("Inches Travelled", 0.0).getEntry();
+        tippingwidget = Robot.programmerTab.add("Tipping", false).withPosition(6, 10).getEntry();
+        getAnglewidget = Robot.programmerTab.add("NavX Angle", 0.0).withSize(4, 2).withPosition(20, 8).getEntry();
+        inchesTravelledwidget = Robot.programmerTab.add("Inches Travelled", 0.0).withSize(4, 2).withPosition(20, 8).getEntry();
         // rightSensorwidget = Robot.programmerTab.add("Right Sensor", false).getEntry();
         // centerSensorwidget = Robot.programmerTab.add("Center Sensor", false).getEntry();
         // leftSensorwidget = Robot.programmerTab.add("Left Sensor", false).getEntry();
-        lidarDistancewidget = Robot.programmerTab.add("Lidar Inches", false).getEntry();
+        lidarDistancewidget = Robot.programmerTab.add("Lidar Inches", 0.0).withSize(4, 2).withPosition(6, 0).getEntry();
 
         if (config.getBoolean("chassis.lidarEnable", true)) {
             lidarArduino = new SPI_Arduino();

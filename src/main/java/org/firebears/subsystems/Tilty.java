@@ -25,8 +25,8 @@ public class Tilty extends Subsystem {
             motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
         addChild("motor", motor);
 
-        extendedLimitSwitchWidget = Robot.programmerTab.add("Tilty extention limit", false).getEntry();
-        retractedLimitSwitchWidget = Robot.programmerTab.add("Tilty retraction limit", false).getEntry();
+        extendedLimitSwitchWidget = Robot.programmerTab.add("Tilty extention", false).withPosition(0, 4).getEntry();
+        retractedLimitSwitchWidget = Robot.programmerTab.add("Tilty retraction", false).withPosition(3, 4).getEntry();
     }
 
     public boolean isRetracted() {

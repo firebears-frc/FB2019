@@ -153,11 +153,11 @@ public class Lights extends Subsystem {
 			setAnimation(SUPPORT_STRIP, RED_ANIMATION);
 			setAnimation(AFRAME_STRIP, RED_ANIMATION);
 		
-		}   if (driverstation.getint() == driverstation.play.CARGOANIMATION) {
+		}   if (Robot.cargoGrabber.isCargoCaptured()) {
 			setAnimation(ELEVATOR_STRIP, CARGOANIMATION);
 			setAnimation(SUPPORT_STRIP, CARGOANIMATION);
 			setAnimation(AFRAME_STRIP, CARGOANIMATION);
-		}   else if (driverstation.getint() == driverstation.play.HATCHPANELANIMATION) {
+		}   else if (Robot.hatchGrabber.getCapturedSensorValue()) {
 			setAnimation(ELEVATOR_STRIP, HATCHPANELANIMATION);
 			setAnimation(SUPPORT_STRIP, HATCHPANELANIMATION);
 			setAnimation(AFRAME_STRIP, HATCHPANELANIMATION);

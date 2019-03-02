@@ -55,11 +55,11 @@ public class Elevator extends PIDSubsystem {
     motor2.configPeakCurrentDuration(1000);
     motor2.follow(motor1);
 
-    elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).getEntry();
-    bottomLimitSwitchWidget = Robot.programmerTab.add("Elevator bottom Limit", false).getEntry();
-    topLimitSwitchWidget = Robot.programmerTab.add("Elevator Top Limit", false).getEntry();
-    motor1CurrenthWidget = Robot.programmerTab.add("Motor " + motor1.getDeviceID() + " current", -1.0).getEntry();
-    motor2CurrenthWidget = Robot.programmerTab.add("Motor " + motor2.getDeviceID() + " current", -1.0).getEntry();
+    elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).withPosition(6, 2).withSize(4, 2).getEntry();
+    bottomLimitSwitchWidget = Robot.programmerTab.add("Elevator bottom", false).withPosition(6, 7).getEntry();
+    topLimitSwitchWidget = Robot.programmerTab.add("Elevator Top", false).withPosition(6, 4).getEntry();
+    motor1CurrenthWidget = Robot.programmerTab.add("Motor " + motor1.getDeviceID() + " current", -1.0).withPosition(24, 0).withSize(4, 2).getEntry();
+    motor2CurrenthWidget = Robot.programmerTab.add("Motor " + motor2.getDeviceID() + " current", -1.0).withPosition(24, 2).withSize(4, 2).getEntry();
 
     DigitalInput encoderInputA = new DigitalInput(config.getInt("elevator.encoder.dio.A", 3));
     DigitalInput encoderInputB = new DigitalInput(config.getInt("elevator.encoder.dio.B", 4));

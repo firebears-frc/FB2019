@@ -38,9 +38,9 @@ public class Vision extends Subsystem {
 
     public Vision() {
         visionTargetTable = NetworkTableInstance.getDefault().getTable(VISION_TARGET_TABLE_NAME);
-        angleXWidget = Robot.programmerTab.add("Vision Angle X", 0.0).getEntry();
-        distanceWidget = Robot.programmerTab.add("Vision Distance", 0.0).getEntry();
-        targetCountWidget = Robot.programmerTab.add("Vision Target Pairs", 0.0).getEntry();
+        angleXWidget = Robot.programmerTab.add("Vision Angle X", 0.0).withSize(4, 2).withPosition(20, 0).getEntry();
+        distanceWidget = Robot.programmerTab.add("Vision Distance", 0.0).withSize(4, 2).withPosition(20, 2).getEntry();
+        targetCountWidget = Robot.programmerTab.add("Vision Target Pairs", 0.0).withSize(4, 2).withPosition(20, 4).getEntry();
     }
 
     @Override

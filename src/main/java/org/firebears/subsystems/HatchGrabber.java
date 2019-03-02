@@ -25,8 +25,8 @@ public class HatchGrabber extends Subsystem {
         hatchCapturedSensor = new DigitalInput(config.getInt("hatchGrabber.hatchCaptured.dio", 5));
         hatchRotationSensor = new DigitalInput(config.getInt("hatchGrabber.hatchRotationSensor.dio", 9));
 
-        hatchCapturedwidget = Robot.programmerTab.add("hatch captured", false).getEntry();
-        hatchRotationwidget = Robot.programmerTab.add("hatch rotation", false).getEntry();
+        hatchCapturedwidget = Robot.programmerTab.add("hatch captured", false).withPosition(10, 3).getEntry();
+        hatchRotationwidget = Robot.programmerTab.add("hatch rotation", false).withPosition(13, 3).getEntry();
     }
 
     @Override
