@@ -61,7 +61,7 @@ public class Chassis extends Subsystem {
         double kI2 = config.getDouble("chassis.secondary.i", 0.0);
         double kD2 = config.getDouble("chassis.secondary.d", 0.0);
         boolean closedLoop = config.getBoolean("chassis.closedLoop", false);
-        navXUsePitchAngle = config.getBoolean("chassis.navXUsePitchAngle", true)
+        navXUsePitchAngle = config.getBoolean("chassis.navXUsePitchAngle", true);
 
         int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
