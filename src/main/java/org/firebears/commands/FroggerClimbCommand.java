@@ -1,5 +1,7 @@
 package org.firebears.commands;
 
+import org.firebears.commands.auto.DistanceCommand;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -9,10 +11,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class FroggerClimbCommand extends CommandGroup {
   public FroggerClimbCommand() {
-    addSequential(new ElevatorCommand(24));
-    addSequential(new DriveToWallCommand(6));
-    addSequential(new FroggerElevatorClimbCommand());
-    addSequential(new FroggerDriveCommand());
-    addSequential(new FroggerRaiseCommand());
+//    addSequential(new ElevatorCommand(30));
+    addSequential(new DriveToWallCommand(12));
+    addSequential(new DistanceCommand(9));
+//    addSequential(new FroggerElevatorClimbCommand());
+//    addSequential(new FroggerDriveCommand());
+//    addSequential(new FroggerRaiseCommand());
   }
 }

@@ -32,7 +32,7 @@ public class Elevator extends PIDSubsystem {
   private final NetworkTableEntry motor2CurrenthWidget;
 
   final Preferences config = Preferences.getInstance();
-  private double minimumElevatorSpeed = 0.03;
+  private double minimumElevatorSpeed = 0.06;
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.11),

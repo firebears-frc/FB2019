@@ -29,13 +29,7 @@ public class DriveToWallCommand extends Command {
       distance = 0;
     }
 
-    if (distance - distanceFromWall >= 24) {
-      Robot.chassis.drive(0.5, 0.0);
-    } else if (distance - distanceFromWall >= 12) {
-      Robot.chassis.drive(0.4, 0.0);
-    } else {
-      Robot.chassis.drive(0.3, 0.0);
-    }
+    Robot.chassis.drive(0.5, 0.0);
 
   }
 
