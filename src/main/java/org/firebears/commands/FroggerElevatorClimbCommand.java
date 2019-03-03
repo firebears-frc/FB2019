@@ -28,11 +28,13 @@ public class FroggerElevatorClimbCommand extends Command {
   @Override
   protected void execute() {
     Robot.frogger.footDown();
-    double elevatorSpeed = 0.5;
+    double elevatorSpeed = 0.6;
     if (Robot.chassis.getPitchAngle() < -5.0) {
       elevatorSpeed += 0.1; // Tipping forward, so raise elevator faster
+      System.out.println("::: TIPPING FORWARD");
     } else if (Robot.chassis.getPitchAngle() > 5.0) {
       elevatorSpeed += -0.1; // Tipping backwards, so raise elevator slower
+      System.out.println("::: TIPPING BACKWARDS");
     }
     Robot.elevator.setSpeed(-1 * elevatorSpeed);
   }
