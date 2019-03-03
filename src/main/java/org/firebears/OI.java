@@ -117,6 +117,8 @@ public class OI {
         SmartDashboard.putData(new FroggerRaiseCommand());
         SmartDashboard.putData(new FroggerDriveCommand());
         SmartDashboard.putData(new FroggerClimbCommand());
+        SmartDashboard.putData(new FroggerElevatorClimbCommand());
+        
         SmartDashboard.putData(new DriveToWallCommand(20));
     }
 

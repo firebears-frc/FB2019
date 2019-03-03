@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
 
@@ -35,9 +36,10 @@ public class Elevator extends PIDSubsystem {
   private double minimumElevatorSpeed = 0.03;
 
   public Elevator() {
-    super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.11),
-        Preferences.getInstance().getDouble("elevator.i", 0), Preferences.getInstance().getDouble("elevator.d", 0),
-        Preferences.getInstance().getDouble("elevator.f", 0));
+    super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.25),
+        Preferences.getInstance().getDouble("elevator.i", 0.0008), 
+        Preferences.getInstance().getDouble("elevator.d", 0),
+        Preferences.getInstance().getDouble("elevator.f", 0.15));
 
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
     motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
