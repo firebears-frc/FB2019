@@ -133,4 +133,11 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
     }
+
+    @Override
+    public void testPeriodic() {
+        Scheduler.getInstance().run();
+        elevator.periodic();
+        chassis.periodic();
+    }
 }

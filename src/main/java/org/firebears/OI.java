@@ -96,7 +96,7 @@ public class OI {
         hatch3Button.whenPressed(new ElevatorHatchPlaceCommand(61));
 
         groundCargoButton = new JoystickButton(joystick, 1);
-        groundCargoButton.whenPressed(new ElevatorCommand(2));
+        groundCargoButton.whenPressed(new ElevatorCommand(6));
 
         cargo1Button = new JoystickButton(joystick, 12);
         cargo1Button.whenPressed(new ElevatorCargoCommand(26));
@@ -117,6 +117,8 @@ public class OI {
         SmartDashboard.putData(new FroggerRaiseCommand());
         SmartDashboard.putData(new FroggerDriveCommand());
         SmartDashboard.putData(new FroggerClimbCommand());
+        SmartDashboard.putData(new FroggerElevatorClimbCommand());
+        
         SmartDashboard.putData(new DriveToWallCommand(20));
     }
 
