@@ -44,10 +44,7 @@ public class FroggerElevatorClimbCommand extends Command {
     if (isTimedOut()) {
       return true;
     }
-    if (Robot.frogger.isDownwardsLimitHit()) {
-      return true;
-    }
-    return false;
+    return Robot.frogger.isDownwardsLimitHit();
   }
 
   @Override

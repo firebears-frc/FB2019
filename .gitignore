@@ -149,5 +149,9 @@ gradle-app.setting
 .settings/
 bin/
 
+# IntelliJ files
+.idea/
+*.iml
+
 
 # End of https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode

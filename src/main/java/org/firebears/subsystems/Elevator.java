@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +24,7 @@ public class Elevator extends PIDSubsystem {
   private final Encoder encoder;
   public DigitalInput elevatorHighASensor;
   public DigitalInput elevatorHighBSensor;
+  private Servo brakeServo;
 
   double startingDistance;
 
@@ -71,6 +73,8 @@ public class Elevator extends PIDSubsystem {
     elevatorHighASensor = new DigitalInput(config.getInt("elevator.highA.dio", 0));
     elevatorHighBSensor = new DigitalInput(config.getInt("elevator.highB.dio", 1));
 
+//    brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
+
     resetEncoder();
     setSetpoint(6);
   }
@@ -118,5 +122,14 @@ public class Elevator extends PIDSubsystem {
 
   public void setMinElevatorSpeed(double speed) {
     minimumElevatorSpeed = speed;
+  }
+
+  public void setBrake(boolean engaged) {
+//    brakeServo.set(engaged ? 1.0 : 0.0);
+  }
+
+  public void reset() {
+    setBrake(true);
+    disable();
   }
 }

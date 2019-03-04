@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
     public static Vision vision;
     public static PowerDistributionPanel powerDistributionPanel;
     public static ShuffleboardTab programmerTab;
+    public static ShuffleboardTab driverTab;
 
     private Command autonomousCommand = null;
 
@@ -55,6 +56,9 @@ public class Robot extends TimedRobot {
         printPreferences(System.out);
 
         programmerTab = Shuffleboard.getTab("Programmers");
+        driverTab = Shuffleboard.getTab("Drivers");
+        // HttpCamera drivingCamera = new HttpCamera("Driving Camera", new String[]{"http://10.28.46.18:1181", "http://frcvision.local:1181/"});
+        // driverTab.add(drivingCamera).withPosition(0, 0).withSize(10, 10);
 
         chassis = new Chassis();
         elevator = new Elevator();
