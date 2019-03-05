@@ -31,8 +31,8 @@ public class Frogger extends Subsystem {
         addChild("jumpMotor", jumpMotor);
         addChild("forwardMotor", forwardMotor);
 
-        froggerBottomWidget = Robot.programmerTab.add("froggerBottom", false).withPosition(13, 9).getEntry();
-        froggerTopWidget = Robot.programmerTab.add("froggerTop", false).withPosition(10, 9).getEntry();
+        froggerBottomWidget = Robot.programmerTab.add("froggerBottom", false).withPosition(13, 7).getEntry();
+        froggerTopWidget = Robot.programmerTab.add("froggerTop", false).withPosition(10, 7).getEntry();
     }
 
     @Override
