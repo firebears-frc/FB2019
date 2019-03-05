@@ -22,6 +22,7 @@ public class ElevatorWithBrakeCommand extends Command {
   @Override
   protected void initialize() {
     setTimeout(10);
+    state = STATE.INITIAL;
   }
 
   @Override
