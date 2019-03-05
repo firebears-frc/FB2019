@@ -15,8 +15,8 @@ public class Frogger extends Subsystem {
     final Preferences config = Preferences.getInstance();
     WPI_TalonSRX jumpMotor;
     WPI_TalonSRX forwardMotor;
-    private final double FROGGER_SPEED = 0.6;
-    private final double DRIVE_SPEED = 0.5;
+    private final double FROGGER_SPEED = 0.75;
+    private final double DRIVE_SPEED = 1.0;
 
     private final NetworkTableEntry froggerBottomWidget;
     private final NetworkTableEntry froggerTopWidget;
@@ -31,8 +31,8 @@ public class Frogger extends Subsystem {
         addChild("jumpMotor", jumpMotor);
         addChild("forwardMotor", forwardMotor);
 
-        froggerBottomWidget = Robot.programmerTab.add("froggerBottom", false).withPosition(13, 9).getEntry();
-        froggerTopWidget = Robot.programmerTab.add("froggerTop", false).withPosition(10, 9).getEntry();
+        froggerBottomWidget = Robot.programmerTab.add("froggerBottom", false).withPosition(13, 7).getEntry();
+        froggerTopWidget = Robot.programmerTab.add("froggerTop", false).withPosition(10, 7).getEntry();
     }
 
     @Override

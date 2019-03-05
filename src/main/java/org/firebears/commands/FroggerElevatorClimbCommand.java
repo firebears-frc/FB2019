@@ -1,6 +1,8 @@
 package org.firebears.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.firebears.Robot;
 
 /**
@@ -11,6 +13,7 @@ import org.firebears.Robot;
  */
 public class FroggerElevatorClimbCommand extends Command {
 
+  private final double ELEVATOR_SPEED = 0.8;
   private double elevatorMinSpeed;
 
   public FroggerElevatorClimbCommand() {
@@ -28,14 +31,17 @@ public class FroggerElevatorClimbCommand extends Command {
   @Override
   protected void execute() {
     Robot.frogger.footDown();
-    double elevatorSpeed = 0.6;
-    if (Robot.chassis.getPitchAngle() < -5.0) {
-      elevatorSpeed += 0.1; // Tipping forward, so raise elevator faster
-      System.out.println("::: TIPPING FORWARD");
-    } else if (Robot.chassis.getPitchAngle() > 5.0) {
-      elevatorSpeed += -0.1; // Tipping backwards, so raise elevator slower
-      System.out.println("::: TIPPING BACKWARDS");
-    }
+    double elevatorSpeed = ELEVATOR_SPEED;
+    System.out.println("::: pitch = " + Robot.chassis.getPitchAngle());
+    SmartDashboard.putNumber("Pitch", Robot.chassis.getPitchAngle());
+//  elevatorSpeed += Robot.chassis.getPitchAngle() * -0.02;
+//     if (Robot.chassis.getPitchAngle() < -5.0) {
+//       elevatorSpeed += 0.1; // Tipping forward, so raise elevator faster
+//       System.out.println("::: TIPPING FORWARD");
+//     } else if (Robot.chassis.getPitchAngle() > 5.0) {
+//       elevatorSpeed += -0.1; // Tipping backwards, so raise elevator slower
+//       System.out.println("::: TIPPING BACKWARDS");
+//     }
     Robot.elevator.setSpeed(-1 * elevatorSpeed);
   }
 
@@ -44,14 +50,14 @@ public class FroggerElevatorClimbCommand extends Command {
     if (isTimedOut()) {
       return true;
     }
-    return Robot.frogger.isDownwardsLimitHit();
+    return Robot.frogger.isDownwardsLimitHit() && Robot.elevator.inchesTraveled() < 0.5;
   }
 
   @Override
   protected void end() {
     Robot.frogger.footStop();
     Robot.elevator.setMinElevatorSpeed(elevatorMinSpeed);
-    double setpoint = Robot.elevator.inchesTraveled();
+    double setpoint = 0.0;
     Robot.elevator.setSetpoint(setpoint);
     Robot.elevator.enable();
   }
