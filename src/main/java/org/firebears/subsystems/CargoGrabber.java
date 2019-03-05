@@ -29,8 +29,8 @@ public class CargoGrabber extends Subsystem {
         motor = new WPI_TalonSRX(config.getInt("cargoGrabber.motor.canID", 13));
         motor.setNeutralMode(NeutralMode.Brake);
         cargoCapturedSensor = new DigitalInput(config.getInt("cargoGrabber.haveCargo.dio", 6));
-        cargoLeftSensor = new DigitalInput(config.getInt("cargoGrabber.cargoOnLeft.dio", 8));
-        cargoRightSensor = new DigitalInput(config.getInt("cargoGrabber.cargoOnRight.dio", 7));
+        cargoLeftSensor = new DigitalInput(config.getInt("cargoGrabber.cargoOnLeft.dio", 7));
+        cargoRightSensor = new DigitalInput(config.getInt("cargoGrabber.cargoOnRight.dio", 8));
         cargoCapturedSensorWidget = Robot.programmerTab.add("Cargo captured", false).withPosition(10, 0).getEntry();
         leftSensorWidget = Robot.programmerTab.add("Cargo on Left", false).withPosition(13, 0).getEntry();
         rightSensorWidget = Robot.programmerTab.add("Cargo on Right", false).withPosition(16, 0).getEntry();
