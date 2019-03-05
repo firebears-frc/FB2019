@@ -8,13 +8,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoGrabber extends Subsystem {
     final Preferences config = Preferences.getInstance();
     WPI_TalonSRX motor;
-    private final double MOTOR_SPEED = 1.0;
+    private double intake;
+    private double spit;
     public DigitalInput cargoCapturedSensor;
     public DigitalInput cargoLeftSensor;
     public DigitalInput cargoRightSensor;
@@ -42,10 +44,18 @@ public class CargoGrabber extends Subsystem {
 
     @Override
     public void periodic() {
+        intake = Math.abs(Robot.oi.xboxController.getTriggerAxis(Hand.kRight));
+        spit = Math.abs(Robot.oi.xboxController.getTriggerAxis(Hand.kLeft));
         SmartDashboard.putNumber("cargoMotorSpeed", motor.get());
         leftSensorWidget.setBoolean(isCargoOnLeft());
         rightSensorWidget.setBoolean(isCargoOnRight());
         cargoCapturedSensorWidget.setBoolean(isCargoCaptured());
+
+        if (intake > 0.2 && !isCargoCaptured()) {
+            Robot.cargoGrabber.intake();
+        } else if (spit > 0.2 && isCargoCaptured()) {
+            Robot.cargoGrabber.spit();
+        }
     }
 
     public boolean isCargoCaptured() {
@@ -61,11 +71,11 @@ public class CargoGrabber extends Subsystem {
     }
 
     public void intake() {
-        motor.set(MOTOR_SPEED);
+        motor.set(1.0);
     }
 
     public void spit() {
-        motor.set(-MOTOR_SPEED);
+        motor.set(-1.0);
     }
 
     public void hold() {

@@ -32,7 +32,7 @@ import org.firebears.commands.auto.teleopAuto.*;
 
 public class OI {
 
-    private XboxController xboxController;
+    public XboxController xboxController;
     private JoystickButton buttonTurn180; // b 2
     private JoystickButton buttonTurn90; // a 1
     private JoystickButton buttonY; // y 4 free button
