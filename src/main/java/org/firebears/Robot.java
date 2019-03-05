@@ -16,6 +16,7 @@ import org.firebears.subsystems.Lights;
 import org.firebears.subsystems.Tilty;
 import org.firebears.subsystems.Vision;
 
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -80,6 +81,7 @@ public class Robot extends TimedRobot {
         powerDistributionPanel.clearStickyFaults();
 
         lights.reset();
+        elevator.reset();
     }
 
     @Override
@@ -88,7 +90,7 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
         lights.reset();
-        elevator.disable();
+        elevator.reset();
     }
 
     @Override

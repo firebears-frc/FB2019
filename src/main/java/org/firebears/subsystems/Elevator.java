@@ -73,9 +73,11 @@ public class Elevator extends PIDSubsystem {
     elevatorHighASensor = new DigitalInput(config.getInt("elevator.highA.dio", 0));
     elevatorHighBSensor = new DigitalInput(config.getInt("elevator.highB.dio", 1));
 
-//    brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
+    // brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
+    // addChild(brakeServo);
 
     resetEncoder();
+    setBrake(false);
     setSetpoint(6);
   }
 
@@ -124,8 +126,8 @@ public class Elevator extends PIDSubsystem {
     minimumElevatorSpeed = speed;
   }
 
-  public void setBrake(boolean engaged) {
-//    brakeServo.set(engaged ? 1.0 : 0.0);
+  public void setBrake(boolean engaged) { 
+    // brakeServo.set(engaged ? 0.79 : 0.70);
   }
 
   public void reset() {

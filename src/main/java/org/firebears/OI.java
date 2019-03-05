@@ -120,6 +120,12 @@ public class OI {
         SmartDashboard.putData(new FroggerElevatorClimbCommand());
         
         SmartDashboard.putData(new DriveToWallCommand(20));
+
+        // SmartDashboard.putData("Brake 24", new ElevatorWithBrakeCommand(24));
+        // SmartDashboard.putData("Brake 36", new ElevatorWithBrakeCommand(36));
+
+        // SmartDashboard.putData("Brake on", new ElevatorSetBrakeCommand(true));
+        // SmartDashboard.putData("Brake off", new ElevatorSetBrakeCommand(false));
     }
 
     public XboxController getXboxController() {
