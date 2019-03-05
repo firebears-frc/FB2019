@@ -5,6 +5,9 @@ import org.firebears.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class FroggerDriveCommand extends Command {
+
+  private final double CHASSIS_SPEED = 0.3;
+  
   public FroggerDriveCommand() {
     requires(Robot.frogger);
   }
@@ -18,7 +21,7 @@ public class FroggerDriveCommand extends Command {
   protected void execute() {
     Robot.frogger.footDown();
     Robot.frogger.driveForward();
-    Robot.chassis.drive(0.2, 0);
+    Robot.chassis.drive(CHASSIS_SPEED, 0);
   }
 
   @Override

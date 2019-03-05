@@ -29,7 +29,7 @@ public class DriveToWallCommand extends Command {
       distance = 0;
     }
 
-    Robot.chassis.drive(0.5, 0.0);
+    Robot.chassis.drive(0.6, 0.0);
 
   }
 

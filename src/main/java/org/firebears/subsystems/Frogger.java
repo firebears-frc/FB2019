@@ -15,8 +15,8 @@ public class Frogger extends Subsystem {
     final Preferences config = Preferences.getInstance();
     WPI_TalonSRX jumpMotor;
     WPI_TalonSRX forwardMotor;
-    private final double FROGGER_SPEED = 0.6;
-    private final double DRIVE_SPEED = 0.5;
+    private final double FROGGER_SPEED = 0.75;
+    private final double DRIVE_SPEED = 1.0;
 
     private final NetworkTableEntry froggerBottomWidget;
     private final NetworkTableEntry froggerTopWidget;
