@@ -137,5 +137,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         elevator.periodic();
         chassis.periodic();
+        tilty.periodic();
     }
 }
