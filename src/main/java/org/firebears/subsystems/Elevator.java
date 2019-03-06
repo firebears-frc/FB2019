@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
 
-  public static final double ENCODER_TICKS_PER_INCH = 48.7;
+  public static final double ENCODER_TICKS_PER_INCH = 51.09;
 
   private final WPI_TalonSRX motor1;
   private final WPI_TalonSRX motor2;
@@ -35,7 +35,8 @@ public class Elevator extends PIDSubsystem {
   private final NetworkTableEntry motor2CurrenthWidget;
 
   final Preferences config = Preferences.getInstance();
-  private double minimumElevatorSpeed = 0.06;
+  private double minimumElevatorSpeed = 0.02;
+  private double maximumElevatorSpeed = 0.7;
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.25),
@@ -73,12 +74,12 @@ public class Elevator extends PIDSubsystem {
     elevatorHighASensor = new DigitalInput(config.getInt("elevator.highA.dio", 0));
     elevatorHighBSensor = new DigitalInput(config.getInt("elevator.highB.dio", 1));
 
-    // brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
-    // addChild(brakeServo);
+     brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
+     addChild(brakeServo);
 
-    resetEncoder();
-    setBrake(false);
-    setSetpoint(6);
+    // resetEncoder();
+    // setBrake(false);
+    // setSetpoint(6);
   }
 
   @Override
@@ -88,6 +89,7 @@ public class Elevator extends PIDSubsystem {
     topLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
     motor1CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(0));
     motor2CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(1));
+
   }
 
   @Override
@@ -107,6 +109,7 @@ public class Elevator extends PIDSubsystem {
   @Override
   protected void usePIDOutput(double output) {
     output = Math.max(output, minimumElevatorSpeed);
+    output = Math.min(output, maximumElevatorSpeed);
     setSpeed(output);
   }
 
@@ -127,11 +130,11 @@ public class Elevator extends PIDSubsystem {
   }
 
   public void setBrake(boolean engaged) { 
-    // brakeServo.set(engaged ? 0.79 : 0.70);
+     brakeServo.set(engaged ? 0.775 : 0.70);
   }
 
   public void reset() {
-    setBrake(true);
+    // setBrake(true);
     disable();
   }
 }

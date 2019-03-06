@@ -13,7 +13,7 @@ import org.firebears.Robot;
  */
 public class FroggerElevatorClimbCommand extends Command {
 
-  private final double ELEVATOR_SPEED = 0.8;
+  private final double ELEVATOR_SPEED = 1.0;
   private double elevatorMinSpeed;
 
   public FroggerElevatorClimbCommand() {
@@ -24,7 +24,6 @@ public class FroggerElevatorClimbCommand extends Command {
   @Override
   protected void initialize() {
     setTimeout(6);
-    Robot.elevator.disable();
     elevatorMinSpeed = Robot.elevator.getMinElevatorSpeed();
   }
 
@@ -58,8 +57,7 @@ public class FroggerElevatorClimbCommand extends Command {
     Robot.frogger.footStop();
     Robot.elevator.setMinElevatorSpeed(elevatorMinSpeed);
     double setpoint = 0.0;
-    Robot.elevator.setSetpoint(setpoint);
-    Robot.elevator.enable();
+    // Robot.elevator.enable();
   }
 
 }

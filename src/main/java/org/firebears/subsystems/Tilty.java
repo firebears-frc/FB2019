@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Tilty extends Subsystem {
-    private final double MOTOR_SPEED = 1.0;
+    private final double MOTOR_SPEED = 0.8;
 
     private final NetworkTableEntry extendedLimitSwitchWidget;
     private final NetworkTableEntry retractedLimitSwitchWidget;

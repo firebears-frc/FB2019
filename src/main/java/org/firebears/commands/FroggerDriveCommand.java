@@ -21,7 +21,7 @@ public class FroggerDriveCommand extends Command {
   protected void execute() {
     Robot.frogger.footDown();
     Robot.frogger.driveForward();
-    Robot.chassis.drive(CHASSIS_SPEED, 0);
+    Robot.chassis.drive(CHASSIS_SPEED, -0.1);
   }
 
   @Override

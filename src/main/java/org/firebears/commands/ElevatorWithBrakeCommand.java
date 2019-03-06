@@ -29,9 +29,10 @@ public class ElevatorWithBrakeCommand extends Command {
   protected void execute() {
     switch (state) {
     case INITIAL:
-      timeout = System.currentTimeMillis() + 100;
+      timeout = System.currentTimeMillis() + 200;
       Robot.elevator.setBrake(false);
       Robot.elevator.enable();
+      Robot.elevator.setSetpoint(Robot.elevator.inchesTraveled() + 2);
       state = STATE.WAITING_FOR_BRAKE_TO_DISENGAGE;
       break;
     case WAITING_FOR_BRAKE_TO_DISENGAGE:
@@ -43,7 +44,7 @@ public class ElevatorWithBrakeCommand extends Command {
     case MOVING:
       if (reachedSetpoint()) {
         Robot.elevator.setBrake(true);
-        timeout = System.currentTimeMillis() + 100;
+        timeout = System.currentTimeMillis() + 200;
         state = STATE.WAITING_FOR_BRAKE_TO_ENAGE;
       }
       break;
@@ -67,7 +68,7 @@ public class ElevatorWithBrakeCommand extends Command {
   }
 
   private boolean reachedSetpoint() {
-    return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 4;
+    return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 2;
   }
 
   @Override

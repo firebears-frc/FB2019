@@ -19,7 +19,7 @@ public class ElevatorHatchGrabCommand extends CommandGroup {
    */
   public ElevatorHatchGrabCommand() {
     addSequential(new DriveToVisionTargetCommand());
-    addSequential(new ElevatorCommand(6));
+    addSequential(new ElevatorWithBrakeCommand(6));
     addSequential(new DistanceCommand(4));
     addSequential(new HatchHoldCommand());
     addSequential(new DistanceCommand(-6));

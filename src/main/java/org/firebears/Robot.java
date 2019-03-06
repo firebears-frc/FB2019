@@ -4,6 +4,7 @@ import static org.firebears.util.Config.cleanAllPreferences;
 import static org.firebears.util.Config.loadConfiguration;
 import static org.firebears.util.Config.printPreferences;
 
+import org.firebears.commands.ElevatorWithBrakeCommand;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.commands.auto.routines.LeftRocketAutoCommand;
 import org.firebears.commands.auto.routines.RightRocketAutoCommand;
@@ -40,6 +41,8 @@ public class Robot extends TimedRobot {
     public static PowerDistributionPanel powerDistributionPanel;
     public static ShuffleboardTab programmerTab;
     public static ShuffleboardTab driverTab;
+
+    private static ElevatorWithBrakeCommand teleopStartElevatorCmd;
 
     private Command autonomousCommand = null;
 
@@ -126,7 +129,9 @@ public class Robot extends TimedRobot {
         }
         lights.reset();
         elevator.enable();
-        elevator.setSetpoint(6);
+        teleopStartElevatorCmd = new ElevatorWithBrakeCommand(6);
+        teleopStartElevatorCmd.start();
+        // elevator.setSetpoint(6);
     }
 
     @Override

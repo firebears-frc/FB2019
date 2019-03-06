@@ -51,9 +51,9 @@ public class CargoGrabber extends Subsystem {
         rightSensorWidget.setBoolean(isCargoOnRight());
         cargoCapturedSensorWidget.setBoolean(isCargoCaptured());
 
-        if (intake > 0.2 && !isCargoCaptured()) {
+        if (intake > 0.2) {
             Robot.cargoGrabber.intake();
-        } else if (spit > 0.2 && isCargoCaptured()) {
+        } else if (spit > 0.2) {
             Robot.cargoGrabber.spit();
         }
     }

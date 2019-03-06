@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class SelectHatchCommand extends ConditionalCommand {
   public SelectHatchCommand() {
-    super("SelectHatchConditional", new ElevatorHatchPlaceCommand(6), new ElevatorHatchGrabCommand());
+    super("SelectHatchConditional", new ElevatorHatchPlaceCommand(2.2), new ElevatorHatchGrabCommand());
     requires(Robot.hatchGrabber);
   }
 @Override

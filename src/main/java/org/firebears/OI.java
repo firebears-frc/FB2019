@@ -1,20 +1,6 @@
 package org.firebears;
 
 import org.firebears.commands.*;
-import org.firebears.commands.FroggerClimbCommand;
-import org.firebears.commands.CargoIntakeCommand;
-import org.firebears.commands.CargoSpitCommand;
-import org.firebears.commands.ElevatorCommand;
-import org.firebears.commands.FroggerLowerCommand;
-import org.firebears.commands.FroggerRaiseCommand;
-import org.firebears.commands.FroggerDriveCommand;
-import org.firebears.commands.HatchHoldCommand;
-import org.firebears.commands.HatchReleaseCommand;
-import org.firebears.commands.LineFollowCommand;
-import org.firebears.commands.PIDSparkCommand;
-import org.firebears.commands.RelativeAngleCommand;
-import org.firebears.commands.ResetElevatorEncoderCommand;
-import org.firebears.commands.ResetNavXCommand;
 import org.firebears.commands.auto.DistanceCommand;
 import org.firebears.commands.auto.DriveToVisionTargetCommand;
 import org.firebears.commands.auto.PIDrelativeAngleCommand;
@@ -41,6 +27,8 @@ public class OI {
     private JoystickButton buttonGrabHatch; // left bumper 5
     private JoystickButton buttonSuckCargo; // right trigger
     private JoystickButton buttonSpitCargo; // left trigger
+    private JoystickButton buttonElevator24; //start button
+    private JoystickButton buttonClimb; //back button
     private Joystick joystick;
     private JoystickButton hatch1Button;
     private JoystickButton hatch2Button;
@@ -71,14 +59,21 @@ public class OI {
         buttonTurn180 = new JoystickButton(xboxController, 2);
         buttonTurn180.whenPressed(new PIDrelativeAngleCommand(180));
 
-        // buttonY = new JoystickButton(xboxController, 4);
-        // buttonY.whenPressed(new Command());
+        buttonElevator24 = new JoystickButton(xboxController, 8);
+        buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
 
-        // buttonSuckCargo = new JoystickButton(xboxController, buttonNumber);
-        // buttonSuckCargo.whileHeld(new CargoIntakeCommand());
+        buttonClimb = new JoystickButton(xboxController, 7);
+        buttonClimb.whenPressed(new FroggerClimbCommand());
 
-        // buttonSpitCargo = new JoystickButton(xboxController, buttonNumber);
-        // buttonSpitCargo.whileHeld(new CargoSpitCommand());
+
+        // Removed because they use an axis in CargoGrabber.periodic
+        /*
+        buttonSuckCargo = new JoystickButton(xboxController, buttonNumber);
+        buttonSuckCargo.whileHeld(new CargoIntakeCommand());
+
+        buttonSpitCargo = new JoystickButton(xboxController, buttonNumber);
+        buttonSpitCargo.whileHeld(new CargoSpitCommand());
+        */
 
         buttonGrabHatch = new JoystickButton(xboxController, 5);
         buttonGrabHatch.whenPressed(new HatchHoldCommand());
@@ -86,29 +81,38 @@ public class OI {
         buttonReleaseHatch = new JoystickButton(xboxController, 6);
         buttonReleaseHatch.whenPressed(new HatchReleaseCommand());
         // joystick/button box
-        hatch1Button = new JoystickButton(joystick, 11);
-        hatch1Button.whenPressed(new SelectHatchCommand());
-
-        hatch2Button = new JoystickButton(joystick, 9);
-        hatch2Button.whenPressed(new ElevatorHatchPlaceCommand(35));
-
-        hatch3Button = new JoystickButton(joystick, 7);
-        hatch3Button.whenPressed(new ElevatorHatchPlaceCommand(61));
 
         groundCargoButton = new JoystickButton(joystick, 1);
-        groundCargoButton.whenPressed(new ElevatorCommand(6));
-
+        groundCargoButton.whenPressed(new ElevatorWithBrakeCommand(0));
+        /*
+        // Auto teleop
+        hatch1Button = new JoystickButton(joystick, 11);
+        hatch1Button.whenPressed(new VisionConditionalCommand(new SelectHatchCommand()));
+        hatch2Button = new JoystickButton(joystick, 9);
+        hatch2Button.whenPressed(new VisionConditionalCommand(new ElevatorHatchPlaceCommand(22.4)));
+        hatch3Button = new JoystickButton(joystick, 7);
+        hatch3Button.whenPressed(new VisionConditionalCommand(new ElevatorHatchPlaceCommand(48.7)));
         cargo1Button = new JoystickButton(joystick, 12);
-        cargo1Button.whenPressed(new ElevatorCargoCommand(26));
-
+        cargo1Button.whenPressed(new VisionConditionalCommand(new ElevatorCargoCommand(24.8)));
         cargo2Button = new JoystickButton(joystick, 10);
-        cargo2Button.whenPressed(new ElevatorCargoCommand(57));
-
+        cargo2Button.whenPressed(new VisionConditionalCommand(new ElevatorCargoCommand(47.5)));
         cargo3Button = new JoystickButton(joystick, 8);
-        cargo3Button.whenPressed(new ElevatorCargoCommand(78));
+        cargo3Button.whenPressed(new VisionConditionalCommand(new ElevatorCargoCommand(67.4)));
+         */
 
-        climbButton = new JoystickButton(joystick, 2);
-        climbButton.whenPressed(new FroggerLowerCommand());
+        // Manual teleop
+        hatch1Button = new JoystickButton(joystick, 11);
+        hatch1Button.whenPressed(new ElevatorWithBrakeCommand(4.59));
+        hatch2Button = new JoystickButton(joystick, 9);
+        hatch2Button.whenPressed(new ElevatorWithBrakeCommand(28.4));
+        hatch3Button = new JoystickButton(joystick, 7);
+        hatch3Button.whenPressed(new ElevatorWithBrakeCommand(58.2));
+        cargo1Button = new JoystickButton(joystick, 12);
+        cargo1Button.whenPressed(new ElevatorWithBrakeCommand(23.0));
+        cargo2Button = new JoystickButton(joystick, 10);
+        cargo2Button.whenPressed(new ElevatorWithBrakeCommand(53.5));
+        cargo3Button = new JoystickButton(joystick, 8);
+        cargo3Button.whenPressed(new ElevatorWithBrakeCommand(73.4));
 
 
         SmartDashboard.putData(new ResetElevatorEncoderCommand());
@@ -118,11 +122,19 @@ public class OI {
         SmartDashboard.putData(new FroggerDriveCommand());
         SmartDashboard.putData(new FroggerClimbCommand());
         SmartDashboard.putData(new FroggerElevatorClimbCommand());
+
+        SmartDashboard.putData(new TiltyRetractCommand());
+        SmartDashboard.putData(new TiltyExtendCommand());
+        SmartDashboard.putData(new StartingConfigurationCommand());
+        SmartDashboard.putData(new EndStartingConfigCommand());
         
         SmartDashboard.putData(new DriveToWallCommand(20));
 
-        // SmartDashboard.putData("Brake 24", new ElevatorWithBrakeCommand(24));
-        // SmartDashboard.putData("Brake 36", new ElevatorWithBrakeCommand(36));
+         SmartDashboard.putData("Brake 24", new ElevatorWithBrakeCommand(24));
+         SmartDashboard.putData("Brake 36", new ElevatorWithBrakeCommand(36));
+
+        // Robot.driverTab.add
+
 
         // SmartDashboard.putData("Brake on", new ElevatorSetBrakeCommand(true));
         // SmartDashboard.putData("Brake off", new ElevatorSetBrakeCommand(false));

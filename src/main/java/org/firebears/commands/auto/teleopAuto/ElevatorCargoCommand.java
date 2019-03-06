@@ -16,12 +16,12 @@ public class ElevatorCargoCommand extends CommandGroup {
   /**
    * for depositing cargo into the rocket durring teleop
    */
-  public ElevatorCargoCommand(int elevatorHeight) {
+  public ElevatorCargoCommand(double elevatorHeight) {
     addSequential(new DriveToVisionTargetCommand());
-    addSequential(new ElevatorCommand(elevatorHeight));
-    addSequential(new DistanceCommand(4));
+    addSequential(new ElevatorWithBrakeCommand(elevatorHeight));
+    addSequential(new DriveToWallCommand(18));
     addSequential(new CargoSpitCommand(), 3);
     addSequential(new DistanceCommand(-6));
-    addSequential(new ElevatorCommand(6));
+    addSequential(new ElevatorWithBrakeCommand(6));
   }
 }

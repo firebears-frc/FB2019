@@ -14,13 +14,9 @@ public class RotateToVisionTargetCommand extends RelativeAngleCommand {
 
   @Override
   protected void initialize() {
-    if (Robot.vision.getVisionTargetConfidence() == 0.0) {
-      this.cancel();
-    } else {
-      super.initialize();
-      x = Robot.vision.getVisionTargetAngleX();
-      setTargetAngle(Robot.chassis.getAngle() + x);
-    }
+    super.initialize();
+    x = Robot.vision.getVisionTargetAngleX();
+    setTargetAngle(Robot.chassis.getAngle() + x);
   }
 
 }
