@@ -82,4 +82,12 @@ public class Vision extends Subsystem {
     public double getVisionTargetWidth() {
         return visionTargetTable.getEntry(VISION_TARGET_WIDTH).getDouble(0);
     }
+
+    public boolean getVisionTargetConfidenceBoolean(){
+        if (getVisionTargetConfidence() == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

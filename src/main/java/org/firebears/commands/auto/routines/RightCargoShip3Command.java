@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class RightCargoShip3Command extends CommandGroup {
   public RightCargoShip3Command() {
+    addParallel(new StartingConfigurationLeaveCommand());
     addSequential(new ResetNavXCommand());
     addSequential(new DistanceCommand(80));
     addSequential(new RotateToAngleCommand(-90));

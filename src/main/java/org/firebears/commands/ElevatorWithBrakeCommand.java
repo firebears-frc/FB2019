@@ -21,7 +21,7 @@ public class ElevatorWithBrakeCommand extends Command {
 
   @Override
   protected void initialize() {
-    setTimeout(10);
+    setTimeout(3);
     state = STATE.INITIAL;
   }
 
@@ -68,11 +68,12 @@ public class ElevatorWithBrakeCommand extends Command {
   }
 
   private boolean reachedSetpoint() {
-    return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 2;
+    return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 1;
   }
 
   @Override
   protected void end() {
     Robot.elevator.reset();
+    Robot.elevator.setBrake(true);
   }
 }

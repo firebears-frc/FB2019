@@ -4,7 +4,12 @@ import static org.firebears.util.Config.cleanAllPreferences;
 import static org.firebears.util.Config.loadConfiguration;
 import static org.firebears.util.Config.printPreferences;
 
+import java.text.DecimalFormat;
+
+import org.firebears.commands.ElevatorSetBrakeCommand;
 import org.firebears.commands.ElevatorWithBrakeCommand;
+import org.firebears.commands.StartingConfigurationLeaveCommand;
+import org.firebears.commands.StartingConfigurationEnterCommand;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.commands.auto.routines.LeftRocketAutoCommand;
 import org.firebears.commands.auto.routines.RightRocketAutoCommand;
@@ -18,6 +23,7 @@ import org.firebears.subsystems.Tilty;
 import org.firebears.subsystems.Vision;
 
 import edu.wpi.cscore.HttpCamera;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -50,6 +56,12 @@ public class Robot extends TimedRobot {
     private static final String LEFT_ROCKET_AUTO = "leftRocketAuto";
     private static final String CENTER_AUTO = "centerAuto";
     private final SendableChooser<String> chooser = new SendableChooser<>();
+
+    private NetworkTableEntry cargoAquiredWidget;
+    private NetworkTableEntry hatchAquiredWidget;
+    private NetworkTableEntry visionAquiredWidget;
+    private NetworkTableEntry elevatorHeightWidget;
+    private NetworkTableEntry hatchRotationWidget;
 
     @Override
     public void robotInit() {
@@ -85,6 +97,17 @@ public class Robot extends TimedRobot {
 
         lights.reset();
         elevator.reset();
+
+        cargoAquiredWidget = Robot.driverTab.add("Cargo Aquired", Robot.cargoGrabber.isCargoCaptured()).withPosition(0, 8).withSize(3, 3).getEntry();
+        hatchAquiredWidget = Robot.driverTab.add("Hatch Aquired", Robot.hatchGrabber.getCapturedSensorValue()).withPosition(0, 5).withSize(3, 3).getEntry();
+        hatchRotationWidget = Robot.driverTab.add("Hatch Rotation", hatchGrabber.getRotationSensorValue()).withPosition(3, 8).withSize(3, 3).getEntry();
+        visionAquiredWidget = Robot.driverTab.add("Vision Aquired", Robot.vision.getVisionTargetConfidenceBoolean()).withPosition(0, 2).withSize(3, 3).getEntry();
+        Robot.driverTab.add("Enter Starting Config", new StartingConfigurationEnterCommand()).withPosition(6, 5).withSize(7, 2);
+        Robot.driverTab.add("Leave Starting Config", new StartingConfigurationLeaveCommand()).withPosition(6, 7).withSize(7, 2);
+        Robot.driverTab.add("Disable Elevator Brake", new ElevatorSetBrakeCommand(false)).withPosition(6, 2).withSize(5, 2);
+        Robot.driverTab.add("Enable Elevator Brake", new ElevatorSetBrakeCommand(true)).withPosition(6, 0).withSize(5, 2);
+        Robot.driverTab.add("Auto mode", chooser).withPosition(12, 0).withSize(6, 2);
+        elevatorHeightWidget = Robot.driverTab.add("Elevator Height", "0").withPosition(0, 0).withSize(3, 2).getEntry();
     }
 
     @Override
@@ -99,6 +122,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        updateDriverTab();
     }
 
     @Override
@@ -120,6 +144,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        updateDriverTab();
     }
 
     @Override
@@ -137,6 +162,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        updateDriverTab();
     }
 
     @Override
@@ -145,5 +171,15 @@ public class Robot extends TimedRobot {
         elevator.periodic();
         chassis.periodic();
         tilty.periodic();
+        updateDriverTab();
+    }
+
+    private void updateDriverTab(){
+        cargoAquiredWidget.setBoolean(Robot.cargoGrabber.isCargoCaptured());
+        hatchAquiredWidget.setBoolean(Robot.hatchGrabber.getCapturedSensorValue());
+        visionAquiredWidget.setBoolean(Robot.vision.getVisionTargetConfidenceBoolean());
+        hatchRotationWidget.setBoolean(Robot.hatchGrabber.getRotationSensorValue());
+        DecimalFormat df = new DecimalFormat("###.###");
+        elevatorHeightWidget.setString(df.format(elevator.inchesTraveled()));
     }
 }

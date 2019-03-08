@@ -14,14 +14,14 @@ public class FroggerDriveCommand extends Command {
 
   @Override
   protected void initialize() {
-    setTimeout(3);
+    setTimeout(2);
   }
 
   @Override
   protected void execute() {
     Robot.frogger.footDown();
     Robot.frogger.driveForward();
-    Robot.chassis.drive(CHASSIS_SPEED, -0.1);
+    Robot.chassis.drive(CHASSIS_SPEED, -0.3);
   }
 
   @Override

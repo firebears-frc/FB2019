@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class LeftCargoShip3Command extends CommandGroup {
   public LeftCargoShip3Command() {
+    addParallel(new StartingConfigurationLeaveCommand());
     addSequential(new ResetNavXCommand());
     addSequential(new DistanceCommand(80));
     addSequential(new RotateToAngleCommand(90));

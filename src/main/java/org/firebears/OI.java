@@ -125,15 +125,15 @@ public class OI {
 
         SmartDashboard.putData(new TiltyRetractCommand());
         SmartDashboard.putData(new TiltyExtendCommand());
-        SmartDashboard.putData(new StartingConfigurationCommand());
-        SmartDashboard.putData(new EndStartingConfigCommand());
+        SmartDashboard.putData(new StartingConfigurationEnterCommand());
+        SmartDashboard.putData(new StartingConfigurationLeaveCommand());
         
         SmartDashboard.putData(new DriveToWallCommand(20));
 
          SmartDashboard.putData("Brake 24", new ElevatorWithBrakeCommand(24));
          SmartDashboard.putData("Brake 36", new ElevatorWithBrakeCommand(36));
 
-        // Robot.driverTab.add
+
 
 
         // SmartDashboard.putData("Brake on", new ElevatorSetBrakeCommand(true));
