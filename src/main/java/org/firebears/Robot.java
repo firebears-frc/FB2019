@@ -4,6 +4,7 @@ import static org.firebears.util.Config.cleanAllPreferences;
 import static org.firebears.util.Config.loadConfiguration;
 import static org.firebears.util.Config.printPreferences;
 
+import org.firebears.commands.ElevatorSetBrakeCommand;
 import org.firebears.commands.ElevatorWithBrakeCommand;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.commands.auto.routines.LeftRocketAutoCommand;
@@ -85,6 +86,8 @@ public class Robot extends TimedRobot {
 
         lights.reset();
         elevator.reset();
+        driverTab.add("brakeCommand", new ElevatorSetBrakeCommand(true));
+        driverTab.add("UndoBrakeCommand", new ElevatorSetBrakeCommand(false));
     }
 
     @Override

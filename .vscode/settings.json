@@ -12,5 +12,6 @@
   },
   "wpilib.autoStartRioLog": false,
   "wpilib.deployOffline": false,
-  "wpilib.offline": false
+  "wpilib.offline": false,
+  "wpilib.online": false
 }

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class HatchGrabber extends Subsystem {
     final Preferences config = Preferences.getInstance();
     WPI_TalonSRX motor;
-    private final double MOTOR_SPEED = 0.5;
+    private final double MOTOR_SPEED = 0.7;
     public DigitalInput hatchRotationSensor;
     public DigitalInput hatchCapturedSensor;
 

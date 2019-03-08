@@ -24,6 +24,7 @@ public class Elevator extends PIDSubsystem {
   private final Encoder encoder;
   public DigitalInput elevatorHighASensor;
   public DigitalInput elevatorHighBSensor;
+  public DigitalInput elevatorGroundSensor;
   private Servo brakeServo;
 
   double startingDistance;
@@ -33,6 +34,7 @@ public class Elevator extends PIDSubsystem {
   private final NetworkTableEntry topLimitSwitchWidget;
   private final NetworkTableEntry motor1CurrenthWidget;
   private final NetworkTableEntry motor2CurrenthWidget;
+  private final NetworkTableEntry elevatorGroundWidget;
 
   final Preferences config = Preferences.getInstance();
   private double minimumElevatorSpeed = 0.02;
@@ -40,8 +42,7 @@ public class Elevator extends PIDSubsystem {
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.25),
-        Preferences.getInstance().getDouble("elevator.i", 0.0008), 
-        Preferences.getInstance().getDouble("elevator.d", 0),
+        Preferences.getInstance().getDouble("elevator.i", 0.0008), Preferences.getInstance().getDouble("elevator.d", 0),
         Preferences.getInstance().getDouble("elevator.f", 0.15));
 
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
@@ -64,18 +65,25 @@ public class Elevator extends PIDSubsystem {
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).withPosition(6, 2).withSize(4, 2).getEntry();
     bottomLimitSwitchWidget = Robot.programmerTab.add("Elevator bottom", false).withPosition(6, 7).getEntry();
     topLimitSwitchWidget = Robot.programmerTab.add("Elevator Top", false).withPosition(6, 4).getEntry();
-    motor1CurrenthWidget = Robot.programmerTab.add("Motor " + motor1.getDeviceID() + " current", -1.0).withPosition(24, 0).withSize(4, 2).getEntry();
-    motor2CurrenthWidget = Robot.programmerTab.add("Motor " + motor2.getDeviceID() + " current", -1.0).withPosition(24, 2).withSize(4, 2).getEntry();
+    motor1CurrenthWidget = Robot.programmerTab.add("Motor " + motor1.getDeviceID() + " current", -1.0)
+        .withPosition(24, 0).withSize(4, 2).getEntry();
+    motor2CurrenthWidget = Robot.programmerTab.add("Motor " + motor2.getDeviceID() + " current", -1.0)
+        .withPosition(24, 2).withSize(4, 2).getEntry();
+    elevatorGroundWidget = Robot.programmerTab.add("groundSensorValue", false).getEntry();
 
     DigitalInput encoderInputA = new DigitalInput(config.getInt("elevator.encoder.dio.A", 3));
     DigitalInput encoderInputB = new DigitalInput(config.getInt("elevator.encoder.dio.B", 4));
     encoder = new Encoder(encoderInputA, encoderInputB, false, EncodingType.k4X);
 
-    elevatorHighASensor = new DigitalInput(config.getInt("elevator.highA.dio", 0));
-    elevatorHighBSensor = new DigitalInput(config.getInt("elevator.highB.dio", 1));
+    // elevatorHighASensor = new DigitalInput(config.getInt("elevator.highA.dio",
+    // 0));
+    // elevatorHighBSensor = new DigitalInput(config.getInt("elevator.highB.dio",
+    // 1));
 
-     brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
-     addChild(brakeServo);
+    elevatorGroundSensor = new DigitalInput(config.getInt("elevator.ground.dio", 4));
+
+    brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
+    addChild("brakeServo", brakeServo);
 
     // resetEncoder();
     // setBrake(false);
@@ -89,7 +97,10 @@ public class Elevator extends PIDSubsystem {
     topLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
     motor1CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(0));
     motor2CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(1));
-
+    elevatorGroundWidget.setBoolean(elevatorGroundSensor.get());
+    if (elevatorGroundSensor.get() == false) {
+      resetEncoder();
+    }
   }
 
   @Override
@@ -129,8 +140,9 @@ public class Elevator extends PIDSubsystem {
     minimumElevatorSpeed = speed;
   }
 
-  public void setBrake(boolean engaged) { 
-     brakeServo.set(engaged ? 0.775 : 0.70);
+  public void setBrake(boolean engaged) {
+    brakeServo.set(engaged ? 0.775 : 0.70);
+    System.out.println("DIE" + engaged);
   }
 
   public void reset() {
