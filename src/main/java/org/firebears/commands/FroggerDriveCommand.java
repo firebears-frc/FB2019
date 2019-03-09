@@ -14,7 +14,7 @@ public class FroggerDriveCommand extends Command {
 
   @Override
   protected void initialize() {
-    setTimeout(2);
+    setTimeout(4);
   }
 
   @Override

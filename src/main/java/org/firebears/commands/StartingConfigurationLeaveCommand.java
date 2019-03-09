@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StartingConfigurationLeaveCommand extends CommandGroup {
 
   public StartingConfigurationLeaveCommand() {
-    addParallel(new ElevatorWithBrakeCommand(6));
     addParallel(new TiltyExtendCommand());
+    addSequential(new DisableBrakeCommand());
+    addSequential(new ElevatorGroundCommand());
+    addSequential(new ElevatorWithBrakeCommand(6));
   }
 }

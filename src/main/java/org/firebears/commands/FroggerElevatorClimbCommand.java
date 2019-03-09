@@ -23,6 +23,7 @@ public class FroggerElevatorClimbCommand extends Command {
 
   @Override
   protected void initialize() {
+    Robot.elevator.disable();
     setTimeout(6);
     elevatorMinSpeed = Robot.elevator.getMinElevatorSpeed();
   }
@@ -42,6 +43,7 @@ public class FroggerElevatorClimbCommand extends Command {
 //       System.out.println("::: TIPPING BACKWARDS");
 //     }
     Robot.elevator.setSpeed(-1 * elevatorSpeed);
+    Robot.frogger.driveForward();
   }
 
   @Override
@@ -57,7 +59,7 @@ public class FroggerElevatorClimbCommand extends Command {
     Robot.frogger.footStop();
     Robot.elevator.setMinElevatorSpeed(elevatorMinSpeed);
     double setpoint = 0.0;
-    // Robot.elevator.enable();
+    Robot.elevator.enable();
   }
 
 }

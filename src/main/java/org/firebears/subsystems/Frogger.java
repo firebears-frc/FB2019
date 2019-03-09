@@ -4,7 +4,7 @@ import org.firebears.Robot;
 import org.firebears.commands.FroggerLowerCommand;
 
 import com.revrobotics.CANSparkMax.IdleMode;
-
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -30,6 +30,8 @@ public class Frogger extends Subsystem {
 
         addChild("jumpMotor", jumpMotor);
         addChild("forwardMotor", forwardMotor);
+
+        jumpMotor.setNeutralMode(NeutralMode.Brake);
 
         froggerBottomWidget = Robot.programmerTab.add("froggerBottom", false).withPosition(13, 7).getEntry();
         froggerTopWidget = Robot.programmerTab.add("froggerTop", false).withPosition(10, 7).getEntry();

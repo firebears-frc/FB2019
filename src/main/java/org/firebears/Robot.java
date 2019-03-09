@@ -8,6 +8,8 @@ import java.text.DecimalFormat;
 
 import org.firebears.commands.ElevatorSetBrakeCommand;
 import org.firebears.commands.ElevatorWithBrakeCommand;
+import org.firebears.commands.FroggerLowerCommand;
+import org.firebears.commands.FroggerTestWheelCommand;
 import org.firebears.commands.StartingConfigurationLeaveCommand;
 import org.firebears.commands.StartingConfigurationEnterCommand;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
@@ -32,6 +34,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
 
@@ -48,7 +52,6 @@ public class Robot extends TimedRobot {
     public static ShuffleboardTab programmerTab;
     public static ShuffleboardTab driverTab;
 
-    private static ElevatorWithBrakeCommand teleopStartElevatorCmd;
 
     private Command autonomousCommand = null;
 
@@ -86,10 +89,11 @@ public class Robot extends TimedRobot {
         vision = new Vision();
 
         oi = new OI();
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
 
-        chooser.setDefaultOption("rightRocketAuto (default)", RIGHT_ROCKET_AUTO);
+        chooser.setDefaultOption("centerAuto (default)", CENTER_AUTO);
+        chooser.addOption("rightRocketAuto", RIGHT_ROCKET_AUTO);
         chooser.addOption("leftRocketAuto", LEFT_ROCKET_AUTO);
-        chooser.addOption("centerAuto", CENTER_AUTO);
         SmartDashboard.putData("Auto mode", chooser);
 
         powerDistributionPanel = new PowerDistributionPanel();
@@ -102,6 +106,8 @@ public class Robot extends TimedRobot {
         hatchAquiredWidget = Robot.driverTab.add("Hatch Aquired", Robot.hatchGrabber.getCapturedSensorValue()).withPosition(0, 5).withSize(3, 3).getEntry();
         hatchRotationWidget = Robot.driverTab.add("Hatch Rotation", hatchGrabber.getRotationSensorValue()).withPosition(3, 8).withSize(3, 3).getEntry();
         visionAquiredWidget = Robot.driverTab.add("Vision Aquired", Robot.vision.getVisionTargetConfidenceBoolean()).withPosition(0, 2).withSize(3, 3).getEntry();
+        Robot.driverTab.add("Lower Frogger", new FroggerLowerCommand()).withPosition(12, 2).withSize(6, 2);
+        Robot.driverTab.add("Test Wheel", new FroggerTestWheelCommand()).withPosition(12, 4).withSize(6, 2);
         Robot.driverTab.add("Enter Starting Config", new StartingConfigurationEnterCommand()).withPosition(6, 5).withSize(7, 2);
         Robot.driverTab.add("Leave Starting Config", new StartingConfigurationLeaveCommand()).withPosition(6, 7).withSize(7, 2);
         Robot.driverTab.add("Disable Elevator Brake", new ElevatorSetBrakeCommand(false)).withPosition(6, 2).withSize(5, 2);
@@ -154,9 +160,7 @@ public class Robot extends TimedRobot {
         }
         lights.reset();
         elevator.enable();
-        teleopStartElevatorCmd = new ElevatorWithBrakeCommand(6);
-        teleopStartElevatorCmd.start();
-        // elevator.setSetpoint(6);
+       
     }
 
     @Override

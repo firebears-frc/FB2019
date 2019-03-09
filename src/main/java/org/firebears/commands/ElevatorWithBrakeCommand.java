@@ -29,7 +29,7 @@ public class ElevatorWithBrakeCommand extends Command {
   protected void execute() {
     switch (state) {
     case INITIAL:
-      timeout = System.currentTimeMillis() + 200;
+      timeout = System.currentTimeMillis() + 300;
       Robot.elevator.setBrake(false);
       Robot.elevator.enable();
       Robot.elevator.setSetpoint(Robot.elevator.inchesTraveled() + 2);
