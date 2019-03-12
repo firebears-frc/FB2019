@@ -23,6 +23,6 @@ public class RightRocketAutoCommand extends CommandGroup {
     addSequential(new RotateToAngleCommand(30));
     addSequential(new DistanceCommand(35));
     addSequential(new VisionConditionalCommand(new ElevatorHatchPlaceCommand(4.59)));
-    addSequential(new RotateToAngleCommand(180));
+   // addSequential(new RotateToAngleCommand(180));
   }
 }

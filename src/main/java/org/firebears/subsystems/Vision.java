@@ -47,12 +47,15 @@ public class Vision extends Subsystem {
     public void initDefaultCommand() {
 
     }
-
+int count = 0;
     @Override
     public void periodic() {
         angleXWidget.setNumber(getVisionTargetAngleX());
         distanceWidget.setNumber(getVisionTargetDistance());
         targetCountWidget.setNumber(getVisionTargetPairs());
+        if ((++ count)% 50 == 0){
+            System.out.println("VISION :"+getVisionTargetConfidence()+ " " + getVisionTargetPairs());
+        }
    }
 
     public double getVisionTargetAngleX() {
