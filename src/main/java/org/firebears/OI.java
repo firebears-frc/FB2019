@@ -20,8 +20,8 @@ public class OI {
 
     public XboxController xboxController;
     private JoystickButton buttonTurn180; // b 2
-    private JoystickButton buttonTurn90; // a 1
-    private JoystickButton buttonY; // y 4 free button
+    private JoystickButton buttonDown; // a 1
+    private JoystickButton buttonUp; // y 4 free button
     private JoystickButton buttonTurn45; // x 3
     private JoystickButton buttonReleaseHatch; // right bumper 6
     private JoystickButton buttonGrabHatch; // left bumper 5
@@ -54,14 +54,18 @@ public class OI {
         buttonTurn45 = new JoystickButton(xboxController, 3);
         buttonTurn45.whenPressed(new PIDrelativeAngleCommand(45));
 
-        buttonTurn90 = new JoystickButton(xboxController, 1);
-        buttonTurn90.whenPressed(new PIDrelativeAngleCommand(90));
+        buttonDown = new JoystickButton(xboxController, 1);
+        buttonDown.whenPressed(new ElevatorNudgeCommand(-2));
+
+        buttonUp = new JoystickButton(xboxController, 4);
+        buttonUp.whenPressed(new ElevatorNudgeCommand(2));
 
         buttonTurn180 = new JoystickButton(xboxController, 2);
         buttonTurn180.whenPressed(new PIDrelativeAngleCommand(180));
 
        // buttonElevator24 = new JoystickButton(xboxController, 8);
        // buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
+    
 
        // buttonClimb = new JoystickButton(xboxController, 7);
        // buttonClimb.whenPressed(new FroggerClimbCommand());
