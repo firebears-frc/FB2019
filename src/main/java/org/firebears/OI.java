@@ -20,25 +20,26 @@ public class OI {
 
     public XboxController xboxController;
     private JoystickButton buttonTurn180; // b 2
-    private JoystickButton buttonTurn90; // a 1
-    private JoystickButton buttonY; // y 4 free button
+    private JoystickButton buttonDown; // a 1
+    private JoystickButton buttonUp; // y 4 free button
     private JoystickButton buttonTurn45; // x 3
     private JoystickButton buttonReleaseHatch; // right bumper 6
     private JoystickButton buttonGrabHatch; // left bumper 5
-    private JoystickButton buttonSuckCargo; // right trigger
-    private JoystickButton buttonSpitCargo; // left trigger
-    private JoystickButton buttonElevator24; //start button
-    private JoystickButton buttonClimb; //back button
+   
+   // private JoystickButton buttonElevator24; //start button
+   // private JoystickButton buttonClimb; //back button
     private Joystick joystick;
-    private JoystickButton hatch1Button;
-    private JoystickButton hatch2Button;
-    private JoystickButton hatch3Button;
-    private JoystickButton cargo1Button;
-    private JoystickButton cargo2Button;
-    private JoystickButton cargo3Button;
-    private JoystickButton groundCargoButton;
-    private JoystickButton climbButton;
+    private JoystickButton hatch1Button;//7
+    private JoystickButton hatch2Button;//6
+    private JoystickButton hatch3Button;//5
+    private JoystickButton cargo1Button;//2
+    private JoystickButton cargo2Button;//3
+    private JoystickButton cargo3Button;//4
+    private JoystickButton groundCargoButton;//1
+    private JoystickButton climbButton;//11
+    private JoystickButton tiltyButton;//8
     public final RecordingFactory recordingFactory;
+
 
     public OI() {
 
@@ -53,28 +54,25 @@ public class OI {
         buttonTurn45 = new JoystickButton(xboxController, 3);
         buttonTurn45.whenPressed(new PIDrelativeAngleCommand(45));
 
-        buttonTurn90 = new JoystickButton(xboxController, 1);
-        buttonTurn90.whenPressed(new PIDrelativeAngleCommand(90));
+        buttonDown = new JoystickButton(xboxController, 1);
+        buttonDown.whenPressed(new ElevatorNudgeCommand(-2));
+
+        buttonUp = new JoystickButton(xboxController, 4);
+        buttonUp.whenPressed(new ElevatorNudgeCommand(2));
 
         buttonTurn180 = new JoystickButton(xboxController, 2);
         buttonTurn180.whenPressed(new PIDrelativeAngleCommand(180));
 
-        buttonElevator24 = new JoystickButton(xboxController, 8);
-        buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
+       // buttonElevator24 = new JoystickButton(xboxController, 8);
+       // buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
+    
 
-        buttonClimb = new JoystickButton(xboxController, 7);
-        buttonClimb.whenPressed(new FroggerClimbCommand());
+       // buttonClimb = new JoystickButton(xboxController, 7);
+       // buttonClimb.whenPressed(new FroggerClimbCommand());
 
 
         // Removed because they use an axis in CargoGrabber.periodic
-        /*
-        buttonSuckCargo = new JoystickButton(xboxController, buttonNumber);
-        buttonSuckCargo.whileHeld(new CargoIntakeCommand());
-
-        buttonSpitCargo = new JoystickButton(xboxController, buttonNumber);
-        buttonSpitCargo.whileHeld(new CargoSpitCommand());
-        */
-
+       
         buttonGrabHatch = new JoystickButton(xboxController, 5);
         buttonGrabHatch.whenPressed(new HatchHoldCommand());
 
@@ -101,18 +99,24 @@ public class OI {
          */
 
         // Manual teleop
-        hatch1Button = new JoystickButton(joystick, 11);
+        hatch1Button = new JoystickButton(joystick, 7);
         hatch1Button.whenPressed(new ElevatorWithBrakeCommand(4.59));
-        hatch2Button = new JoystickButton(joystick, 9);
+        hatch2Button = new JoystickButton(joystick, 6);
         hatch2Button.whenPressed(new ElevatorWithBrakeCommand(28.4));
-        hatch3Button = new JoystickButton(joystick, 7);
+        hatch3Button = new JoystickButton(joystick, 5);
         hatch3Button.whenPressed(new ElevatorWithBrakeCommand(58.2));
-        cargo1Button = new JoystickButton(joystick, 12);
+        cargo1Button = new JoystickButton(joystick, 2);
         cargo1Button.whenPressed(new ElevatorWithBrakeCommand(20.0));
-        cargo2Button = new JoystickButton(joystick, 10);
+        cargo2Button = new JoystickButton(joystick, 3);
         cargo2Button.whenPressed(new ElevatorWithBrakeCommand(41.5));
-        cargo3Button = new JoystickButton(joystick, 8);
+        cargo3Button = new JoystickButton(joystick, 4);
         cargo3Button.whenPressed(new ElevatorWithBrakeCommand(73.4));
+
+        tiltyButton = new JoystickButton(joystick, 8);
+        tiltyButton.whenPressed(new TiltyToggleConditionalCommand());
+
+        climbButton = new JoystickButton(joystick, 11);
+        climbButton.whenPressed(new FroggerClimbCommand());
 
 
         SmartDashboard.putData(new ResetElevatorEncoderCommand());

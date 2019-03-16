@@ -44,8 +44,8 @@ public class CargoGrabber extends Subsystem {
 
     @Override
     public void periodic() {
-        intake = Math.abs(Robot.oi.xboxController.getTriggerAxis(Hand.kRight));
-        spit = Math.abs(Robot.oi.xboxController.getTriggerAxis(Hand.kLeft));
+        spit = Math.abs(Robot.oi.xboxController.getTriggerAxis(Hand.kRight));
+        intake = Math.abs(Robot.oi.xboxController.getTriggerAxis(Hand.kLeft));
         SmartDashboard.putNumber("cargoMotorSpeed", motor.get());
         leftSensorWidget.setBoolean(isCargoOnLeft());
         rightSensorWidget.setBoolean(isCargoOnRight());
