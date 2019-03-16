@@ -37,7 +37,7 @@ public class Elevator extends PIDSubsystem {
   private final NetworkTableEntry elevatorGroundWidget;
 
   final Preferences config = Preferences.getInstance();
-  private double minimumElevatorSpeed = 0.02;
+  private double minimumElevatorSpeed = -0.2;
   private double maximumElevatorSpeed = 0.7;
 
   public Elevator() {
@@ -142,7 +142,7 @@ public class Elevator extends PIDSubsystem {
   }
 
   public void setBrake(boolean engaged) {
-    brakeServo.set(engaged ? 0.775 : 0.70);
+    brakeServo.set(engaged ? 0.770 : 0.700);
     System.out.println("DIE" + engaged);
   }
 
