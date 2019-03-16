@@ -60,7 +60,7 @@ public class OI {
         buttonTurn180.whenPressed(new PIDrelativeAngleCommand(180));
 
         buttonElevator24 = new JoystickButton(xboxController, 8);
-        buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
+        buttonElevator24.whenPressed(new ElevatorCommand(21));
 
         buttonClimb = new JoystickButton(xboxController, 7);
         buttonClimb.whenPressed(new FroggerClimbCommand());
@@ -83,7 +83,7 @@ public class OI {
         // joystick/button box
 
         groundCargoButton = new JoystickButton(joystick, 1);
-        groundCargoButton.whenPressed(new ElevatorWithBrakeCommand(0));
+        groundCargoButton.whenPressed(new ElevatorCommand(0));
         /*
         // Auto teleop
         hatch1Button = new JoystickButton(joystick, 11);
@@ -102,17 +102,17 @@ public class OI {
 
         // Manual teleop
         hatch1Button = new JoystickButton(joystick, 11);
-        hatch1Button.whenPressed(new ElevatorWithBrakeCommand(4.59));
+        hatch1Button.whenPressed(new ElevatorCommand(4.59));
         hatch2Button = new JoystickButton(joystick, 9);
-        hatch2Button.whenPressed(new ElevatorWithBrakeCommand(28.4));
+        hatch2Button.whenPressed(new ElevatorCommand(28.4));
         hatch3Button = new JoystickButton(joystick, 7);
-        hatch3Button.whenPressed(new ElevatorWithBrakeCommand(58.2));
+        hatch3Button.whenPressed(new ElevatorCommand(58.2));
         cargo1Button = new JoystickButton(joystick, 12);
-        cargo1Button.whenPressed(new ElevatorWithBrakeCommand(20.0));
+        cargo1Button.whenPressed(new ElevatorCommand(20.0));
         cargo2Button = new JoystickButton(joystick, 10);
-        cargo2Button.whenPressed(new ElevatorWithBrakeCommand(41.5));
+        cargo2Button.whenPressed(new ElevatorCommand(41.5));
         cargo3Button = new JoystickButton(joystick, 8);
-        cargo3Button.whenPressed(new ElevatorWithBrakeCommand(73.4));
+        cargo3Button.whenPressed(new ElevatorCommand(73.4));
 
 
         SmartDashboard.putData(new ResetElevatorEncoderCommand());
@@ -130,14 +130,14 @@ public class OI {
         
         SmartDashboard.putData(new DriveToWallCommand(20));
 
-         SmartDashboard.putData("Brake 24", new ElevatorWithBrakeCommand(24));
-         SmartDashboard.putData("Brake 36", new ElevatorWithBrakeCommand(36));
+         SmartDashboard.putData("Brake 24", new ElevatorCommand(24));
+         SmartDashboard.putData("Brake 36", new ElevatorCommand(36));
 
 
 
 
-        // SmartDashboard.putData("Brake on", new ElevatorSetBrakeCommand(true));
-        // SmartDashboard.putData("Brake off", new ElevatorSetBrakeCommand(false));
+        // SmartDashboard.putData("Brake on", new ElevatorCommand(true));
+        // SmartDashboard.putData("Brake off", new ElevatorCommand(false));
     }
 
     public XboxController getXboxController() {

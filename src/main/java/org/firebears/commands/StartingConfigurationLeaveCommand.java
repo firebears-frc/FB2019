@@ -8,6 +8,6 @@ public class StartingConfigurationLeaveCommand extends CommandGroup {
     addParallel(new TiltyExtendCommand());
     addSequential(new DisableBrakeCommand());
     addSequential(new ElevatorGroundCommand());
-    addSequential(new ElevatorWithBrakeCommand(6));
+    addSequential(new ElevatorCommand(6));
   }
 }
