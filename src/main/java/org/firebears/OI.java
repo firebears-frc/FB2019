@@ -19,12 +19,12 @@ import org.firebears.commands.auto.teleopAuto.*;
 public class OI {
 
     public XboxController xboxController;
-    private JoystickButton buttonTurn180; // b 2
-    private JoystickButton buttonDown; // a 1
-    private JoystickButton buttonUp; // y 4 free button
-    private JoystickButton buttonTurn45; // x 3
-    private JoystickButton buttonReleaseHatch; // right bumper 6
-    private JoystickButton buttonGrabHatch; // left bumper 5
+    private JoystickButton buttonB; // b 2
+    private JoystickButton buttonA; // a 1
+    private JoystickButton buttonY; // y 4 free button
+    private JoystickButton buttonX; // x 3
+    private JoystickButton rightBumper; // right bumper 6
+    private JoystickButton leftBumper; // left bumper 5
    
    // private JoystickButton buttonElevator24; //start button
    // private JoystickButton buttonClimb; //back button
@@ -51,17 +51,17 @@ public class OI {
         joystick = new Joystick(1);
 
         // xbox
-        buttonTurn45 = new JoystickButton(xboxController, 3);
-        buttonTurn45.whenPressed(new PIDrelativeAngleCommand(45));
+        buttonX = new JoystickButton(xboxController, 3);
+        buttonX.whenPressed(new PIDrelativeAngleCommand(45));
 
-        buttonDown = new JoystickButton(xboxController, 1);
-        buttonDown.whenPressed(new ElevatorNudgeCommand(-2));
+        buttonA = new JoystickButton(xboxController, 1);
+        buttonA.whenPressed(new ElevatorNudgeCommand(-2));
 
-        buttonUp = new JoystickButton(xboxController, 4);
-        buttonUp.whenPressed(new ElevatorNudgeCommand(2));
+        buttonY = new JoystickButton(xboxController, 4);
+        buttonY.whenPressed(new ElevatorNudgeCommand(2));
 
-        buttonTurn180 = new JoystickButton(xboxController, 2);
-        buttonTurn180.whenPressed(new PIDrelativeAngleCommand(180));
+        buttonB = new JoystickButton(xboxController, 2);
+        buttonB.whenPressed(new PIDrelativeAngleCommand(180));
 
        // buttonElevator24 = new JoystickButton(xboxController, 8);
        // buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
@@ -73,11 +73,11 @@ public class OI {
 
         // Removed because they use an axis in CargoGrabber.periodic
        
-        buttonGrabHatch = new JoystickButton(xboxController, 5);
-        buttonGrabHatch.whenPressed(new HatchHoldCommand());
+        leftBumper = new JoystickButton(xboxController, 5);
+        leftBumper.whenPressed(new HatchHoldCommand());
 
-        buttonReleaseHatch = new JoystickButton(xboxController, 6);
-        buttonReleaseHatch.whenPressed(new HatchReleaseCommand());
+        rightBumper = new JoystickButton(xboxController, 6);
+        rightBumper.whenPressed(new HatchReleaseCommand());
         // joystick/button box
 
         groundCargoButton = new JoystickButton(joystick, 1);
@@ -102,13 +102,13 @@ public class OI {
         hatch1Button = new JoystickButton(joystick, 7);
         hatch1Button.whenPressed(new ElevatorCommand(4.59));
         hatch2Button = new JoystickButton(joystick, 6);
-        hatch2Button.whenPressed(new ElevatorCommand(28.4));
+        hatch2Button.whenPressed(new ElevatorCommand(34.4));
         hatch3Button = new JoystickButton(joystick, 5);
         hatch3Button.whenPressed(new ElevatorCommand(58.2));
         cargo1Button = new JoystickButton(joystick, 2);
         cargo1Button.whenPressed(new ElevatorCommand(20.0));
         cargo2Button = new JoystickButton(joystick, 3);
-        cargo2Button.whenPressed(new ElevatorCommand(41.5));
+        cargo2Button.whenPressed(new ElevatorCommand(47.5));
         cargo3Button = new JoystickButton(joystick, 4);
         cargo3Button.whenPressed(new ElevatorCommand(73.4));
 

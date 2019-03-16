@@ -37,7 +37,7 @@ public class Elevator extends PIDSubsystem {
   private final NetworkTableEntry elevatorGroundWidget;
 
   final Preferences config = Preferences.getInstance();
-  private double minimumElevatorSpeed = -0.2;
+  private double minimumElevatorSpeed = -0.3;
   private double maximumElevatorSpeed = 0.7;
 
   public Elevator() {
@@ -98,7 +98,7 @@ public class Elevator extends PIDSubsystem {
     motor1CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(0));
     motor2CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(1));
     elevatorGroundWidget.setBoolean(elevatorGroundSensor.get());
-    
+
     if (elevatorGroundSensor.get() == false) {
       resetEncoder();
     }
@@ -149,8 +149,9 @@ public class Elevator extends PIDSubsystem {
   public void reset() {
     // setBrake(true);
     disable();
-}
-public boolean getGroundSensor(){
-  return elevatorGroundSensor.get();
-}
+  }
+
+  public boolean getGroundSensor() {
+    return elevatorGroundSensor.get();
+  }
 }
