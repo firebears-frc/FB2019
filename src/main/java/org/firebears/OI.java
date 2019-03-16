@@ -100,17 +100,17 @@ public class OI {
 
         // Manual teleop
         hatch1Button = new JoystickButton(joystick, 7);
-        hatch1Button.whenPressed(new ElevatorWithBrakeCommand(4.59));
+        hatch1Button.whenPressed(new ElevatorCommand(4.59));
         hatch2Button = new JoystickButton(joystick, 6);
-        hatch2Button.whenPressed(new ElevatorWithBrakeCommand(28.4));
+        hatch2Button.whenPressed(new ElevatorCommand(28.4));
         hatch3Button = new JoystickButton(joystick, 5);
-        hatch3Button.whenPressed(new ElevatorWithBrakeCommand(58.2));
+        hatch3Button.whenPressed(new ElevatorCommand(58.2));
         cargo1Button = new JoystickButton(joystick, 2);
-        cargo1Button.whenPressed(new ElevatorWithBrakeCommand(20.0));
+        cargo1Button.whenPressed(new ElevatorCommand(20.0));
         cargo2Button = new JoystickButton(joystick, 3);
-        cargo2Button.whenPressed(new ElevatorWithBrakeCommand(41.5));
+        cargo2Button.whenPressed(new ElevatorCommand(41.5));
         cargo3Button = new JoystickButton(joystick, 4);
-        cargo3Button.whenPressed(new ElevatorWithBrakeCommand(73.4));
+        cargo3Button.whenPressed(new ElevatorCommand(73.4));
 
         tiltyButton = new JoystickButton(joystick, 8);
         tiltyButton.whenPressed(new TiltyToggleConditionalCommand());
