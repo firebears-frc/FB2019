@@ -38,7 +38,7 @@ public class Elevator extends PIDSubsystem {
 
   final Preferences config = Preferences.getInstance();
   private double minimumElevatorSpeed = -0.3;
-  private double maximumElevatorSpeed = 0.7;
+  private double maximumElevatorSpeed = 1.0;
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.25),

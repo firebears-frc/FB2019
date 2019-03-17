@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class FroggerClimbCommand extends CommandGroup {
   public FroggerClimbCommand() {
-    addSequential(new DisableBrakeCommand());
+    //addSequential(new DisableBrakeCommand());
     addSequential(new FroggerElevatorClimbCommand());
     addParallel(new ElevatorCommand(0.0));
     addSequential(new FroggerDriveCommand());
