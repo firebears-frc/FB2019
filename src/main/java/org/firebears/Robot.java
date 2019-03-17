@@ -106,13 +106,13 @@ public class Robot extends TimedRobot {
         hatchAquiredWidget = Robot.driverTab.add("Hatch Aquired", Robot.hatchGrabber.getCapturedSensorValue()).withPosition(0, 5).withSize(3, 3).getEntry();
         hatchRotationWidget = Robot.driverTab.add("Hatch Rotation", hatchGrabber.getRotationSensorValue()).withPosition(3, 8).withSize(3, 3).getEntry();
         visionAquiredWidget = Robot.driverTab.add("Vision Aquired", Robot.vision.getVisionTargetConfidenceBoolean()).withPosition(0, 2).withSize(3, 3).getEntry();
-        Robot.driverTab.add("Lower Frogger", new FroggerLowerCommand()).withPosition(12, 2).withSize(5, 2);
-        Robot.driverTab.add("Test Wheel", new FroggerTestWheelCommand()).withPosition(12, 4).withSize(5, 2);
+        Robot.driverTab.add("Lower Frogger", new FroggerLowerCommand()).withPosition(8, 2).withSize(5, 2);
+        Robot.driverTab.add("Test Wheel", new FroggerTestWheelCommand()).withPosition(8, 4).withSize(5, 2);
         Robot.driverTab.add("Enter Starting Config", new StartingConfigurationEnterCommand()).withPosition(3, 4).withSize(5, 2);
         Robot.driverTab.add("Leave Starting Config", new StartingConfigurationLeaveCommand()).withPosition(3, 6).withSize(5, 2);
         Robot.driverTab.add("Disable Elevator Brake", new ElevatorSetBrakeCommand(false)).withPosition(3, 2).withSize(5, 2);
         Robot.driverTab.add("Enable Elevator Brake", new ElevatorSetBrakeCommand(true)).withPosition(3, 0).withSize(5, 2);
-        Robot.driverTab.add("Auto mode", chooser).withPosition(12, 0).withSize(5, 2);
+        Robot.driverTab.add("Auto mode", chooser).withPosition(8, 0).withSize(5, 2);
         elevatorHeightWidget = Robot.driverTab.add("Elevator Height", "0").withPosition(0, 0).withSize(3, 2).getEntry();
     }
 
