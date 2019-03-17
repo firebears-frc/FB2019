@@ -52,9 +52,13 @@ public class CargoGrabber extends Subsystem {
         cargoCapturedSensorWidget.setBoolean(isCargoCaptured());
 
         if (intake > 0.2) {
-            Robot.cargoGrabber.intake();
+            intake();
         } else if (spit > 0.2) {
-            Robot.cargoGrabber.spit();
+            spit();
+        } else if (isCargoCaptured()) {
+            hold();
+        } else {
+            stop();
         }
     }
 
@@ -71,14 +75,18 @@ public class CargoGrabber extends Subsystem {
     }
 
     public void intake() {
-        motor.set(1.0);
+        motor.set(-1.0);
     }
 
     public void spit() {
-        motor.set(-1.0);
+        motor.set(1.0);
     }
 
     public void hold() {
         motor.set(0.2);
+    }
+
+    public void stop() {
+        motor.set(0.0);
     }
 }

@@ -28,7 +28,7 @@ public class ElevatorCommand extends Command {
     if (isTimedOut()){
       return true;
     }
-    return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 4;
+    return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 1;
   }
 
   @Override

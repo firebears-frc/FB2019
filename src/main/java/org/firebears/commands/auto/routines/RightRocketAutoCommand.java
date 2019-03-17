@@ -3,8 +3,7 @@ package org.firebears.commands.auto.routines;
 import org.firebears.commands.auto.*;
 import org.firebears.commands.auto.teleopAuto.ElevatorCargoCommand;
 import org.firebears.commands.auto.teleopAuto.ElevatorHatchPlaceCommand;
-import org.firebears.commands.ElevatorWithBrakeCommand;
-import org.firebears.commands.HatchReleaseCommand;
+import org.firebears.commands.*;
 
 import org.firebears.commands.ResetNavXCommand;
 
