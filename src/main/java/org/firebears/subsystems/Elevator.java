@@ -45,8 +45,8 @@ public class Elevator extends PIDSubsystem {
         Preferences.getInstance().getDouble("elevator.i", 0.0008), Preferences.getInstance().getDouble("elevator.d", 0),
         Preferences.getInstance().getDouble("elevator.f", 0.15));
 
-    motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));
-    motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));
+    motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));  // PDP channel 0
+    motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));  // PDP channel 1
     motors = new SpeedControllerGroup(motor1, motor2);
     addChild("motors", motors);
 

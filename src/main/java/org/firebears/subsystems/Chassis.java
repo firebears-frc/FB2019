@@ -203,6 +203,7 @@ public class Chassis extends Subsystem {
         lidarDistancewidget.setNumber(getLidarDistanceInches());
         SmartDashboard.putNumber("left inches", pidFrontLeft.inchesTraveled());
         SmartDashboard.putNumber("right inches", pidFrontRight.inchesTraveled());
+        SmartDashboard.putNumber("max encoder", pidFrontRight.getmaxEncoderVelocity());
         InchesNew = lidarArduino.getdistanceAA() * changeRateOfLidarAvg;
         InchesAvg = InchesAvg * (1 - changeRateOfLidarAvg) + InchesNew;
     }

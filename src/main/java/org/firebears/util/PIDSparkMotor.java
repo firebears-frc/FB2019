@@ -21,6 +21,8 @@ public class PIDSparkMotor implements SpeedController {
 	private final CANEncoder encoder;
 	private boolean closedLoop = false;
 	private double currentSpeed = 0.0;
+	private double maxSpeed = 0.0;
+	private double maxEncoderVelocity = 0.0;
 	private boolean invertEncoder = false;
 
 	public PIDSparkMotor(CANSparkMax m, double kP, double kI, double kD) {
@@ -78,6 +80,10 @@ public class PIDSparkMotor implements SpeedController {
 			}
 		} else {
 			motor.set(speed);
+		}
+		if (speed > maxSpeed) {
+			maxSpeed = speed;
+			maxEncoderVelocity = Math.max(maxEncoderVelocity, Math.abs(encoder.getVelocity()));
 		}
 	}
 
@@ -143,4 +149,7 @@ public class PIDSparkMotor implements SpeedController {
 		return "PIDSparkMotor(" + motor.getDeviceId() + ")";
 	}
 
+	public double getmaxEncoderVelocity() {
+		return maxEncoderVelocity;
+	}
 }
