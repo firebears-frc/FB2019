@@ -1,10 +1,7 @@
 package org.firebears;
 
 import org.firebears.commands.*;
-import org.firebears.commands.auto.DistanceCommand;
-import org.firebears.commands.auto.DriveToVisionTargetCommand;
-import org.firebears.commands.auto.PIDrelativeAngleCommand;
-import org.firebears.commands.auto.RotateToAngleCommand;
+import org.firebears.commands.auto.*;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.commands.auto.teleopAuto.SelectHatchCommand;
 import org.firebears.recording.RecordingFactory;
@@ -134,11 +131,11 @@ public class OI {
         
         SmartDashboard.putData(new DriveToWallCommand(20));
 
-         SmartDashboard.putData("Brake 24", new ElevatorCommand(24));
-         SmartDashboard.putData("Brake 36", new ElevatorCommand(36));
+        SmartDashboard.putData("Brake 24", new ElevatorCommand(24));
+        SmartDashboard.putData("Brake 36", new ElevatorCommand(36));
 
-
-
+        SmartDashboard.putData("DriveToVisionDistance", new DriveToVisionTargetDistanceCommand());
+        SmartDashboard.putData("RotateToVision", new RotateToVisionTargetCommand());
 
         // SmartDashboard.putData("Brake on", new ElevatorCommand(true));
         // SmartDashboard.putData("Brake off", new ElevatorCommand(false));
