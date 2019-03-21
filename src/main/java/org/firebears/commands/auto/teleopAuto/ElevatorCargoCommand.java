@@ -18,10 +18,10 @@ public class ElevatorCargoCommand extends CommandGroup {
    */
   public ElevatorCargoCommand(double elevatorHeight) {
     addSequential(new DriveToVisionTargetCommand());
-    addSequential(new ElevatorWithBrakeCommand(elevatorHeight));
+    addSequential(new ElevatorCommand(elevatorHeight));
     addSequential(new DriveToWallCommand(18));
     addSequential(new CargoSpitCommand(), 3);
     addSequential(new DistanceCommand(-6));
-    addSequential(new ElevatorWithBrakeCommand(6));
+    addSequential(new ElevatorCommand(6));
   }
 }

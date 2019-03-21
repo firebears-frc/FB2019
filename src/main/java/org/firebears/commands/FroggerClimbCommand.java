@@ -13,7 +13,7 @@ public class FroggerClimbCommand extends CommandGroup {
   public FroggerClimbCommand() {
     //addSequential(new DisableBrakeCommand());
     addSequential(new FroggerElevatorClimbCommand());
-    addParallel(new ElevatorWithBrakeCommand(0.0));
+    addParallel(new ElevatorCommand(0.0));
     addSequential(new FroggerDriveCommand());
     addSequential(new FroggerRaiseCommand());
   }

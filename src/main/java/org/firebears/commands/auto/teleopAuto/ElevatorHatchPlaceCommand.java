@@ -18,10 +18,10 @@ public class ElevatorHatchPlaceCommand extends CommandGroup {
    */
   public ElevatorHatchPlaceCommand(Double elevatorHeight) {
     addSequential(new DriveToVisionTargetCommand());
-    addSequential(new ElevatorWithBrakeCommand(elevatorHeight));
+    addSequential(new ElevatorCommand(elevatorHeight));
     addSequential(new DriveToWallCommand(15));
     addSequential(new HatchReleaseCommand());
     addSequential(new DistanceCommand(-6));
-    addSequential(new ElevatorWithBrakeCommand(6));
+    addSequential(new ElevatorCommand(6));
   }
 }

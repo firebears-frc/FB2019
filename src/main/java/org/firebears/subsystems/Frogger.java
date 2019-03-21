@@ -19,7 +19,7 @@ public class Frogger extends Subsystem {
     private final double DRIVE_SPEED = 1.0;
 
     private final NetworkTableEntry froggerBottomWidget;
-
+    
 
     public Frogger() {
         jumpMotor = new WPI_TalonSRX(config.getInt("frogger.jumpMotor.canID", 11));
@@ -34,7 +34,7 @@ public class Frogger extends Subsystem {
         jumpMotor.setNeutralMode(NeutralMode.Brake);
 
         froggerBottomWidget = Robot.programmerTab.add("froggerBottom", false).withPosition(13, 7).getEntry();
-
+       
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Frogger extends Subsystem {
     public void periodic() {
 
         froggerBottomWidget.setBoolean(jumpMotor.getSensorCollection().isFwdLimitSwitchClosed());
-
+       
 
      //   if (jumpMotor.get() == 0.0){
        //     IdleMode idleMode = braking ? IdleMode.kBrake : IdleMode.kCoast;

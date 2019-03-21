@@ -12,11 +12,11 @@ public class LeftRocketAutoCommand extends CommandGroup {
     addSequential(new ResetNavXCommand());
     addSequential(new DistanceCommand(60));
     addParallel(new StartingConfigurationLeaveCommand());
-    addSequential(new AbsoluteAngleCommand(-90));
+    addSequential(new RotateToAngleCommand(-90));
     addSequential(new DistanceCommand(56));
-    addSequential(new AbsoluteAngleCommand(-30));
+    addSequential(new RotateToAngleCommand(-30));
     addSequential(new DistanceCommand(35));
     addSequential(new VisionConditionalCommand(new ElevatorHatchPlaceCommand(4.59)));
-    //addSequential(new AbsoluteAngleCommand(180));
+    //addSequential(new RotateToAngleCommand(180));
   }
 }

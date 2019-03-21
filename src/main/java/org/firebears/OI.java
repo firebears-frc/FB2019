@@ -97,17 +97,17 @@ public class OI {
 
         // Manual teleop
         hatch1Button = new JoystickButton(joystick, 7);
-        hatch1Button.whenPressed(new ElevatorWithBrakeCommand(5));
+        hatch1Button.whenPressed(new ElevatorCommand(5));
         hatch2Button = new JoystickButton(joystick, 6);
-        hatch2Button.whenPressed(new ElevatorWithBrakeCommand(35));
+        hatch2Button.whenPressed(new ElevatorCommand(35));
         hatch3Button = new JoystickButton(joystick, 5);
-        hatch3Button.whenPressed(new ElevatorWithBrakeCommand(60));
+        hatch3Button.whenPressed(new ElevatorCommand(60));
         cargo1Button = new JoystickButton(joystick, 2);
-        cargo1Button.whenPressed(new ElevatorWithBrakeCommand(24));
+        cargo1Button.whenPressed(new ElevatorCommand(24));
         cargo2Button = new JoystickButton(joystick, 3);
-        cargo2Button.whenPressed(new ElevatorWithBrakeCommand(52));
-        cargo3Button = new JoystickButton(joystick, 4);
-        cargo3Button.whenPressed(new ElevatorWithBrakeCommand(73));
+        cargo2Button.whenPressed(new ElevatorCommand(52));
+       // cargo3Button = new JoystickButton(joystick, 4);
+        //cargo3Button.whenPressed(new ElevatorCommand(73));
 
         tiltyButton = new JoystickButton(joystick, 8);
         tiltyButton.whenPressed(new TiltyToggleConditionalCommand());
@@ -131,15 +131,14 @@ public class OI {
         
         SmartDashboard.putData(new DriveToWallCommand(20));
 
-         SmartDashboard.putData("Brake 24", new ElevatorWithBrakeCommand(24));
-         SmartDashboard.putData("Brake 36", new ElevatorWithBrakeCommand(36));
-
+        SmartDashboard.putData("Brake 24", new ElevatorCommand(24));
+        SmartDashboard.putData("Brake 36", new ElevatorCommand(36));
 
         SmartDashboard.putData("DriveToVisionDistance", new DriveToVisionTargetDistanceCommand());
         SmartDashboard.putData("RotateToVision", new RotateToVisionTargetCommand());
 
-        // SmartDashboard.putData("Brake on", new ElevatorSetBrakeCommand(true));
-        // SmartDashboard.putData("Brake off", new ElevatorSetBrakeCommand(false));
+        // SmartDashboard.putData("Brake on", new ElevatorCommand(true));
+        // SmartDashboard.putData("Brake off", new ElevatorCommand(false));
     }
 
     public XboxController getXboxController() {
