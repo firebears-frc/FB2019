@@ -124,6 +124,8 @@ public class OI {
         SmartDashboard.putData(new FroggerClimbCommand());
         SmartDashboard.putData(new FroggerElevatorClimbCommand());
 
+        SmartDashboard.putData(new DriveToVisionTargetDistanceCommand());
+
         SmartDashboard.putData(new TiltyRetractCommand());
         SmartDashboard.putData(new TiltyExtendCommand());
         SmartDashboard.putData(new StartingConfigurationEnterCommand());

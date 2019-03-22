@@ -12,5 +12,12 @@ public class DriveToVisionTargetDistanceCommand extends DistanceCommand {
       double distance = Robot.vision.getVisionTargetDistance();
       distanceGoal = distance - 23;
       super.initialize();
+      Robot.vision.setVisionTargetSaveImageTime(500);
+  }
+
+  @Override
+  protected void end() {
+    super.end();
+    Robot.vision.setVisionTargetSaveImageTime(0.0);
   }
 }

@@ -32,6 +32,8 @@ public class Vision extends Subsystem {
 
     public static final String VISION_TARGET_WIDTH = "visionTarget.width";
 
+    public static final String VISION_TARGET_SAVE_IMAGE_TIME = "visionTarget.saveImageTime";
+
     private NetworkTableEntry angleXWidget;
     private NetworkTableEntry distanceWidget;
     private NetworkTableEntry targetCountWidget;
@@ -84,6 +86,10 @@ int count = 0;
 
     public double getVisionTargetWidth() {
         return visionTargetTable.getEntry(VISION_TARGET_WIDTH).getDouble(0);
+    }
+
+    public void setVisionTargetSaveImageTime(double miliSeconds) {
+        visionTargetTable.getEntry(VISION_TARGET_SAVE_IMAGE_TIME).setNumber(miliSeconds);
     }
 
     public boolean getVisionTargetConfidenceBoolean(){

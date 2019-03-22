@@ -17,6 +17,11 @@ public class RotateToVisionTargetCommand extends RelativeAngleCommand {
     super.initialize();
     x = Robot.vision.getVisionTargetAngleX();
     setTargetAngle(Robot.chassis.getAngle() + x);
+    Robot.vision.setVisionTargetSaveImageTime(500.0);
   }
-
+    @Override
+    protected void end() {
+      super.end();
+      Robot.vision.setVisionTargetSaveImageTime(0.0);
+    }
 }

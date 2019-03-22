@@ -12,7 +12,9 @@ import com.revrobotics.ControlType;
  */
 public class PIDSparkMotor implements SpeedController {
 
-	public static final double MAX_RPM = 5700.0;
+	// public static final double MAX_RPM = 5700.0;
+	// public static final double MAX_RPM = 6083.0;
+	public static final double MAX_RPM = 8000.0;
 	public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 	public static final int SECONDARY_SLOT = 1;
 
@@ -81,7 +83,7 @@ public class PIDSparkMotor implements SpeedController {
 		} else {
 			motor.set(speed);
 		}
-		if (speed > maxSpeed) {
+		if (speed >= maxSpeed) {
 			maxSpeed = speed;
 			maxEncoderVelocity = Math.max(maxEncoderVelocity, Math.abs(encoder.getVelocity()));
 		}
