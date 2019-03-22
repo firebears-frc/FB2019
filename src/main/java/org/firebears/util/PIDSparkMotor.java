@@ -37,7 +37,7 @@ public class PIDSparkMotor implements SpeedController {
 		encoder = motor.getEncoder();
 	}
 
-	public void setSecondaryPID(double kP, double kI, double kD)  {
+	public void setSecondaryPID(double kP, double kI, double kD) {
 		pidController.setP(kP, SECONDARY_SLOT);
 		pidController.setI(kI, SECONDARY_SLOT);
 		pidController.setD(kD, SECONDARY_SLOT);
@@ -82,9 +82,6 @@ public class PIDSparkMotor implements SpeedController {
 			}
 		} else {
 			motor.set(speed);
-		}
-		if (speed >= maxSpeed) {
-			maxSpeed = speed;
 			maxEncoderVelocity = Math.max(maxEncoderVelocity, Math.abs(encoder.getVelocity()));
 		}
 	}
