@@ -23,8 +23,9 @@ public class FroggerRaiseCommand extends Command {
   protected boolean isFinished() {
     if (isTimedOut()) {
       return true;
-    // } if (Robot.frogger.isUpwardsLimitHit() == true){
-    //   return true;
+    }
+    if (Robot.frogger.encoderDistance() <= 1) {
+      return true;
     }
     return false;
   }
@@ -32,9 +33,5 @@ public class FroggerRaiseCommand extends Command {
   @Override
   protected void end() {
     Robot.frogger.footStop();
-  }
-
-  @Override
-  protected void interrupted() {
   }
 }
