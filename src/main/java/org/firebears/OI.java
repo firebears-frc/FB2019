@@ -138,7 +138,9 @@ public class OI {
 
         SmartDashboard.putData("DriveToVisionDistance", new DriveToVisionTargetDistanceCommand());
         SmartDashboard.putData("RotateToVision", new RotateToVisionTargetCommand());
-
+        SmartDashboard.putData("FroggerClimbSync", new FroggerClimbSyncCommand());
+        //SmartDashboard.putData("Elevator24Inches", new ElevatorCommand(24));
+ 
         // SmartDashboard.putData("Brake on", new ElevatorCommand(true));
         // SmartDashboard.putData("Brake off", new ElevatorCommand(false));
     }

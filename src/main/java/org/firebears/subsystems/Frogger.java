@@ -40,7 +40,7 @@ public class Frogger extends Subsystem {
         encoder = new Encoder(encoderInputA, encoderInputB, false, EncodingType.k4X);
 
         froggerBottomWidget = Robot.programmerTab.add("froggerBottom", false).withPosition(13, 7).getEntry();
-        froggerEncoderWidget = Robot.programmerTab.add("Frogger Dist", false).withSize(4, 2).withPosition(20, 8).getEntry();
+        froggerEncoderWidget = Robot.programmerTab.add("Frogger Dist", 0.0).withSize(4, 2).withPosition(20, 8).getEntry();
 
         resetEncoder();
 
