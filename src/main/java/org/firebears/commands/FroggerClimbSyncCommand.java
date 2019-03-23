@@ -23,6 +23,9 @@ public class FroggerClimbSyncCommand extends Command {
 
   public FroggerClimbSyncCommand() {
 
+    requires(Robot.elevator);
+    requires(Robot.frogger);
+
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -30,9 +33,10 @@ public class FroggerClimbSyncCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    setTimeout(10);
     initElevatorDistance = Robot.elevator.inchesTraveled();
     initFroggerDistance = Robot.frogger.encoderDistance();
-    finalElevatorDistance = 0.0;
+    finalElevatorDistance = 1.0;
     finalFroggerDistance = 20.0;
     System.out.println("INITIALIZE: " + this);
   }
@@ -58,12 +62,14 @@ public class FroggerClimbSyncCommand extends Command {
       Robot.elevator.setSetpoint(elevatorSetPoint);
     }
     System.out.println("EXECUTE: " + this + "   : " + currentFroggerDistance + " / " + finalFroggerDistance + "   : "
-        + elevatorSetPoint + " / " + Robot.elevator.inchesTraveled());
+        + Robot.elevator.inchesTraveled() + " / " + finalElevatorDistance 
+        + " : " + elevatorSetPoint);
   }
 
   // Mak this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  protected boolean isFinished() { 
+    if (isTimedOut()){return true;}
     double currentFroggerDistance = Robot.frogger.encoderDistance();
     return (currentFroggerDistance >= finalFroggerDistance && Robot.elevator.inchesTraveled() <= finalElevatorDistance);
   }
