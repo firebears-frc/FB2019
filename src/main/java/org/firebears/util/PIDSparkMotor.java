@@ -23,7 +23,6 @@ public class PIDSparkMotor implements SpeedController {
 	private final CANEncoder encoder;
 	private boolean closedLoop = false;
 	private double currentSpeed = 0.0;
-	private double maxSpeed = 0.0;
 	private double maxEncoderVelocity = 0.0;
 	private boolean invertEncoder = false;
 
