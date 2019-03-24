@@ -17,6 +17,7 @@ public class FroggerClimbSyncCommand extends Command {
   double initFroggerDistance;
   double finalElevatorDistance;
   double finalFroggerDistance;
+  double previousElevatorMinSpeed;
 
   double froggerSlope;
   double elevatorSetPoint;
@@ -39,6 +40,8 @@ public class FroggerClimbSyncCommand extends Command {
     finalElevatorDistance = 1.0;
     finalFroggerDistance = 20.0;
     System.out.println("INITIALIZE: " + this);
+    previousElevatorMinSpeed = Robot.elevator.minimumElevatorSpeed;
+    Robot.elevator.minimumElevatorSpeed = -1.0;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -62,14 +65,16 @@ public class FroggerClimbSyncCommand extends Command {
       Robot.elevator.setSetpoint(elevatorSetPoint);
     }
     System.out.println("EXECUTE: " + this + "   : " + currentFroggerDistance + " / " + finalFroggerDistance + "   : "
-        + Robot.elevator.inchesTraveled() + " / " + finalElevatorDistance 
-        + " : " + elevatorSetPoint);
+        + Robot.elevator.inchesTraveled() + " / " + finalElevatorDistance + " : " + elevatorSetPoint + "    : " + Robot.elevator.getSpeed());
   }
 
   // Mak this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() { 
-    if (isTimedOut()){return true;}
+  protected boolean isFinished() {
+    if (isTimedOut()) {
+      System.out.println("TIMED_OUT: " + this);
+      return true;
+    }
     double currentFroggerDistance = Robot.frogger.encoderDistance();
     return (currentFroggerDistance >= finalFroggerDistance && Robot.elevator.inchesTraveled() <= finalElevatorDistance);
   }
@@ -79,6 +84,7 @@ public class FroggerClimbSyncCommand extends Command {
   protected void end() {
     Robot.frogger.footStop();
     Robot.elevator.setBrake(true);
+    Robot.elevator.minimumElevatorSpeed = previousElevatorMinSpeed;
     System.out.println("END: " + this);
   }
 }

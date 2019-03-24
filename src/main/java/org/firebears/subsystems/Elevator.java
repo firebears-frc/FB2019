@@ -25,6 +25,7 @@ public class Elevator extends PIDSubsystem {
   public DigitalInput elevatorHighBSensor;
   public DigitalInput elevatorGroundSensor;
   private Servo brakeServo;
+  private double currentSpeed;
 
   double startingDistance;
 
@@ -36,8 +37,8 @@ public class Elevator extends PIDSubsystem {
   private final NetworkTableEntry elevatorGroundWidget;
 
   final Preferences config = Preferences.getInstance();
-  private double minimumElevatorSpeed = -0.3;
-  private double maximumElevatorSpeed = 1.0;
+  public double minimumElevatorSpeed = -0.3;
+  double maximumElevatorSpeed = 1.0;
 
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.25),
@@ -122,6 +123,11 @@ public class Elevator extends PIDSubsystem {
     output = Math.max(output, minimumElevatorSpeed);
     output = Math.min(output, maximumElevatorSpeed);
     setSpeed(output);
+    currentSpeed = output;
+  }
+
+  public double getSpeed() {
+    return currentSpeed;
   }
 
   public void setSpeed(double output) {
