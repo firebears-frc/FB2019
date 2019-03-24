@@ -11,21 +11,25 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-public class Frogger extends Subsystem {
+/**
+ * Add your docs here.
+ */
+public class Frogger extends PIDSubsystem {
     private final Preferences config = Preferences.getInstance();
     private final WPI_TalonSRX jumpMotor;
     private final WPI_TalonSRX forwardMotor;
-    private final double FROGGER_SPEED;
     private final double DRIVE_SPEED;
     private final double TICKS_PER_INCH = 113.0;
     private final NetworkTableEntry froggerBottomWidget;
     private final NetworkTableEntry froggerEncoderWidget;
     private final Encoder encoder;
     private double startingDistance;
+    public final static double MAX_FROGGER_DISTANCE = 20.0;
 
     public Frogger() {
-        FROGGER_SPEED = config.getDouble("frogger.froggerSpeed", 0.75);
+        super("SubsystemName", 1, 0, 0);
         DRIVE_SPEED = config.getDouble("frogger.driveSpeed", 1.00);
 
         jumpMotor = new WPI_TalonSRX(config.getInt("frogger.jumpMotor.canID", 11));
@@ -40,7 +44,8 @@ public class Frogger extends Subsystem {
         encoder = new Encoder(encoderInputA, encoderInputB, false, EncodingType.k4X);
 
         froggerBottomWidget = Robot.programmerTab.add("froggerBottom", false).withPosition(13, 7).getEntry();
-        froggerEncoderWidget = Robot.programmerTab.add("Frogger Dist", 0.0).withSize(4, 2).withPosition(20, 8).getEntry();
+        froggerEncoderWidget = Robot.programmerTab.add("Frogger Dist", 0.0).withSize(4, 2).withPosition(20, 8)
+                .getEntry();
 
         resetEncoder();
 
@@ -50,34 +55,36 @@ public class Frogger extends Subsystem {
     }
 
     @Override
-    public void initDefaultCommand() {
-    }
-
-    @Override
     public void periodic() {
         froggerEncoderWidget.setDouble(encoderDistance());
         froggerBottomWidget.setBoolean(jumpMotor.getSensorCollection().isFwdLimitSwitchClosed());
     }
 
-    public void footDown() {
-        jumpMotor.set(FROGGER_SPEED);
+    @Override
+    public void initDefaultCommand() {
+
     }
 
-    public void footup() {
-        jumpMotor.set(-FROGGER_SPEED);
+    @Override
+    protected double returnPIDInput() {
+        return encoderDistance();
     }
 
-    public void footStop() {
-        jumpMotor.set(0.0);
+    @Override
+    protected void usePIDOutput(double output) {
+        jumpMotor.set(output);
+    }
+
+    public boolean isDownwardsLimitHit() {
+        return jumpMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    }
+
+    public boolean isUpwardsLimitHit() {
+        return jumpMotor.getSensorCollection().isRevLimitSwitchClosed();
     }
 
     public void resetEncoder() {
         startingDistance = encoder.getDistance();
-    }
-
-    public double encoderDistance() {
-        double currentDistance = encoder.getDistance();
-        return Math.abs(currentDistance - startingDistance) / TICKS_PER_INCH;
     }
 
     public void driveForward() {
@@ -88,15 +95,21 @@ public class Frogger extends Subsystem {
         forwardMotor.set(0.0);
     }
 
-    public double getJumpMotor() {
-        return jumpMotor.get();
+    public double encoderDistance() {
+        double currentDistance = encoder.getDistance();
+        return Math.abs(currentDistance - startingDistance) / TICKS_PER_INCH;
     }
 
-    public boolean isDownwardsLimitHit() {
-        return jumpMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    public void footDown() {
+        setSetpoint(MAX_FROGGER_DISTANCE);
     }
 
-    public boolean isUpwardsLimitHit() {
-        return jumpMotor.getSensorCollection().isRevLimitSwitchClosed();
+    public void footup() {
+        setSetpoint(0.0);
     }
+
+    public void footStop() {
+        setSetpoint(encoderDistance());
+    }
+
 }

@@ -55,17 +55,21 @@ public class FroggerClimbSyncCommand extends Command {
     }
 
     if (Robot.elevator.inchesTraveled() > finalElevatorDistance) {
-
-      // (y2 - y1)/(x2 - x1)
-      froggerSlope = (finalElevatorDistance - initElevatorDistance) / (finalFroggerDistance - initFroggerDistance);
-
-      // y = mx + b
-      elevatorSetPoint = (froggerSlope * currentFroggerDistance) + initElevatorDistance;
-
-      Robot.elevator.setSetpoint(elevatorSetPoint);
+      Robot.elevator.setSetpoint(elevatorSetpoint(currentFroggerDistance));
     }
     System.out.println("EXECUTE: " + this + "   : " + currentFroggerDistance + " / " + finalFroggerDistance + "   : "
-        + Robot.elevator.inchesTraveled() + " / " + finalElevatorDistance + " : " + elevatorSetPoint + "    : " + Robot.elevator.getSpeed());
+        + Robot.elevator.inchesTraveled() + " / " + finalElevatorDistance + " : "
+        + elevatorSetpoint(currentFroggerDistance) + "    : " + Robot.elevator.getSpeed());
+  }
+
+  private double elevatorSetpoint(double currentFroggerDistance) {
+    // (y2 - y1)/(x2 - x1)
+    froggerSlope = (finalElevatorDistance - initElevatorDistance) / (finalFroggerDistance - initFroggerDistance);
+
+    // y = mx + b
+    elevatorSetPoint = (froggerSlope * currentFroggerDistance) + initElevatorDistance;
+
+    return elevatorSetPoint;
   }
 
   // Mak this return true when this Command no longer needs to run execute()
@@ -76,7 +80,9 @@ public class FroggerClimbSyncCommand extends Command {
       return true;
     }
     double currentFroggerDistance = Robot.frogger.encoderDistance();
-    return (currentFroggerDistance >= finalFroggerDistance && Robot.elevator.inchesTraveled() <= finalElevatorDistance);
+    boolean froggerReached = currentFroggerDistance >= finalFroggerDistance || Robot.frogger.isDownwardsLimitHit();
+    boolean elevatorReached = Robot.elevator.inchesTraveled() <= finalElevatorDistance;
+    return froggerReached && elevatorReached;
   }
 
   // Called once after isFinished returns true
