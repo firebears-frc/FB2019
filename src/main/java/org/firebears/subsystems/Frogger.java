@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
@@ -29,7 +28,7 @@ public class Frogger extends PIDSubsystem {
     public final static double MAX_FROGGER_DISTANCE = 20.0;
 
     public Frogger() {
-        super("SubsystemName", 1, 0, 0);
+        super("Frogger", 0.1, 0, 0);
         DRIVE_SPEED = config.getDouble("frogger.driveSpeed", 1.00);
 
         jumpMotor = new WPI_TalonSRX(config.getInt("frogger.jumpMotor.canID", 11));

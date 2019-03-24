@@ -18,7 +18,7 @@ public class DriveToWallCommand extends Command {
   @Override
   protected void initialize() {
     distance = Robot.chassis.getLidarDistanceInches();
-    setTimeout(5);
+    setTimeout(2);
   }
 
   @Override

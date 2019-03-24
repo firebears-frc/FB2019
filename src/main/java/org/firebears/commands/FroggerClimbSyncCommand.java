@@ -8,6 +8,7 @@
 package org.firebears.commands;
 
 import org.firebears.Robot;
+import org.firebears.subsystems.Frogger;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -18,6 +19,11 @@ public class FroggerClimbSyncCommand extends Command {
   double finalElevatorDistance;
   double finalFroggerDistance;
   double previousElevatorMinSpeed;
+
+  double climbTime = 2.0;
+  long startTimeMilis;
+  
+
 
   double froggerSlope;
   double elevatorSetPoint;
@@ -34,25 +40,27 @@ public class FroggerClimbSyncCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(10);
+    setTimeout(climbTime+2);
     initElevatorDistance = Robot.elevator.inchesTraveled();
     initFroggerDistance = Robot.frogger.encoderDistance();
-    finalElevatorDistance = 1.0;
-    finalFroggerDistance = 20.0;
+    finalElevatorDistance = -1.0;
+    finalFroggerDistance = Frogger.MAX_FROGGER_DISTANCE;
+    startTimeMilis = System.currentTimeMillis();
     System.out.println("INITIALIZE: " + this);
     previousElevatorMinSpeed = Robot.elevator.minimumElevatorSpeed;
     Robot.elevator.minimumElevatorSpeed = -1.0;
+    Robot.elevator.setBrake(false);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     double currentFroggerDistance = Robot.frogger.encoderDistance();
+    long currentTime = System.currentTimeMillis();
+    double elapsedTime = (currentTime - startTimeMilis) / 1000.0;
     if (currentFroggerDistance < finalFroggerDistance) {
-      Robot.frogger.footDown();
-    } else {
-      Robot.frogger.footStop();
-    }
+      Robot.frogger.setSetpoint((elapsedTime/climbTime) * finalFroggerDistance);
+    } 
 
     if (Robot.elevator.inchesTraveled() > finalElevatorDistance) {
       Robot.elevator.setSetpoint(elevatorSetpoint(currentFroggerDistance));

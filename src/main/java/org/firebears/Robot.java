@@ -145,6 +145,7 @@ public class Robot extends TimedRobot {
         }
         lights.reset();
         elevator.enable();
+        frogger.enable();
     }
 
     @Override
@@ -160,6 +161,7 @@ public class Robot extends TimedRobot {
         }
         lights.reset();
         elevator.enable();
+        frogger.enable();
        
     }
 
