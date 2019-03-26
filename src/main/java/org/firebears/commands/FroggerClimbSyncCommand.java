@@ -65,6 +65,9 @@ public class FroggerClimbSyncCommand extends Command {
     if (Robot.elevator.inchesTraveled() > finalElevatorDistance) {
       Robot.elevator.setSetpoint(elevatorSetpoint(currentFroggerDistance));
     }
+
+    Robot.frogger.driveForward();
+
     System.out.println("EXECUTE: " + this + "   : " + currentFroggerDistance + " / " + finalFroggerDistance + "   : "
         + Robot.elevator.inchesTraveled() + " / " + finalElevatorDistance + " : "
         + elevatorSetpoint(currentFroggerDistance) + "    : " + Robot.elevator.getSpeed());

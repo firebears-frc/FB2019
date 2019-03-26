@@ -1,9 +1,8 @@
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.firebears.Robot;
-import org.firebears.subsystems.Chassis;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveToWallCommand extends Command {
 

@@ -1,6 +1,5 @@
 package org.firebears.commands;
 
-import org.firebears.commands.auto.DistanceCommand;
 import org.firebears.subsystems.Frogger;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

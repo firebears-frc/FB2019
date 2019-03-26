@@ -27,11 +27,11 @@ public class RelativeAngleCommand extends Command {
     if (diff < -25) {
       Robot.chassis.drive(0, -0.5);
     } else if (diff < 0) {
-      Robot.chassis.drive(0, -0.35);
+      Robot.chassis.drive(0, -0.25);
     } else if (diff > 25) {
       Robot.chassis.drive(0, 0.5);
     } else {
-      Robot.chassis.drive(0, 0.35);
+      Robot.chassis.drive(0, 0.25);
     }
   }
 

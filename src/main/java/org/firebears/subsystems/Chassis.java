@@ -56,9 +56,10 @@ public class Chassis extends Subsystem {
 
     public static final double WHEEL_BASE_INCHES = 22.0;
 
+    final Preferences config = Preferences.getInstance();
+    private final double rampRate;
+
     public Chassis() {
-        final Preferences config = Preferences.getInstance();
-        double rampRate = config.getDouble("chassis.rampRate", 0.0);
         double kP = config.getDouble("chassis.p", 0.00015);
         double kI = config.getDouble("chassis.i", 0.0);
         double kD = config.getDouble("chassis.d", 0.0);
@@ -72,13 +73,11 @@ public class Chassis extends Subsystem {
         int chassisRearRightCanID = config.getInt("chassis.rearright.canID", 2);
         rearRight = new CANSparkMax(chassisRearRightCanID, MotorType.kBrushless);
         rearRight.setInverted(false);
-        rearRight.setRampRate(rampRate);
 
         int chassisFrontRightCanID = config.getInt("chassis.frontright.canID", 3);
         frontRight = new CANSparkMax(chassisFrontRightCanID, MotorType.kBrushless);
         frontRight.setInverted(false);
         frontRightEncoder = frontRight.getEncoder();
-        frontRight.setRampRate(rampRate);
         pidFrontRight = new PIDSparkMotor(frontRight, kP, kI, kD);
         pidFrontRight.setClosedLoop(closedLoop);
         pidFrontRight.setInvertEncoder(true);
@@ -90,14 +89,12 @@ public class Chassis extends Subsystem {
         frontLeft = new CANSparkMax(chassisFrontLeftCanID, MotorType.kBrushless);
         frontLeft.setInverted(false);
         frontLeftEncoder = frontLeft.getEncoder();
-        frontLeft.setRampRate(rampRate);
         pidFrontLeft = new PIDSparkMotor(frontLeft, kP, kI, kD);
         pidFrontLeft.setClosedLoop(closedLoop);
 
         int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 5);
         rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
         rearLeft.setInverted(false);
-        rearLeft.setRampRate(rampRate);
 
         rearLeft.follow(frontLeft);
 
@@ -108,6 +105,9 @@ public class Chassis extends Subsystem {
         robotDrive.setExpiration(0.1);
         robotDrive.setMaxOutput(1.0);
         setBrakingMode(config.getBoolean("chassis.defaultbraking", false));
+
+        rampRate = config.getDouble("chassis.rampRate", 0.0);
+        setRampRate(rampRate);
 
         try {
             navXBoard = new AHRS(edu.wpi.first.wpilibj.SerialPort.Port.kUSB);
@@ -186,12 +186,13 @@ public class Chassis extends Subsystem {
     }
 
     public double getRampRate() {
-        return frontLeft.getRampRate();
+        // return frontLeft.getRampRate();
+        return rampRate;
     }
 
     public void setRampRate(double rampRate) {
-        frontLeft.setRampRate(rampRate);
-        frontRight.setRampRate(rampRate);
+        // frontLeft.setRampRate(rampRate);
+        // frontRight.setRampRate(rampRate);
     }
 
     @Override

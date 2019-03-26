@@ -9,8 +9,6 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 public class ElevatorNudgeCommand extends ElevatorCommand {
   private double offsetHeight;
   public ElevatorNudgeCommand(double offset) {
