@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class FroggerClimbCommand extends CommandGroup {
   public FroggerClimbCommand() {
     addSequential(new ElevatorCommand(22));
-    addSequential(new DriveToWallCommand(19));
-    addSequential(new FroggerClimbSyncCommand());
+    addSequential(new DriveToWallCommand(5));
+    addSequential(new FroggerElevatorClimbCommand());
     addSequential(new FroggerDriveCommand());
     addSequential(new FroggerRaiseCommand(Frogger.MAX_FROGGER_DISTANCE - 2.0));
     addSequential(new ElevatorSetBrakeCommand(false));

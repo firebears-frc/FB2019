@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class FroggerDriveCommand extends Command {
 
-  private final double CHASSIS_SPEED = 0.3;
+  private final double CHASSIS_SPEED = 0.5;
   
   public FroggerDriveCommand() {
     requires(Robot.frogger);
@@ -14,7 +14,7 @@ public class FroggerDriveCommand extends Command {
 
   @Override
   protected void initialize() {
-    setTimeout(4);
+    setTimeout(6);
   }
 
   @Override

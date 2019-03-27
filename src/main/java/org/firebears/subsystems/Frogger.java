@@ -28,7 +28,7 @@ public class Frogger extends PIDSubsystem {
     public final static double MAX_FROGGER_DISTANCE = 20.0;
 
     public Frogger() {
-        super("Frogger", 0.1, 0, 0);
+        super("Frogger", 0.5, 0, 0);
         DRIVE_SPEED = config.getDouble("frogger.driveSpeed", 1.00);
 
         jumpMotor = new WPI_TalonSRX(config.getInt("frogger.jumpMotor.canID", 11));
