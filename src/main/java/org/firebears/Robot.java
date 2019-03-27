@@ -58,6 +58,7 @@ public class Robot extends TimedRobot {
     private static final String RIGHT_ROCKET_AUTO = "rightRocketAuto (default)";
     private static final String LEFT_ROCKET_AUTO = "leftRocketAuto";
     private static final String CENTER_AUTO = "centerAuto";
+    private static final String NO_AUTO = "noAuto";
     private final SendableChooser<String> chooser = new SendableChooser<>();
 
     private NetworkTableEntry cargoAquiredWidget;
@@ -94,6 +95,7 @@ public class Robot extends TimedRobot {
         chooser.setDefaultOption("centerAuto (default)", CENTER_AUTO);
         chooser.addOption("rightRocketAuto", RIGHT_ROCKET_AUTO);
         chooser.addOption("leftRocketAuto", LEFT_ROCKET_AUTO);
+        chooser.addOption("noAuto", NO_AUTO);
         SmartDashboard.putData("Auto mode", chooser);
 
         powerDistributionPanel = new PowerDistributionPanel();
@@ -139,6 +141,8 @@ public class Robot extends TimedRobot {
             autonomousCommand = new LeftRocketAutoCommand();
         } else if (CENTER_AUTO.equals(chooser.getSelected())) {
             autonomousCommand = new CenterAutoCommand();
+        } else if (NO_AUTO.equals(chooser.getSelected())){
+            autonomousCommand = null;
         }
         if (autonomousCommand != null) {
             autonomousCommand.start();

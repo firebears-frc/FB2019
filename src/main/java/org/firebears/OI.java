@@ -97,7 +97,7 @@ public class OI {
 
         // Manual teleop
         hatch1Button = new JoystickButton(joystick, 7);
-        hatch1Button.whenPressed(new ElevatorCommand(3));
+        hatch1Button.whenPressed(new ElevatorCommand(2));
         hatch2Button = new JoystickButton(joystick, 6);
         hatch2Button.whenPressed(new ElevatorCommand(33));
         hatch3Button = new JoystickButton(joystick, 5);

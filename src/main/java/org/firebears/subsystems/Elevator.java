@@ -110,7 +110,7 @@ public class Elevator extends PIDSubsystem {
 
   public double inchesTraveled() {
     double currentDistance = encoder.getDistance();
-    return Math.abs(currentDistance - startingDistance) / ENCODER_TICKS_PER_INCH;
+    return (startingDistance - currentDistance) / ENCODER_TICKS_PER_INCH;
   }
 
   @Override

@@ -191,8 +191,13 @@ public class Chassis extends Subsystem {
     }
 
     public void setRampRate(double rampRate) {
-        // frontLeft.setRampRate(rampRate);
-        // frontRight.setRampRate(rampRate);
+        if (config.getBoolean("chassis.closedLoop", false)) {
+            frontLeft.setClosedLoopRampRate(rampRate);
+            frontRight.setClosedLoopRampRate(rampRate);
+        } else {
+            frontLeft.setOpenLoopRampRate(rampRate);
+            frontRight.setOpenLoopRampRate(rampRate);
+        }
     }
 
     @Override

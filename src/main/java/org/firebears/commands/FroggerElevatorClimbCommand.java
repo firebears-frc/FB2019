@@ -30,7 +30,7 @@ public class FroggerElevatorClimbCommand extends Command {
   @Override
   protected void initialize() {
     Robot.elevator.disable();
-    setTimeout(10);
+    setTimeout(6);
     elevatorMinSpeed = Robot.elevator.getMinElevatorSpeed();
   }
 
