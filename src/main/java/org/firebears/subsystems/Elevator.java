@@ -37,7 +37,7 @@ public class Elevator extends PIDSubsystem {
   private final NetworkTableEntry elevatorGroundWidget;
 
   final Preferences config = Preferences.getInstance();
-  public double minimumElevatorSpeed = -0.3;
+  public double minimumElevatorSpeed = -0.5;
   double maximumElevatorSpeed = 1.0;
 
   public Elevator() {
@@ -51,15 +51,8 @@ public class Elevator extends PIDSubsystem {
     addChild("motors", motors);
 
     motor1.configFactoryDefault();
-    motor1.enableCurrentLimit(true);
-    motor1.configContinuousCurrentLimit(10);
     motor2.configFactoryDefault();
-    motor2.enableCurrentLimit(true);
-    motor2.configContinuousCurrentLimit(10);
-    motor1.configPeakCurrentLimit(50);
-    motor1.configPeakCurrentDuration(1000);
-    motor2.configPeakCurrentLimit(50);
-    motor2.configPeakCurrentDuration(1000);
+    setCurrentLimiting(10, 50, 1000);
     motor2.follow(motor1);
 
     elevatorHeightWidget = Robot.programmerTab.add("Elevator Height", 0).withPosition(6, 2).withSize(4, 2).getEntry();
@@ -86,8 +79,20 @@ public class Elevator extends PIDSubsystem {
     addChild("brakeServo", brakeServo);
 
     // resetEncoder();
-    // setBrake(false);
+    // setBrake(false)
     // setSetpoint(6);
+  }
+
+  public void setCurrentLimiting(int continuous, int high, int time) {
+    System.out.println("setCurrentLimiting: " + continuous + " : " + high + " : " + time);
+    motor1.enableCurrentLimit(true);
+    motor1.configContinuousCurrentLimit(continuous);
+    motor2.enableCurrentLimit(true);
+    motor2.configContinuousCurrentLimit(continuous);
+    motor1.configPeakCurrentLimit(high);
+    motor1.configPeakCurrentDuration(time);
+    motor2.configPeakCurrentLimit(high);
+    motor2.configPeakCurrentDuration(time);
   }
 
   @Override

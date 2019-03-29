@@ -78,7 +78,7 @@ public class OI {
         // joystick/button box
 
         groundCargoButton = new JoystickButton(joystick, 1);
-        groundCargoButton.whenPressed(new ElevatorCommand(0));
+        groundCargoButton.whenPressed(new ElevatorGroundCommand());
         /*
         // Auto teleop
         hatch1Button = new JoystickButton(joystick, 11);
@@ -99,7 +99,7 @@ public class OI {
         hatch1Button = new JoystickButton(joystick, 7);
         hatch1Button.whenPressed(new ElevatorCommand(2));
         hatch2Button = new JoystickButton(joystick, 6);
-        hatch2Button.whenPressed(new ElevatorCommand(33));
+        hatch2Button.whenPressed(new ElevatorCommand(29));
         hatch3Button = new JoystickButton(joystick, 5);
         hatch3Button.whenPressed(new ElevatorCommand(57));
         cargo1Button = new JoystickButton(joystick, 2);
@@ -109,8 +109,11 @@ public class OI {
        // cargo3Button = new JoystickButton(joystick, 4);
         //cargo3Button.whenPressed(new ElevatorCommand(73));
 
+      //  tiltyButton = new JoystickButton(joystick, 8);
+        //tiltyButton.whenPressed(new TiltyToggleConditionalCommand());
+
         tiltyButton = new JoystickButton(joystick, 8);
-        tiltyButton.whenPressed(new TiltyToggleConditionalCommand());
+        tiltyButton.whenPressed(new StartingConfigurationLeaveCommand());
 
         climbButton = new JoystickButton(joystick, 11);
         climbButton.whenPressed(new FroggerClimbCommand());

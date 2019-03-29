@@ -92,10 +92,10 @@ public class Robot extends TimedRobot {
         oi = new OI();
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
 
-        chooser.setDefaultOption("centerAuto (default)", CENTER_AUTO);
+        chooser.addOption("centerAuto", CENTER_AUTO);
         chooser.addOption("rightRocketAuto", RIGHT_ROCKET_AUTO);
         chooser.addOption("leftRocketAuto", LEFT_ROCKET_AUTO);
-        chooser.addOption("noAuto", NO_AUTO);
+        chooser.setDefaultOption("noAuto", NO_AUTO);
         SmartDashboard.putData("Auto mode", chooser);
 
         powerDistributionPanel = new PowerDistributionPanel();
@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
         } else if (CENTER_AUTO.equals(chooser.getSelected())) {
             autonomousCommand = new CenterAutoCommand();
         } else if (NO_AUTO.equals(chooser.getSelected())){
-            autonomousCommand = null;
+            autonomousCommand = new StartingConfigurationLeaveCommand();
         }
         if (autonomousCommand != null) {
             autonomousCommand.start();

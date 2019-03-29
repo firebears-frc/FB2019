@@ -59,7 +59,7 @@ public class Tilty extends Subsystem {
      * Lower the elevator to be within the frame perimeter.
      */
     public void retract() {
-        motor.set(MOTOR_SPEED);
+        motor.set(0.3);
     }
 
     public void freeze() {

@@ -26,7 +26,7 @@ public class ElevatorGroundCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setSpeed(0);
+    Robot.elevator.setSpeed(-0.3);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -45,6 +45,7 @@ public class ElevatorGroundCommand extends Command {
   @Override
   protected void end() {
     Robot.elevator.enable();
+    Robot.elevator.setSetpoint(0);
   }
 
   // Called when another command which requires one or more of the same
