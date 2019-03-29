@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
         } else if (CENTER_AUTO.equals(chooser.getSelected())) {
             autonomousCommand = new CenterAutoCommand();
         } else if (NO_AUTO.equals(chooser.getSelected())){
-            autonomousCommand = new StartingConfigurationLeaveCommand();
+            autonomousCommand = null;
         }
         if (autonomousCommand != null) {
             autonomousCommand.start();
@@ -165,7 +165,8 @@ public class Robot extends TimedRobot {
         }
         lights.reset();
         elevator.enable();
-        frogger.enable();
+        frogger.disable();
+        // frogger.setSetpoint(0.25);
        
     }
 

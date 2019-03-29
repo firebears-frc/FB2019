@@ -26,6 +26,7 @@ public class Frogger extends PIDSubsystem {
     private final Encoder encoder;
     private double startingDistance;
     public final static double MAX_FROGGER_DISTANCE = 20.0;
+    public boolean isJumping;
 
     public Frogger() {
         super("Frogger", 0.5, 0, 0);
@@ -37,6 +38,10 @@ public class Frogger extends PIDSubsystem {
         jumpMotor.configFactoryDefault();
         forwardMotor.configFactoryDefault();
         jumpMotor.setNeutralMode(NeutralMode.Brake);
+        jumpMotor.enableCurrentLimit(true);
+        jumpMotor.configContinuousCurrentLimit(5);
+        jumpMotor.configPeakCurrentLimit(30);
+        jumpMotor.configPeakCurrentDuration(10000);
 
         DigitalInput encoderInputA = new DigitalInput(config.getInt("frogger.encoder.dio.A", 0));
         DigitalInput encoderInputB = new DigitalInput(config.getInt("frogger.encoder.dio.B", 1));
@@ -48,6 +53,8 @@ public class Frogger extends PIDSubsystem {
 
         resetEncoder();
 
+        this.isJumping = false;
+
         addChild("jumpMotor", jumpMotor);
         addChild("forwardMotor", forwardMotor);
         addChild("encoder", encoder);
@@ -57,6 +64,10 @@ public class Frogger extends PIDSubsystem {
     public void periodic() {
         froggerEncoderWidget.setDouble(encoderDistance());
         froggerBottomWidget.setBoolean(jumpMotor.getSensorCollection().isFwdLimitSwitchClosed());
+
+        if(!isJumping){
+            jumpMotor.set(-0.07);
+        }
     }
 
     @Override
@@ -100,10 +111,13 @@ public class Frogger extends PIDSubsystem {
     }
 
     public void footDown() {
-        setSetpoint(MAX_FROGGER_DISTANCE);
+        isJumping = true;
+        // setSetpoint(MAX_FROGGER_DISTANCE);
+        jumpMotor.set(1.0);
     }
 
     public void footup() {
+        isJumping = true;
         setSetpoint(0.0);
     }
 

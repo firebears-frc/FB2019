@@ -23,6 +23,7 @@ public class FroggerRaiseCommand extends Command {
   @Override
   protected void initialize() {
     setTimeout(3);
+    Robot.frogger.enable();
   }
 
   @Override

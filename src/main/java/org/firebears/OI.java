@@ -103,7 +103,7 @@ public class OI {
         hatch3Button = new JoystickButton(joystick, 5);
         hatch3Button.whenPressed(new ElevatorCommand(57));
         cargo1Button = new JoystickButton(joystick, 2);
-        cargo1Button.whenPressed(new ElevatorCommand(24));
+        cargo1Button.whenPressed(new ElevatorCommand(23));
         cargo2Button = new JoystickButton(joystick, 3);
         cargo2Button.whenPressed(new ElevatorCommand(50));
        // cargo3Button = new JoystickButton(joystick, 4);
