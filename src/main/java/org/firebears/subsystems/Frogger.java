@@ -117,8 +117,8 @@ public class Frogger extends PIDSubsystem {
     }
 
     public void footup() {
-        isJumping = true;
-        setSetpoint(0.0);
+        isJumping = false;
+        // setSetpoint(0.0);
     }
 
     public void footStop() {
