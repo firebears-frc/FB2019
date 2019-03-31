@@ -34,7 +34,7 @@ public class Lights extends Subsystem {
 	public static final int SUPPORT_STRIP = 1;
 	public static final int AFRAME_STRIP = 2;
 
-	private final I2C i2c;
+	public final I2C i2c;
 	private final DriverStation driverstation;
 	private final boolean DEBUG;
 	private long celebrateTimeout = -1;

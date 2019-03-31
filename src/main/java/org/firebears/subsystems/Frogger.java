@@ -40,7 +40,7 @@ public class Frogger extends PIDSubsystem {
         jumpMotor.setNeutralMode(NeutralMode.Brake);
         jumpMotor.enableCurrentLimit(true);
         jumpMotor.configContinuousCurrentLimit(5);
-        jumpMotor.configPeakCurrentLimit(30);
+        jumpMotor.configPeakCurrentLimit(40);
         jumpMotor.configPeakCurrentDuration(10000);
 
         DigitalInput encoderInputA = new DigitalInput(config.getInt("frogger.encoder.dio.A", 0));
@@ -117,12 +117,18 @@ public class Frogger extends PIDSubsystem {
     }
 
     public void footup() {
-        isJumping = false;
+        // isJumping = false;
         // setSetpoint(0.0);
+        jumpMotor.set(-1.0);
     }
 
     public void footStop() {
-        setSetpoint(encoderDistance());
+        // setSetpoint(encoderDistance());
+        isJumping = false;
+    }
+
+    public void setIsJumping(boolean jumping){
+        isJumping = jumping;
     }
 
 }

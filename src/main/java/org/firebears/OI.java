@@ -5,6 +5,7 @@ import org.firebears.commands.auto.*;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.commands.auto.teleopAuto.SelectHatchCommand;
 import org.firebears.recording.RecordingFactory;
+import org.firebears.subsystems.Lights;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -146,6 +147,9 @@ public class OI {
  
         // SmartDashboard.putData("Brake on", new ElevatorCommand(true));
         // SmartDashboard.putData("Brake off", new ElevatorCommand(false));
+
+        SmartDashboard.putData("Red lights", new I2cWriteCommand(Robot.lights.i2c, new byte[] {Lights.ELEVATOR_STRIP, Lights.RED_ANIMATION}));
+        SmartDashboard.putData("Blue lights", new I2cWriteCommand(Robot.lights.i2c, new byte[] {Lights.ELEVATOR_STRIP, Lights.BLUE_ANIMATION}));
     }
 
     public XboxController getXboxController() {

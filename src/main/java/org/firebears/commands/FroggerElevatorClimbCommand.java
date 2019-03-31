@@ -19,10 +19,12 @@ public class FroggerElevatorClimbCommand extends Command {
   private final double ELEVATOR_CLIMB_SPEED;
   private final double ELEVATOR_FINAL_SETPOINT;
   private double elevatorMinSpeed;
+  private final double CHASSIS_SPEED = 0.5;
 
   public FroggerElevatorClimbCommand() {
     requires(Robot.frogger);
     requires(Robot.elevator);
+    requires(Robot.chassis);
     ELEVATOR_CLIMB_SPEED = config.getDouble("elevator.climbSpeed", 0.6);
     ELEVATOR_FINAL_SETPOINT = config.getDouble("elevator.finalSetpoint", -1.0);
   }
@@ -59,6 +61,8 @@ public class FroggerElevatorClimbCommand extends Command {
     Robot.frogger.footDown();
 
     Robot.frogger.driveForward();
+
+    Robot.chassis.drive(CHASSIS_SPEED, -0.3);
   }
 
   @Override
@@ -75,7 +79,7 @@ public class FroggerElevatorClimbCommand extends Command {
 
   @Override
   protected void end() {
-    Robot.frogger.footStop();
+    // Robot.frogger.footStop();
     Robot.elevator.setMinElevatorSpeed(elevatorMinSpeed);
     Robot.elevator.setSetpoint(Robot.elevator.inchesTraveled());
     Robot.elevator.enable();

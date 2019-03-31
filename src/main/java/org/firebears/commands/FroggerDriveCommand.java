@@ -10,6 +10,7 @@ public class FroggerDriveCommand extends Command {
   
   public FroggerDriveCommand() {
     requires(Robot.frogger);
+    requires(Robot.chassis);
   }
 
   @Override

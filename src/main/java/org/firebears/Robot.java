@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import org.firebears.commands.ElevatorSetBrakeCommand;
 import org.firebears.commands.ElevatorWithBrakeCommand;
 import org.firebears.commands.FroggerLowerCommand;
+import org.firebears.commands.FroggerRaiseCommand;
 import org.firebears.commands.FroggerTestWheelCommand;
 import org.firebears.commands.StartingConfigurationLeaveCommand;
 import org.firebears.commands.StartingConfigurationEnterCommand;
@@ -108,7 +109,7 @@ public class Robot extends TimedRobot {
         hatchAquiredWidget = Robot.driverTab.add("Hatch Aquired", Robot.hatchGrabber.getCapturedSensorValue()).withPosition(0, 5).withSize(3, 3).getEntry();
         hatchRotationWidget = Robot.driverTab.add("Hatch Rotation", hatchGrabber.getRotationSensorValue()).withPosition(3, 8).withSize(3, 3).getEntry();
         visionAquiredWidget = Robot.driverTab.add("Vision Aquired", Robot.vision.getVisionTargetConfidenceBoolean()).withPosition(0, 2).withSize(3, 3).getEntry();
-        Robot.driverTab.add("Lower Frogger", new FroggerLowerCommand()).withPosition(8, 2).withSize(5, 2);
+        Robot.driverTab.add("Raise Frogger", new FroggerRaiseCommand()).withPosition(8, 2).withSize(5, 2);
         Robot.driverTab.add("Test Wheel", new FroggerTestWheelCommand()).withPosition(8, 4).withSize(5, 2);
         Robot.driverTab.add("Enter Starting Config", new StartingConfigurationEnterCommand()).withPosition(3, 4).withSize(5, 2);
         Robot.driverTab.add("Leave Starting Config", new StartingConfigurationLeaveCommand()).withPosition(3, 6).withSize(5, 2);

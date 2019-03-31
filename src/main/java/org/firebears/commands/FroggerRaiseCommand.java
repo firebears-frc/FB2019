@@ -23,12 +23,13 @@ public class FroggerRaiseCommand extends Command {
   @Override
   protected void initialize() {
     setTimeout(3);
-    Robot.frogger.enable();
+    // Robot.frogger.enable();
   }
 
   @Override
   protected void execute() {
-    Robot.frogger.setSetpoint(goal);
+    // Robot.frogger.setSetpoint(goal);
+    Robot.frogger.footup();
   }
 
   @Override
@@ -41,6 +42,7 @@ public class FroggerRaiseCommand extends Command {
 
   @Override
   protected void end() {
-    Robot.frogger.footStop();
+    // Robot.frogger.footStop();
+    Robot.frogger.setIsJumping(false);
   }
 }
