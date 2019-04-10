@@ -14,9 +14,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Lights extends Subsystem {
 
-
-	
-
 	public static final int MAX_ANIMATIONS = 9;
 	public static final int MAX_PIXELSTRIPS = 3;
 
@@ -28,7 +25,7 @@ public class Lights extends Subsystem {
 	public static final int PULSE_ANIMATION = 5;
 	public static final int ROCKET_ANIMATION = 6;
 	public static final int ISEEYOU_ANIMATION = 7;
-	public static final int HATCHPANELANIMATION = 8;  
+	public static final int HATCHPANELANIMATION = 8;
 
 	public static final int ELEVATOR_STRIP = 0;
 	public static final int SUPPORT_STRIP = 1;
@@ -108,6 +105,7 @@ public class Lights extends Subsystem {
 			return true;
 		}
 	}
+
 	public void setCargoMode(boolean cargoanimation) {
 		if (cargoanimation) {
 			cargoaniamtionTimeout = System.currentTimeMillis() + 3 * 1000L;
@@ -126,10 +124,12 @@ public class Lights extends Subsystem {
 		} else {
 			return true;
 		}
-	}/**
-	* indecaits we want a hatch panel.
-	*/
-	
+	}
+
+	/**
+	 * indecaits we want a hatch panel.
+	 */
+
 	public void setHatchPanelMode(boolean hatchpanelanimation) {
 		if (hatchpanelanimation) {
 			hatchpanelanimationTimeout = System.currentTimeMillis() + 3 * 1000L;
@@ -160,55 +160,44 @@ public class Lights extends Subsystem {
 		nextAnimation[s] = a;
 	}
 
+	int count = 0;
+	int disableAnimation = 0;
+
 	/**
 	 * Change the lights animations based on changes within the robot.
 	 */
 	@Override
 	public void periodic() {
 		int defaultAnimation = driverstation.getAlliance().equals(Alliance.Blue) ? BLUE_ANIMATION : RED_ANIMATION;
+		count++;
+		if ((count % (50 * 3)) == 0) {
+			disableAnimation = (disableAnimation + 1) % MAX_ANIMATIONS;
+		}
 
-		if (Robot.chassis.isTipping()) {
+		if (driverstation.isDisabled()) {
+			setAnimation(ELEVATOR_STRIP, disableAnimation);
+			setAnimation(SUPPORT_STRIP, disableAnimation);
+			setAnimation(AFRAME_STRIP, disableAnimation);
+		} else if (Robot.chassis.isTipping()) {
 			setAnimation(ELEVATOR_STRIP, TIPPINGLIGHT_ANIMATION);
-			setAnimation(SUPPORT_STRIP, TIPPINGLIGHT_ANIMATION);
-			setAnimation(AFRAME_STRIP, TIPPINGLIGHT_ANIMATION);
+			setAnimation(SUPPORT_STRIP, defaultAnimation);
+			setAnimation(AFRAME_STRIP, defaultAnimation);
 		} else if (isCelebrating()) {
 			setAnimation(ELEVATOR_STRIP, RAINBOW_ANIMATION);
 			setAnimation(SUPPORT_STRIP, RAINBOW_ANIMATION);
 			setAnimation(AFRAME_STRIP, RAINBOW_ANIMATION);
-		} else {
-			setAnimation(ELEVATOR_STRIP, defaultAnimation);
-			setAnimation(SUPPORT_STRIP, defaultAnimation);
-			setAnimation(AFRAME_STRIP, defaultAnimation);
-			// TODO : add lots more lights orchestration here
-		}  if (Robot.vision.getVisionTargetConfidence() > 0.8){
-			setAnimation(ELEVATOR_STRIP, ISEEYOU_ANIMATION);
-			setAnimation(SUPPORT_STRIP, ISEEYOU_ANIMATION);
-			setAnimation(AFRAME_STRIP, ISEEYOU_ANIMATION);
-		}  else {
-			setAnimation(ELEVATOR_STRIP, defaultAnimation);
-			setAnimation(SUPPORT_STRIP, defaultAnimation);
-			setAnimation(AFRAME_STRIP, defaultAnimation);
-		}   if (driverstation.getAlliance() == DriverStation.Alliance.Blue) {
-			setAnimation(ELEVATOR_STRIP, BLUE_ANIMATION);
-			setAnimation(SUPPORT_STRIP, BLUE_ANIMATION);
-			setAnimation(AFRAME_STRIP, BLUE_ANIMATION);
-		} else if (driverstation.getAlliance() == DriverStation.Alliance.Red) {
-			setAnimation(ELEVATOR_STRIP, RED_ANIMATION);
-			setAnimation(SUPPORT_STRIP, RED_ANIMATION);
-			setAnimation(AFRAME_STRIP, RED_ANIMATION);
-		
-		}   if (isCargoMode()) {
+		} else if (isCargoMode()) {
 			setAnimation(ELEVATOR_STRIP, CARGOANIMATION);
 			setAnimation(SUPPORT_STRIP, CARGOANIMATION);
 			setAnimation(AFRAME_STRIP, CARGOANIMATION);
-		}   else if (isHatchPanelMode()) {
+		} else if (isHatchPanelMode()) {
 			setAnimation(ELEVATOR_STRIP, HATCHPANELANIMATION);
 			setAnimation(SUPPORT_STRIP, HATCHPANELANIMATION);
 			setAnimation(AFRAME_STRIP, HATCHPANELANIMATION);
-		}   if (driverstation.isDisabled()){
-			setAnimation(ELEVATOR_STRIP, ROCKET_ANIMATION);
-			setAnimation(SUPPORT_STRIP, PULSE_ANIMATION);
-			setAnimation(AFRAME_STRIP, PULSE_ANIMATION);
+		} else if (Robot.vision.getVisionTargetConfidence() > 0.8) {
+			setAnimation(ELEVATOR_STRIP, ISEEYOU_ANIMATION);
+			setAnimation(SUPPORT_STRIP, defaultAnimation);
+			setAnimation(AFRAME_STRIP, defaultAnimation);
 		} else {
 			setAnimation(ELEVATOR_STRIP, defaultAnimation);
 			setAnimation(SUPPORT_STRIP, defaultAnimation);
