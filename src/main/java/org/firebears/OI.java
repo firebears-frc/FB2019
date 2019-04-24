@@ -4,7 +4,10 @@ import org.firebears.commands.*;
 import org.firebears.commands.auto.*;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.commands.auto.teleopAuto.SelectHatchCommand;
+import org.firebears.recording.PlayRecordingCommand;
 import org.firebears.recording.RecordingFactory;
+import org.firebears.recording.StartRecordingCommand;
+import org.firebears.recording.StopRecordingCommand;
 import org.firebears.subsystems.Lights;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,12 +20,13 @@ import org.firebears.commands.auto.teleopAuto.*;
 public class OI {
 
     public XboxController xboxController;
-    private JoystickButton buttonB; // b 2
+    private JoystickButton buttonB; // b 2 start record
     private JoystickButton buttonA; // a 1
     private JoystickButton buttonY; // y 4 free button
-    private JoystickButton buttonX; // x 3
+    private JoystickButton buttonX; // x 3 stop record
     private JoystickButton rightBumper; // right bumper 6
     private JoystickButton leftBumper; // left bumper 5
+    private JoystickButton buttonStart; //8 play recording
    
    // private JoystickButton buttonElevator24; //start button
    // private JoystickButton buttonClimb; //back button
@@ -50,7 +54,7 @@ public class OI {
 
         // xbox
         buttonX = new JoystickButton(xboxController, 3);
-        buttonX.whenPressed(new PIDrelativeAngleCommand(45));
+        buttonX.whenPressed(new StartRecordingCommand(recordingFactory));
 
         buttonA = new JoystickButton(xboxController, 1);
         buttonA.whenPressed(new ElevatorNudgeCommand(-2));
@@ -59,7 +63,10 @@ public class OI {
         buttonY.whenPressed(new ElevatorNudgeCommand(2));
 
         buttonB = new JoystickButton(xboxController, 2);
-        buttonB.whenPressed(new PIDrelativeAngleCommand(180));
+        buttonB.whenPressed(new StopRecordingCommand(recordingFactory));
+
+        buttonStart = new JoystickButton(xboxController, 8);
+        buttonStart.whenPressed(new PlayRecordingCommand(recordingFactory));
 
        // buttonElevator24 = new JoystickButton(xboxController, 8);
        // buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
