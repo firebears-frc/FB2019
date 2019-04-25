@@ -1,32 +1,45 @@
 package org.firebears;
 
-import org.firebears.commands.*;
-import org.firebears.commands.auto.*;
-import org.firebears.commands.auto.routines.CenterAutoCommand;
-import org.firebears.commands.auto.teleopAuto.SelectHatchCommand;
-import org.firebears.recording.PlayRecordingCommand;
-import org.firebears.recording.RecordingFactory;
-import org.firebears.recording.StartRecordingCommand;
-import org.firebears.recording.StopRecordingCommand;
+import org.firebears.commands.DriveToWallCommand;
+import org.firebears.commands.ElevatorCommand;
+import org.firebears.commands.ElevatorGroundCommand;
+import org.firebears.commands.ElevatorNudgeCommand;
+import org.firebears.commands.FroggerClimbCommand;
+import org.firebears.commands.FroggerClimbSyncCommand;
+import org.firebears.commands.FroggerDriveCommand;
+import org.firebears.commands.FroggerElevatorClimbCommand;
+import org.firebears.commands.FroggerLowerCommand;
+import org.firebears.commands.FroggerRaiseCommand;
+import org.firebears.commands.HatchHoldCommand;
+import org.firebears.commands.HatchReleaseCommand;
+import org.firebears.commands.I2cWriteCommand;
+import org.firebears.commands.ResetElevatorEncoderCommand;
+import org.firebears.commands.StartingConfigurationEnterCommand;
+import org.firebears.commands.StartingConfigurationLeaveCommand;
+import org.firebears.commands.TiltyExtendCommand;
+import org.firebears.commands.TiltyRetractCommand;
+import org.firebears.commands.auto.DriveToVisionTargetCommand;
+import org.firebears.commands.auto.DriveToVisionTargetDistanceCommand;
+import org.firebears.commands.auto.PIDrelativeAngleCommand;
+import org.firebears.commands.auto.RotateToVisionTargetCommand;
+import org.firebears.recording.*;
 import org.firebears.subsystems.Lights;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.firebears.commands.auto.teleopAuto.*;
 
 public class OI {
 
     public XboxController xboxController;
-    private JoystickButton buttonB; // b 2 start record
+    private JoystickButton buttonB; // b 2
     private JoystickButton buttonA; // a 1
     private JoystickButton buttonY; // y 4 free button
-    private JoystickButton buttonX; // x 3 stop record
+    private JoystickButton buttonX; // x 3 
     private JoystickButton rightBumper; // right bumper 6
     private JoystickButton leftBumper; // left bumper 5
-    private JoystickButton buttonStart; //8 play recording
+    private JoystickButton buttonStart; //
    
    // private JoystickButton buttonElevator24; //start button
    // private JoystickButton buttonClimb; //back button
@@ -54,8 +67,7 @@ public class OI {
 
         // xbox
         buttonX = new JoystickButton(xboxController, 3);
-        buttonX.whenPressed(new StartRecordingCommand(recordingFactory));
-
+        buttonX.whenPressed(new PIDrelativeAngleCommand(45));
         buttonA = new JoystickButton(xboxController, 1);
         buttonA.whenPressed(new ElevatorNudgeCommand(-2));
 
@@ -63,10 +75,10 @@ public class OI {
         buttonY.whenPressed(new ElevatorNudgeCommand(2));
 
         buttonB = new JoystickButton(xboxController, 2);
-        buttonB.whenPressed(new StopRecordingCommand(recordingFactory));
+        buttonB.whenPressed(new PIDrelativeAngleCommand(45));
 
-        buttonStart = new JoystickButton(xboxController, 8);
-        buttonStart.whenPressed(new PlayRecordingCommand(recordingFactory));
+        // buttonStart = new JoystickButton(xboxController, 8);
+        // buttonStart.whenPressed(new PlayRecordingCommand(recordingFactory));
 
        // buttonElevator24 = new JoystickButton(xboxController, 8);
        // buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));

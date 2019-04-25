@@ -22,7 +22,7 @@ public class PlayRecordingCommand extends Command {
     private Recording recording;
     private long startTime;
     private Iterator<RecordingLine> iter;
-    RecordingLine currentLine;
+    RecordingLine currentLine = null;
     private boolean useLatestRecording;
     private final String label;
     private final Preferences config = Preferences.getInstance();
@@ -75,16 +75,17 @@ public class PlayRecordingCommand extends Command {
 
     protected void initialize() {
         startTime = System.currentTimeMillis();
+        currentLine = null;
         if (useLatestRecording) {
             recording = loadRecording(StartRecordingCommand.recordingFile);
         }
         if (recording != null) {
             iter = recording.iterator();
             currentLine = iter.hasNext() ? iter.next() : null;
+            recording.setAllEnabled(true);
         }
-        recording.setAllEnabled(true);
         if (DEBUG) {
-            System.out.println("INITIALIZE: " + this);
+            System.out.println("INITIALIZE: " + this + " : recording: " + recording);
         }
     }
 
@@ -104,7 +105,9 @@ public class PlayRecordingCommand extends Command {
     protected void end() {
         iter = null;
         currentLine = null;
-        recording.setAllEnabled(false);
+        if (recording != null) {
+            recording.setAllEnabled(false);
+        }
         if (useLatestRecording) {
             recording = null;
         }
