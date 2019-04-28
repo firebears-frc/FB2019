@@ -4,7 +4,11 @@ import static org.firebears.util.Config.cleanAllPreferences;
 import static org.firebears.util.Config.loadConfiguration;
 import static org.firebears.util.Config.printPreferences;
 
+import java.io.File;
+import java.io.PrintStream;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import org.firebears.commands.ElevatorSetBrakeCommand;
 import org.firebears.commands.ElevatorWithBrakeCommand;
@@ -24,6 +28,7 @@ import org.firebears.subsystems.HatchGrabber;
 import org.firebears.subsystems.Lights;
 import org.firebears.subsystems.Tilty;
 import org.firebears.subsystems.Vision;
+import org.firebears.util.Statistic;
 
 import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -67,6 +72,11 @@ public class Robot extends TimedRobot {
     private NetworkTableEntry visionAquiredWidget;
     private NetworkTableEntry elevatorHeightWidget;
     private NetworkTableEntry hatchRotationWidget;
+
+    private Statistic stat = new Statistic();
+    private long prevTime, prevPrint;
+    private int printCount = 0;
+    private PrintStream outStream;
 
     @Override
     public void robotInit() {
@@ -117,6 +127,37 @@ public class Robot extends TimedRobot {
         Robot.driverTab.add("Enable Elevator Brake", new ElevatorSetBrakeCommand(true)).withPosition(3, 0).withSize(5, 2);
         Robot.driverTab.add("Auto mode", chooser).withPosition(8, 0).withSize(5, 2);
         elevatorHeightWidget = Robot.driverTab.add("Elevator Height", "0").withPosition(0, 0).withSize(3, 2).getEntry();
+
+        prevTime = System.currentTimeMillis();
+        prevPrint = System.currentTimeMillis();
+        File baseDir = new File("/U/");
+        if (! baseDir.exists())  { baseDir = new File("/home/lvuser/"); }
+        if (! baseDir.exists())  { baseDir = new File("/tmp/"); }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+        String fileName = String.format("time_log-%s.csv", dateFormat.format(new java.util.Date()));
+        File outFile = new File(baseDir, fileName);
+        try {
+            outStream = new PrintStream(outFile);
+            outStream.println("time,count,avg,min,max,data");
+        } catch (Exception e) {
+            e.printStackTrace();
+            outStream = null;
+        }
+    }
+
+    @Override
+    public void robotPeriodic() {
+        long currentTime = System.currentTimeMillis();
+        stat.add(currentTime - prevTime);
+        if (currentTime - prevPrint > 1000) {
+            outStream.println(printCount + "," + stat);
+            prevPrint = currentTime;
+            stat.clear();
+        }
+        if (printCount++ % 10 == 0) {
+            outStream.flush();
+        }
+        prevTime = currentTime;
     }
 
     @Override
@@ -126,6 +167,7 @@ public class Robot extends TimedRobot {
         }
         lights.reset();
         elevator.reset();
+        outStream.flush();
     }
 
     @Override
@@ -151,6 +193,7 @@ public class Robot extends TimedRobot {
         lights.reset();
         elevator.enable();
         frogger.enable();
+        outStream.flush();
     }
 
     @Override
@@ -168,6 +211,7 @@ public class Robot extends TimedRobot {
         elevator.enable();
         frogger.disable();
         // frogger.setSetpoint(0.25);
+        outStream.flush();
        
     }
 
