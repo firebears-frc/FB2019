@@ -27,6 +27,14 @@ deploy {
         fileTreeArtifact('frcStaticFileDeploy') {
             // The directory below is the local directory to deploy
             files = fileTree(dir: 'src/main/deploy')
+            // Enable VisualVM
+            jvmArgs = [ "-Dcom.sun.management.jmxremote=true",
+                        "-Dcom.sun.management.jmxremote.port=1099",
+                        "-Dcom.sun.management.jmxremote.local.only=false",
+                        "-Dcom.sun.management.jmxremote.ssl=false",
+                        "-Dcom.sun.management.jmxremote.authenticate=false",
+                        "-Djava.rmi.server.hostname=172.22.11.2"
+                     ]
             // Deploy to RoboRIO target, into /home/lvuser/deploy
             targets << "roborio"
             directory = '/home/lvuser/deploy'
