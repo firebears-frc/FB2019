@@ -22,11 +22,6 @@ deploy {
             targets << "roborio"
             // Debug can be overridden by command line, for use with VSCode
             debug = frc.getDebugOrDefault(false)
-        }
-        // Built in artifact to deploy arbitrary files to the roboRIO.
-        fileTreeArtifact('frcStaticFileDeploy') {
-            // The directory below is the local directory to deploy
-            files = fileTree(dir: 'src/main/deploy')
             // Enable VisualVM
             jvmArgs = [ "-Dcom.sun.management.jmxremote=true",
                         "-Dcom.sun.management.jmxremote.port=1099",
@@ -35,6 +30,11 @@ deploy {
                         "-Dcom.sun.management.jmxremote.authenticate=false",
                         "-Djava.rmi.server.hostname=172.22.11.2"
                      ]
+        }
+        // Built in artifact to deploy arbitrary files to the roboRIO.
+        fileTreeArtifact('frcStaticFileDeploy') {
+            // The directory below is the local directory to deploy
+            files = fileTree(dir: 'src/main/deploy')
             // Deploy to RoboRIO target, into /home/lvuser/deploy
             targets << "roborio"
             directory = '/home/lvuser/deploy'
