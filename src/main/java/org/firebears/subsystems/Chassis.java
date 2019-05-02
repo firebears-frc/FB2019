@@ -59,6 +59,9 @@ public class Chassis extends Subsystem {
     final Preferences config = Preferences.getInstance();
     private final double rampRate;
 
+    private final long dashDelay;
+    private long dashTimeout;
+
     public Chassis() {
         double kP = config.getDouble("chassis.p", 0.00015);
         double kI = config.getDouble("chassis.i", 0.0);
@@ -127,6 +130,9 @@ public class Chassis extends Subsystem {
             lidarThread = new Thread(new LidarRunner());
             lidarThread.start();
         }
+
+        dashDelay = config.getLong("dashDelay", 250);
+        dashTimeout = System.currentTimeMillis() + dashDelay;
     }
 
     public double getAngle() {
@@ -202,16 +208,20 @@ public class Chassis extends Subsystem {
 
     @Override
     public void periodic() {
-        tippingwidget.setBoolean(isTipping());
-        getAnglewidget.setNumber(getAngle());
-        getPitchwidget.setNumber(getPitchAngle());
-        inchesTravelledwidget.setNumber(inchesTraveled());
-        lidarDistancewidget.setNumber(getLidarDistanceInches());
-        SmartDashboard.putNumber("left inches", pidFrontLeft.inchesTraveled());
-        SmartDashboard.putNumber("right inches", pidFrontRight.inchesTraveled());
-        SmartDashboard.putNumber("max encoder", pidFrontRight.getmaxEncoderVelocity());
-        InchesNew = lidarArduino.getdistanceAA() * changeRateOfLidarAvg;
-        InchesAvg = InchesAvg * (1 - changeRateOfLidarAvg) + InchesNew;
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > dashTimeout) {
+            tippingwidget.setBoolean(isTipping());
+            getAnglewidget.setNumber(getAngle());
+            getPitchwidget.setNumber(getPitchAngle());
+            inchesTravelledwidget.setNumber(inchesTraveled());
+            lidarDistancewidget.setNumber(getLidarDistanceInches());
+            SmartDashboard.putNumber("left inches", pidFrontLeft.inchesTraveled());
+            SmartDashboard.putNumber("right inches", pidFrontRight.inchesTraveled());
+            SmartDashboard.putNumber("max encoder", pidFrontRight.getmaxEncoderVelocity());
+            InchesNew = lidarArduino.getdistanceAA() * changeRateOfLidarAvg;
+            InchesAvg = InchesAvg * (1 - changeRateOfLidarAvg) + InchesNew;
+            dashTimeout = currentTime + dashDelay;
+        }
     }
 
     public double inchesTraveledLeft() {

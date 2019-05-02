@@ -18,6 +18,9 @@ public class Tilty extends Subsystem {
     WPI_TalonSRX motor;
     private final Preferences config = Preferences.getInstance();
 
+    private final long dashDelay;
+    private long dashTimeout;
+
     public Tilty() {
         motor = new WPI_TalonSRX(config.getInt("tilty.motor.canID", 12));
         motor.configFactoryDefault();
@@ -27,6 +30,9 @@ public class Tilty extends Subsystem {
 
         extendedLimitSwitchWidget = Robot.programmerTab.add("Tilty extention", false).withPosition(0, 4).getEntry();
         retractedLimitSwitchWidget = Robot.programmerTab.add("Tilty retraction", false).withPosition(3, 4).getEntry();
+ 
+        dashDelay = config.getLong("dashDelay", 250);
+        dashTimeout = System.currentTimeMillis() + dashDelay;
     }
 
     public boolean isRetracted() {
@@ -44,8 +50,12 @@ public class Tilty extends Subsystem {
 
     @Override
     public void periodic() {
-        extendedLimitSwitchWidget.setBoolean(isExtended());
-        retractedLimitSwitchWidget.setBoolean(isRetracted());
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > dashTimeout) {
+            extendedLimitSwitchWidget.setBoolean(isExtended());
+            retractedLimitSwitchWidget.setBoolean(isRetracted());
+            dashTimeout = currentTime + dashDelay;
+        }
     }
 
     /**

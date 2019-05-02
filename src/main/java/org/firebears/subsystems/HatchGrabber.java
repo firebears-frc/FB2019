@@ -19,6 +19,9 @@ public class HatchGrabber extends Subsystem {
     private final NetworkTableEntry hatchCapturedwidget;
     private final NetworkTableEntry hatchRotationwidget;
 
+    private final long dashDelay;
+    private long dashTimeout;
+
     public HatchGrabber() {
         motor = new WPI_TalonSRX(config.getInt("hatchGrabber.motor.canID", 14));
         addChild(motor);
@@ -27,6 +30,9 @@ public class HatchGrabber extends Subsystem {
 
         hatchCapturedwidget = Robot.programmerTab.add("hatch captured", false).withPosition(10, 3).getEntry();
         hatchRotationwidget = Robot.programmerTab.add("hatch rotation", false).withPosition(13, 3).getEntry();
+ 
+        dashDelay = config.getLong("dashDelay", 250);
+        dashTimeout = System.currentTimeMillis() + dashDelay;
     }
 
     @Override
@@ -36,8 +42,12 @@ public class HatchGrabber extends Subsystem {
 
     @Override
     public void periodic() {
-        hatchCapturedwidget.setBoolean(hatchCapturedSensor.get());
-        hatchRotationwidget.setBoolean(hatchRotationSensor.get());
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > dashTimeout) {
+            hatchCapturedwidget.setBoolean(hatchCapturedSensor.get());
+            hatchRotationwidget.setBoolean(hatchRotationSensor.get());
+            dashTimeout = currentTime + dashDelay;
+        }
     }
 
     public void rotate() {

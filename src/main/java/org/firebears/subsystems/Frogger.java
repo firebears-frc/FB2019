@@ -28,6 +28,9 @@ public class Frogger extends PIDSubsystem {
     public final static double MAX_FROGGER_DISTANCE = 20.0;
     public boolean isJumping;
 
+    private final long dashDelay;
+    private long dashTimeout;
+
     public Frogger() {
         super("Frogger", 0.5, 0, 0);
         DRIVE_SPEED = config.getDouble("frogger.driveSpeed", 1.00);
@@ -58,14 +61,20 @@ public class Frogger extends PIDSubsystem {
         addChild("jumpMotor", jumpMotor);
         addChild("forwardMotor", forwardMotor);
         addChild("encoder", encoder);
+        
+        dashDelay = config.getLong("dashDelay", 250);
+        dashTimeout = System.currentTimeMillis() + dashDelay;
     }
 
     @Override
     public void periodic() {
-        froggerEncoderWidget.setDouble(encoderDistance());
-        froggerBottomWidget.setBoolean(jumpMotor.getSensorCollection().isFwdLimitSwitchClosed());
-
-        if(!isJumping){
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > dashTimeout) {
+            froggerEncoderWidget.setDouble(encoderDistance());
+            froggerBottomWidget.setBoolean(jumpMotor.getSensorCollection().isFwdLimitSwitchClosed());
+            dashTimeout = currentTime + dashDelay;
+        }
+        if (!isJumping) {
             jumpMotor.set(-0.07);
         }
     }

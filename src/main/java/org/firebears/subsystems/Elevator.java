@@ -40,6 +40,9 @@ public class Elevator extends PIDSubsystem {
   public double minimumElevatorSpeed = -0.5;
   double maximumElevatorSpeed = 1.0;
 
+  private final long dashDelay;
+  private long dashTimeout;
+
   public Elevator() {
     super("Elevator", Preferences.getInstance().getDouble("elevator.p", 0.25),
         Preferences.getInstance().getDouble("elevator.i", 0.0008), Preferences.getInstance().getDouble("elevator.d", 0),
@@ -68,11 +71,6 @@ public class Elevator extends PIDSubsystem {
     DigitalInput encoderInputB = new DigitalInput(config.getInt("elevator.encoder.dio.B", 4));
     encoder = new Encoder(encoderInputA, encoderInputB, false, EncodingType.k4X);
 
-    // elevatorHighASensor = new DigitalInput(config.getInt("elevator.highA.dio",
-    // 0));
-    // elevatorHighBSensor = new DigitalInput(config.getInt("elevator.highB.dio",
-    // 1));
-
     elevatorGroundSensor = new DigitalInput(config.getInt("elevator.ground.dio", 4));
 
     brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
@@ -81,6 +79,9 @@ public class Elevator extends PIDSubsystem {
     // resetEncoder();
     // setBrake(false)
     // setSetpoint(6);
+
+    dashDelay = config.getLong("dashDelay", 250);
+    dashTimeout = System.currentTimeMillis() + dashDelay;
   }
 
   public void setCurrentLimiting(int continuous, int high, int time) {
@@ -97,13 +98,16 @@ public class Elevator extends PIDSubsystem {
 
   @Override
   public void periodic() {
-    elevatorHeightWidget.setNumber(inchesTraveled());
-    bottomLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isRevLimitSwitchClosed());
-    topLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
-    motor1CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(0));
-    motor2CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(1));
-    elevatorGroundWidget.setBoolean(elevatorGroundSensor.get());
-
+    long currentTime = System.currentTimeMillis();
+    if (currentTime > dashTimeout) {
+      elevatorHeightWidget.setNumber(inchesTraveled());
+      bottomLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isRevLimitSwitchClosed());
+      topLimitSwitchWidget.setBoolean(motor1.getSensorCollection().isFwdLimitSwitchClosed());
+      motor1CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(0));
+      motor2CurrenthWidget.setNumber(Robot.powerDistributionPanel.getCurrent(1));
+      elevatorGroundWidget.setBoolean(elevatorGroundSensor.get());
+      dashTimeout = currentTime + dashDelay;
+    }
     if (elevatorGroundSensor.get() == false) {
       resetEncoder();
     }

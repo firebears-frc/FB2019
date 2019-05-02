@@ -131,8 +131,8 @@ public class Robot extends TimedRobot {
         prevTime = System.currentTimeMillis();
         prevPrint = System.currentTimeMillis();
         File baseDir = new File("/U/");
-        if (! baseDir.exists())  { baseDir = new File("/home/lvuser/"); }
-        if (! baseDir.exists())  { baseDir = new File("/tmp/"); }
+        if (! baseDir.canWrite())  { baseDir = new File("/home/lvuser/"); }
+        if (! baseDir.canWrite())  { baseDir = new File("/tmp/"); }
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
         String fileName = String.format("time_log-%s.csv", dateFormat.format(new java.util.Date()));
         File outFile = new File(baseDir, fileName);

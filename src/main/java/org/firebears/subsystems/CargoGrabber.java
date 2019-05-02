@@ -24,6 +24,11 @@ public class CargoGrabber extends Subsystem {
     private final NetworkTableEntry leftSensorWidget;
     private final NetworkTableEntry rightSensorWidget;
     private final NetworkTableEntry cargoCapturedSensorWidget;
+    
+    private final long dashDelay;
+    private long dashTimeout;
+
+    private final boolean autoHold;
 
     public CargoGrabber() {
         motor = new WPI_TalonSRX(config.getInt("cargoGrabber.motor.canID", 13));
@@ -35,6 +40,10 @@ public class CargoGrabber extends Subsystem {
         leftSensorWidget = Robot.programmerTab.add("Cargo on Left", false).withPosition(13, 0).getEntry();
         rightSensorWidget = Robot.programmerTab.add("Cargo on Right", false).withPosition(16, 0).getEntry();
         addChild("motor", motor);
+        
+        autoHold = config.getBoolean("autoHold", false);
+        dashDelay = config.getLong("dashDelay", 250);
+        dashTimeout = System.currentTimeMillis() + dashDelay;
     }
 
     @Override
@@ -46,17 +55,22 @@ public class CargoGrabber extends Subsystem {
     public void periodic() {
         spit = Math.abs(Robot.oi.xboxController.getTriggerAxis(Hand.kRight));
         intake = Math.abs(Robot.oi.xboxController.getTriggerAxis(Hand.kLeft));
-        SmartDashboard.putNumber("cargoMotorSpeed", motor.get());
-        leftSensorWidget.setBoolean(isCargoOnLeft());
-        rightSensorWidget.setBoolean(isCargoOnRight());
-        cargoCapturedSensorWidget.setBoolean(isCargoCaptured());
-
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > dashTimeout) {
+            SmartDashboard.putNumber("cargoMotorSpeed", motor.get());
+            leftSensorWidget.setBoolean(isCargoOnLeft());
+            rightSensorWidget.setBoolean(isCargoOnRight());
+            cargoCapturedSensorWidget.setBoolean(isCargoCaptured());
+            dashTimeout = currentTime + dashDelay;
+        }
         if (intake > 0.2) {
             intake();
         } else if (spit > 0.2) {
             spit();
         } else if (isCargoCaptured()) {
-            hold();
+            if (autoHold) {
+                hold();
+            }
         } else {
             stop();
         }
