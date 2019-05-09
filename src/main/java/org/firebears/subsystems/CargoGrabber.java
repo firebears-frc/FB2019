@@ -67,10 +67,11 @@ public class CargoGrabber extends Subsystem {
             intake();
         } else if (spit > 0.2) {
             spit();
-        } else if (isCargoCaptured()) {
-            if (autoHold) {
-                hold();
-            }
+        //} else if (isCargoCaptured()) {
+            //if (autoHold) {
+             //   hold();
+           // }
+       
         } else {
             stop();
         }

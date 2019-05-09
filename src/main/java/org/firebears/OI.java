@@ -40,6 +40,7 @@ public class OI {
     private JoystickButton rightBumper; // right bumper 6
     private JoystickButton leftBumper; // left bumper 5
     private JoystickButton buttonStart; //
+    private JoystickButton buttonBack;
    
    // private JoystickButton buttonElevator24; //start button
    // private JoystickButton buttonClimb; //back button
@@ -75,10 +76,13 @@ public class OI {
         buttonY.whenPressed(new ElevatorNudgeCommand(2));
 
         buttonB = new JoystickButton(xboxController, 2);
-        buttonB.whenPressed(new PIDrelativeAngleCommand(45));
+        buttonB.whenPressed(new StopRecordingCommand(recordingFactory));
 
-        // buttonStart = new JoystickButton(xboxController, 8);
-        // buttonStart.whenPressed(new PlayRecordingCommand(recordingFactory));
+        buttonBack = new JoystickButton(xboxController, 7);
+        buttonBack.whenPressed(new StartRecordingCommand(recordingFactory));
+
+        buttonStart = new JoystickButton(xboxController, 8);
+        buttonStart.whenPressed(new PlayRecordingCommand(recordingFactory));
 
        // buttonElevator24 = new JoystickButton(xboxController, 8);
        // buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
