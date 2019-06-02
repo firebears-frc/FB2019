@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.experimental.command.SendableSubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class CargoGrabber extends Subsystem {
+public class CargoGrabber extends SendableSubsystemBase {
     final Preferences config = Preferences.getInstance();
     WPI_TalonSRX motor;
     private double intake;
@@ -39,16 +39,12 @@ public class CargoGrabber extends Subsystem {
         cargoCapturedSensorWidget = Robot.programmerTab.add("Cargo captured", false).withPosition(10, 0).getEntry();
         leftSensorWidget = Robot.programmerTab.add("Cargo on Left", false).withPosition(13, 0).getEntry();
         rightSensorWidget = Robot.programmerTab.add("Cargo on Right", false).withPosition(16, 0).getEntry();
-        addChild("motor", motor);
-        
+//        addChild("motor", motor);
+
+
         autoHold = config.getBoolean("autoHold", false);
         dashDelay = config.getLong("dashDelay", 250);
         dashTimeout = System.currentTimeMillis() + dashDelay;
-    }
-
-    @Override
-    public void initDefaultCommand() {
-
     }
 
     @Override

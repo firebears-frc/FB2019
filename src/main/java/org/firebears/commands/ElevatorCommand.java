@@ -2,36 +2,39 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class ElevatorCommand extends Command {
+public class ElevatorCommand extends SendableCommandBase {
+  private Timer timer = new Timer();
   double distanceGoal;
 
   public ElevatorCommand(double inches) {
-    requires(Robot.elevator);
+    addRequirements(Robot.elevator);
     distanceGoal = inches;
 
   }
 
   @Override
-  protected void initialize() {
-    setTimeout(3);
+  public void initialize() {
+    timer.reset();
+    timer.start();
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     Robot.elevator.setSetpoint(distanceGoal);
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()){
+  public boolean isFinished() {
+    if (timer.get() > 3.0){
       return true;
     }
     return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 1;
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupt) {
   }
 }

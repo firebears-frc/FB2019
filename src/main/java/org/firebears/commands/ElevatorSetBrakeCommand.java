@@ -9,7 +9,7 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
 
 /**
  * 
@@ -24,7 +24,7 @@ public class ElevatorSetBrakeCommand extends InstantCommand {
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
     Robot.elevator.setBrake(engage);
   }
 

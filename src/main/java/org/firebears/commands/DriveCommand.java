@@ -1,31 +1,33 @@
 package org.firebears.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
 import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
 import edu.wpi.first.wpilibj.Preferences;
 
-public class DriveCommand extends Command {
+public class DriveCommand extends SendableCommandBase {
 
     final Preferences config;
     int joystickSpeedAxis;
     int joystickRotateAxis;
     double adjust;
 
-    public DriveCommand() {
+    public DriveCommand(Chassis chassis) {
         config = Preferences.getInstance();
         joystickSpeedAxis = config.getInt("joystick1.speedAxis", 1);
         joystickRotateAxis = config.getInt("joystick1.rotateAxis", 4);
         adjust = config.getDouble("driveCommand.deadBand", 0.1);
-        requires(Robot.chassis);
+        addRequirements(chassis);
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         double speed = -1 * Robot.oi.getXboxController().getRawAxis(joystickSpeedAxis);
         double rotation = Robot.oi.getXboxController().getRawAxis(joystickRotateAxis) * 0.6;
         Robot.chassis.drive(deadBand(speed), deadBand(rotation));
@@ -47,11 +49,11 @@ public class DriveCommand extends Command {
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return false;
     }
 
     @Override
-    protected void end() {
+    public void end(boolean interrupted) {
     }
 }

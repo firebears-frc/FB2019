@@ -10,15 +10,17 @@ package org.firebears.commands;
 import org.firebears.Robot;
 import org.firebears.subsystems.Frogger;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class FroggerClimbSyncCommand extends Command {
+public class FroggerClimbSyncCommand extends SendableCommandBase {
 
   double initElevatorDistance;
   double initFroggerDistance;
   double finalElevatorDistance;
   double finalFroggerDistance;
   double previousElevatorMinSpeed;
+  private Timer timer = new Timer();
 
   double climbTime = 2.0;
   long startTimeMilis;
@@ -30,8 +32,8 @@ public class FroggerClimbSyncCommand extends Command {
 
   public FroggerClimbSyncCommand() {
 
-    requires(Robot.elevator);
-    requires(Robot.frogger);
+    addRequirements(Robot.elevator);
+    addRequirements(Robot.frogger);
 
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -39,8 +41,9 @@ public class FroggerClimbSyncCommand extends Command {
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
-    setTimeout(climbTime+2);
+  public void initialize() {
+    timer.reset();
+    timer.start();
     initElevatorDistance = Robot.elevator.inchesTraveled();
     initFroggerDistance = Robot.frogger.encoderDistance();
     finalElevatorDistance = -1.0;
@@ -54,7 +57,7 @@ public class FroggerClimbSyncCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     double currentFroggerDistance = Robot.frogger.encoderDistance();
     long currentTime = System.currentTimeMillis();
     double elapsedTime = (currentTime - startTimeMilis) / 1000.0;
@@ -85,8 +88,8 @@ public class FroggerClimbSyncCommand extends Command {
 
   // Mak this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()) {
+  public boolean isFinished() {
+    if (timer.hasPeriodPassed(climbTime+2)) {
       System.out.println("TIMED_OUT: " + this);
       return true;
     }
@@ -98,7 +101,7 @@ public class FroggerClimbSyncCommand extends Command {
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.frogger.footStop();
     Robot.elevator.setBrake(true);
     Robot.elevator.minimumElevatorSpeed = previousElevatorMinSpeed;

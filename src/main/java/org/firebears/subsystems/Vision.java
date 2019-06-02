@@ -4,9 +4,9 @@ import org.firebears.Robot;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.experimental.command.SendableSubsystemBase;
 
-public class Vision extends Subsystem {
+public class Vision extends SendableSubsystemBase {
 
     NetworkTable visionTargetTable;
 
@@ -45,10 +45,7 @@ public class Vision extends Subsystem {
         targetCountWidget = Robot.programmerTab.add("Vision Target Pairs", 0.0).withSize(4, 2).withPosition(20, 4).getEntry();
     }
 
-    @Override
-    public void initDefaultCommand() {
 
-    }
 int count = 0;
     @Override
     public void periodic() {

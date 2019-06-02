@@ -3,9 +3,9 @@ package org.firebears.commands;
 import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class LineFollowCommand extends Command {
+public class LineFollowCommand extends SendableCommandBase {
 
   DigitalInput rightSensor = Robot.chassis.rightSensor;// 0
   DigitalInput centerSensor = Robot.chassis.centerSensor;// 1
@@ -34,11 +34,11 @@ public class LineFollowCommand extends Command {
   long timeout3;
 
   public LineFollowCommand() {
-    requires(Robot.chassis);
+    addRequirements(Robot.chassis);
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
     Robot.chassis.drive(0.05, 0);
 
     timeout = System.currentTimeMillis() + 5500;
@@ -57,7 +57,7 @@ public class LineFollowCommand extends Command {
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     System.out.print("execute");
     Rsen = rightSensor.get();
     System.out.print(Rsen);
@@ -166,7 +166,7 @@ public class LineFollowCommand extends Command {
   }
 
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     if (System.currentTimeMillis() >= timeout) {
       return true;
     }
@@ -183,7 +183,7 @@ public class LineFollowCommand extends Command {
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.chassis.drive(0, 0);
     System.out.println("end");
     System.out.println("Left sensor: " + Lsen);

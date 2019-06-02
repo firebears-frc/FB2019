@@ -7,21 +7,23 @@
 
 package org.firebears.commands.auto.teleopAuto;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.experimental.command.SequentialCommandGroup;
 import org.firebears.commands.auto.*;
 import org.firebears.commands.*;
 import org.firebears.subsystems.*;
 
-public class ElevatorHatchPlaceCommand extends CommandGroup {
-  /**
-   * for placing hatches on the rocket durring teleop
-   */
-  public ElevatorHatchPlaceCommand(Double elevatorHeight) {
-    addSequential(new DriveToVisionTargetCommand());
-    addSequential(new ElevatorCommand(elevatorHeight));
-    addSequential(new DriveToWallCommand(15));
-    addSequential(new HatchReleaseCommand());
-    addSequential(new DistanceCommand(-6));
-    addSequential(new ElevatorCommand(6));
-  }
+public class ElevatorHatchPlaceCommand extends SequentialCommandGroup {
+    /**
+     * for placing hatches on the rocket durring teleop
+     */
+    public ElevatorHatchPlaceCommand(Double elevatorHeight) {
+        super(
+                new DriveToVisionTargetCommand(),
+                new ElevatorCommand(elevatorHeight),
+                new DriveToWallCommand(15),
+                new HatchReleaseCommand(),
+//                new DistanceCommand(-6),
+                new ElevatorCommand(6)
+        );
+    }
 }

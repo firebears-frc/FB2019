@@ -7,21 +7,31 @@
 
 package org.firebears.commands.auto.teleopAuto;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.experimental.command.SequentialCommandGroup;
 import org.firebears.commands.auto.*;
 import org.firebears.commands.*;
 import org.firebears.subsystems.*;
 
-public class ElevatorCargoCommand extends CommandGroup {
-  /**
-   * for depositing cargo into the rocket durring teleop
-   */
-  public ElevatorCargoCommand(double elevatorHeight) {
-    addSequential(new DriveToVisionTargetCommand());
-    addSequential(new ElevatorCommand(elevatorHeight));
-    addSequential(new DriveToWallCommand(18));
-    addSequential(new CargoSpitCommand(), 3);
-    addSequential(new DistanceCommand(-6));
-    addSequential(new ElevatorCommand(6));
-  }
+public class ElevatorCargoCommand extends SequentialCommandGroup {
+    /**
+     * for depositing cargo into the rocket durring teleop
+     */
+    public ElevatorCargoCommand(double elevatorHeight) {
+        super(
+                new DriveToVisionTargetCommand(),
+                new ElevatorCommand(elevatorHeight),
+                new DriveToWallCommand(18),
+                new CargoSpitCommand(),
+                new DistanceCommand(-6),
+                new ElevatorCommand(6)
+        );
+
+
+//    addSequential(new DriveToVisionTargetCommand());
+//    addSequential(new ElevatorCommand(elevatorHeight));
+//    addSequential(new DriveToWallCommand(18));
+//    addSequential(new CargoSpitCommand(), 3);
+//    addSequential(new DistanceCommand(-6));
+//    addSequential(new ElevatorCommand(6));
+    }
 }

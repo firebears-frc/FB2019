@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.experimental.command.PIDSubsystem;
 
 public class Elevator extends PIDSubsystem {
 
@@ -51,7 +51,7 @@ public class Elevator extends PIDSubsystem {
     motor1 = new WPI_TalonSRX(config.getInt("elevator.motor1.canID", 16));  // PDP channel 0
     motor2 = new WPI_TalonSRX(config.getInt("elevator.motor2.canID", 15));  // PDP channel 1
     motors = new SpeedControllerGroup(motor1, motor2);
-    addChild("motors", motors);
+//    addChild("motors", motors);
 
     motor1.configFactoryDefault();
     motor2.configFactoryDefault();
@@ -74,7 +74,7 @@ public class Elevator extends PIDSubsystem {
     elevatorGroundSensor = new DigitalInput(config.getInt("elevator.ground.dio", 4));
 
     brakeServo = new Servo(config.getInt("elevator.brakeServo.pwm", 0));
-    addChild("brakeServo", brakeServo);
+//    addChild("brakeServo", brakeServo);
 
     // resetEncoder();
     // setBrake(false)
@@ -111,10 +111,6 @@ public class Elevator extends PIDSubsystem {
     if (elevatorGroundSensor.get() == false) {
       resetEncoder();
     }
-  }
-
-  @Override
-  public void initDefaultCommand() {
   }
 
   public double inchesTraveled() {

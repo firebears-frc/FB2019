@@ -1,21 +1,14 @@
 
 package org.firebears.commands;
 
+import edu.wpi.first.wpilibj.experimental.command.WaitCommand;
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.experimental.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.ConditionalCommand;
 
 public class VisionConditionalCommand extends ConditionalCommand {
-  public VisionConditionalCommand(Command Cmd) {
-    super("VisionConditional", Cmd);
-  }
-  @Override
-protected boolean condition() {
-  if (Robot.vision.getVisionTargetConfidence() == 1){
-    return true;
-  }
-  return false;
-}
-
+    public VisionConditionalCommand(Command Cmd) {
+        super(Cmd, new WaitCommand(0.0), () -> { return Robot.vision.getVisionTargetConfidence() == 1; });
+    }
 }

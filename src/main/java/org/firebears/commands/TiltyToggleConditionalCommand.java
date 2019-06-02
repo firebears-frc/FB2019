@@ -3,19 +3,12 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.experimental.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.ConditionalCommand;
 
 public class TiltyToggleConditionalCommand extends ConditionalCommand {
   public TiltyToggleConditionalCommand() {
-    super("TiltyToggleConditional", new TiltyExtendCommand(), new TiltyRetractCommand());
+    super(new TiltyExtendCommand(), new TiltyRetractCommand(), () -> { return Robot.tilty.isRetracted();});
   }
-  @Override
-protected boolean condition() {
-  if (Robot.tilty.isRetracted()){
-    return true;
-  }
-  return false;
-}
 
 }

@@ -3,37 +3,41 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class HatchHoldCommand extends Command {
+public class HatchHoldCommand extends SendableCommandBase {
+
+    private Timer timer = new Timer();
 
     public HatchHoldCommand() {
-        requires(Robot.hatchGrabber);
+        addRequirements(Robot.hatchGrabber);
     }
 
     @Override
-    protected void initialize() {
-        setTimeout(3);
+    public void initialize() {
+        timer.reset();
+        timer.start();
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         Robot.hatchGrabber.rotate();
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         if (Robot.hatchGrabber.getRotationSensorValue()) {
             return false;
         }
-        if (isTimedOut()){
+        if (timer.get() > 3.0){
             return true;
         }
         return true;
     }
 
     @Override
-    protected void end() {
+    public void end(boolean interrupted) {
         Robot.hatchGrabber.stopRotate();
     }
 

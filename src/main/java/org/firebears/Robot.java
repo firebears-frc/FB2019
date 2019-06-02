@@ -10,13 +10,9 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
-import org.firebears.commands.ElevatorSetBrakeCommand;
-import org.firebears.commands.ElevatorWithBrakeCommand;
-import org.firebears.commands.FroggerLowerCommand;
-import org.firebears.commands.FroggerRaiseCommand;
-import org.firebears.commands.FroggerTestWheelCommand;
-import org.firebears.commands.StartingConfigurationLeaveCommand;
-import org.firebears.commands.StartingConfigurationEnterCommand;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.*;
+import org.firebears.commands.*;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.commands.auto.routines.LeftRocketAutoCommand;
 import org.firebears.commands.auto.routines.RightRocketAutoCommand;
@@ -31,15 +27,12 @@ import org.firebears.subsystems.Vision;
 
 import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.experimental.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.CommandScheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
@@ -79,6 +72,7 @@ public class Robot extends TimedRobot {
         loadConfiguration("/home/lvuser/deploy/config.properties", "/home/lvuser/config.properties",
                 "/u/config.properties");
         printPreferences(System.out);
+        Preferences config = Preferences.getInstance();
 
         programmerTab = Shuffleboard.getTab("Programmers");
         driverTab = Shuffleboard.getTab("Drivers");
@@ -86,8 +80,14 @@ public class Robot extends TimedRobot {
         // driverTab.add(drivingCamera).withPosition(0, 0).withSize(10, 10);
 
         chassis = new Chassis();
+        chassis.setDefaultCommand(new DriveCommand(chassis));
         elevator = new Elevator();
-        hatchGrabber = new HatchGrabber();
+        hatchGrabber = new HatchGrabber(
+                new WPI_TalonSRX(config.getInt("hatchGrabber.motor.canID", 14)),
+                new DigitalInput(config.getInt("hatchGrabber.hatchCaptured.dio", 5)),
+                new DigitalInput(config.getInt("hatchGrabber.hatchRotationSensor.dio", 9)),
+                programmerTab
+        );
         cargoGrabber = new CargoGrabber();
         tilty = new Tilty();
         frogger = new Frogger();
@@ -139,7 +139,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-        Scheduler.getInstance().run();
+        CommandScheduler.getInstance().run();
         updateDriverTab();
     }
 
@@ -155,7 +155,8 @@ public class Robot extends TimedRobot {
             autonomousCommand = null;
         }
         if (autonomousCommand != null) {
-            autonomousCommand.start();
+            CommandScheduler.getInstance().schedule(autonomousCommand);
+//            autonomousCommand.start();
         }
         lights.reset();
         elevator.enable();
@@ -164,7 +165,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
+        CommandScheduler.getInstance().run();
         updateDriverTab();
     }
 
@@ -181,13 +182,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        Scheduler.getInstance().run();
+        CommandScheduler.getInstance().run();
         updateDriverTab();
     }
 
     @Override
     public void testPeriodic() {
-        Scheduler.getInstance().run();
+        CommandScheduler.getInstance().run();
         elevator.periodic();
         chassis.periodic();
         tilty.periodic();

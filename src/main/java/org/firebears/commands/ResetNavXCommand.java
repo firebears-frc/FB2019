@@ -2,31 +2,16 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
 
-public class ResetNavXCommand extends Command {
+public class ResetNavXCommand extends InstantCommand {
   public ResetNavXCommand() {
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
     Robot.chassis.resetNavX();
   }
 
-  @Override
-  protected void execute() {
-  }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
-
-  @Override
-  protected void end() {
-  }
-
-  @Override
-  protected void interrupted() {
-  }
 }

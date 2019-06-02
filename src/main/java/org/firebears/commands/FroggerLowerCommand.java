@@ -1,27 +1,32 @@
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 import org.firebears.Robot;
 
-public class FroggerLowerCommand extends Command {
+public class FroggerLowerCommand extends SendableCommandBase {
+
+  private Timer timer = new Timer();
+
   public FroggerLowerCommand() {
-    requires(Robot.frogger);
+    addRequirements(Robot.frogger);
   }
 
   @Override
-  protected void initialize() {
-    setTimeout(3);
+  public void initialize() {
+    timer.reset();
+    timer.start();
     // Robot.frogger.enable();
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     Robot.frogger.footDown();
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()){
+  public boolean isFinished() {
+    if (timer.hasPeriodPassed(3.0)){
       return true;
     }
     if (Robot.frogger.isDownwardsLimitHit() == true) {
@@ -31,11 +36,8 @@ public class FroggerLowerCommand extends Command {
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.frogger.footStop();
   }
 
-  @Override
-  protected void interrupted() {
-  }
 }

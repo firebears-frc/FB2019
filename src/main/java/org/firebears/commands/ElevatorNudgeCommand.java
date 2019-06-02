@@ -18,7 +18,7 @@ public class ElevatorNudgeCommand extends ElevatorCommand {
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
+  public void initialize() {
     distanceGoal = Robot.elevator.inchesTraveled() + offsetHeight;
   }
 }

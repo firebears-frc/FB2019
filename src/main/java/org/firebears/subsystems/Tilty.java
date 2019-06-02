@@ -2,14 +2,14 @@ package org.firebears.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import org.firebears.Robot;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.experimental.command.SendableSubsystemBase;
 import edu.wpi.first.wpilibj.Preferences;
 
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-public class Tilty extends Subsystem {
+public class Tilty extends SendableSubsystemBase {
     private final double MOTOR_SPEED = 0.8;
 
     private final NetworkTableEntry extendedLimitSwitchWidget;
@@ -26,7 +26,6 @@ public class Tilty extends Subsystem {
         motor.configFactoryDefault();
         motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
         motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-        addChild("motor", motor);
 
         extendedLimitSwitchWidget = Robot.programmerTab.add("Tilty extention", false).withPosition(0, 4).getEntry();
         retractedLimitSwitchWidget = Robot.programmerTab.add("Tilty retraction", false).withPosition(3, 4).getEntry();
@@ -41,11 +40,6 @@ public class Tilty extends Subsystem {
 
     public boolean isExtended() {
         return motor.getSensorCollection().isRevLimitSwitchClosed();
-    }
-
-    @Override
-    public void initDefaultCommand() {
-
     }
 
     @Override

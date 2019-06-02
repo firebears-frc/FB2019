@@ -2,18 +2,18 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
 
 /**
  * Turn on the celebration lights.
  */
 public class CelebrateCommand extends InstantCommand {
   public CelebrateCommand() {
-    requires(Robot.lights);
+    addRequirements(Robot.lights);
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
     Robot.lights.setCelebrateMode(true);
   }
 

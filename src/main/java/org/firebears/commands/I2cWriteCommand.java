@@ -4,13 +4,13 @@ import java.nio.ByteBuffer;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
 
 /**
  * Write the given byte array out to an I2C address. Typically, this writes a
  * sequence of bytes to an Arduino.
  */
-public class I2cWriteCommand extends Command {
+public class I2cWriteCommand extends InstantCommand {
 
 	private final I2C i2c;
 	private final ByteBuffer dataToSend;
@@ -31,13 +31,9 @@ public class I2cWriteCommand extends Command {
 	}
 
 	@Override
-	protected void execute() {
+	public void execute() {
 		i2c.transaction(dataToSend, sendSize, dataReceived, receiveSize);
 		logger.fine("send to " + i2c);
 	}
 
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
 }

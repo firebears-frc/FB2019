@@ -9,33 +9,38 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class ElevatorGroundCommand extends Command {
+public class ElevatorGroundCommand extends SendableCommandBase {
+
+  private Timer timer = new Timer();
+
   public ElevatorGroundCommand() {
-    requires(Robot.elevator);
+    addRequirements(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
+  public void initialize() {
     Robot.elevator.disable();
-    setTimeout(4);
+    timer.reset();
+    timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     Robot.elevator.setSpeed(-0.3);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     if (Robot.elevator.getGroundSensor() == false){
       return true;
     }
-    if (isTimedOut()){
+    if (timer.get() > 4.0){
       return true;
     }
     return false;
@@ -43,14 +48,9 @@ public class ElevatorGroundCommand extends Command {
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.elevator.enable();
     Robot.elevator.setSetpoint(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }

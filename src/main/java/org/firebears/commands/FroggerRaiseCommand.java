@@ -2,46 +2,49 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class FroggerRaiseCommand extends Command {
+public class FroggerRaiseCommand extends SendableCommandBase {
 
   private final double goal;
+  private Timer timer = new Timer();
 
   /** Raise Frogger all the way up. */
   public FroggerRaiseCommand() {
-    requires(Robot.frogger);
+    addRequirements(Robot.frogger);
     goal = 0.0;
   }
 
   /** Raise Frogger to a specific height.  Note: height=0 is all the way retracted. */
   public FroggerRaiseCommand(double setpoint) {
-    requires(Robot.frogger);
+    addRequirements(Robot.frogger);
     goal = setpoint;
   }
 
   @Override
-  protected void initialize() {
-    setTimeout(3);
+  public void initialize() {
+   timer.reset();
+   timer.start();
     // Robot.frogger.enable();
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     // Robot.frogger.setSetpoint(goal);
     Robot.frogger.footup();
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()) {
+  public boolean isFinished() {
+    if (timer.hasPeriodPassed(3.0)) {
       return true;
     }
     return (Math.abs(Robot.frogger.encoderDistance() - goal) <= 0.5);
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     // Robot.frogger.footStop();
     Robot.frogger.setIsJumping(false);
   }

@@ -3,7 +3,7 @@ package org.firebears.commands.auto;
 import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.PIDCommand;
+import edu.wpi.first.wpilibj.experimental.command.PIDCommand;
 
 public class RotateToAngleCommand extends PIDCommand {
   protected double turnValue;
@@ -18,7 +18,7 @@ public class RotateToAngleCommand extends PIDCommand {
     super("RotateToAngleCommand", Preferences.getInstance().getDouble("RotateToAngleCommand.p", 0.0),
         Preferences.getInstance().getDouble("RotateToAngleCommand.i", 0.0),
         Preferences.getInstance().getDouble("RotateToAngleCommand.d", 0.0));
-    requires(Robot.chassis);
+    addRequirements(Robot.chassis);
 
     this.angle = bound(angle);
 
@@ -46,7 +46,8 @@ public class RotateToAngleCommand extends PIDCommand {
   private boolean isClosedLoop;
 
   @Override
-  protected void initialize() {
+  public void initialize() {
+    super.initialize();
     isClosedLoop = Robot.chassis.pidFrontLeft.isClosedLoop();
     Robot.chassis.pidFrontLeft.setClosedLoop(false);
     Robot.chassis.pidFrontRight.setClosedLoop(false);
@@ -60,11 +61,11 @@ public class RotateToAngleCommand extends PIDCommand {
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
   }
 
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     double difference = getAngleDifference();
     if (System.currentTimeMillis() >= timeout) {
       return true;
@@ -76,17 +77,13 @@ public class RotateToAngleCommand extends PIDCommand {
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
+    super.end(interrupted);
     Robot.chassis.pidFrontLeft.setClosedLoop(isClosedLoop);
     Robot.chassis.pidFrontRight.setClosedLoop(isClosedLoop);
     Robot.chassis.drive(0.0, 0.0);
     Robot.chassis.setRampRate(rampRate);
 
-  }
-
-  @Override
-  protected void interrupted() {
-    end();
   }
 
   protected void usePIDOutput(double output) {

@@ -2,27 +2,30 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class RelativeAngleCommand extends Command {
+public class RelativeAngleCommand extends SendableCommandBase {
 
   private final double angle;
   private double targetAngle;
+  private Timer timer = new Timer();
 
   public RelativeAngleCommand(double a) {
     angle = a;
-    requires(Robot.chassis);
+    addRequirements(Robot.chassis);
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
     setTargetAngle(Robot.chassis.getAngle() + angle);
-    setTimeout(10);
+    timer.reset();
+    timer.start();
     System.out.println("INITIALIZE: " + this);
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     double diff = getAngleDifference();
     if (diff < -25) {
       Robot.chassis.drive(0, -0.5);
@@ -36,15 +39,15 @@ public class RelativeAngleCommand extends Command {
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()) {
+  public boolean isFinished() {
+    if (timer.hasPeriodPassed(10.0)) {
       return true;
     }
     return getAngleDifference() < 1 && getAngleDifference() > -1;
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.chassis.drive(0, 0);
   }
 

@@ -2,14 +2,16 @@ package org.firebears.commands.auto;
 
 import org.firebears.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.PIDCommand;
+import edu.wpi.first.wpilibj.experimental.command.PIDCommand;
 
 public class PIDrelativeAngleCommand extends PIDCommand {
   double targetAngle;
   double currentAngle;
   double previousSpeed;
   boolean previousBrakingMode;
+  private Timer timer = new Timer();
 
   public PIDrelativeAngleCommand(double rotation) {
     super("PIDrelativeAngleCommand", Preferences.getInstance().getDouble("PIDrelativeAngleCommand.p", 0.0),
@@ -17,13 +19,14 @@ public class PIDrelativeAngleCommand extends PIDCommand {
         Preferences.getInstance().getDouble("PIDrelativeAngleCommand.d", 0.0));
 
     targetAngle = rotation;
-    requires(Robot.chassis);
+    addRequirements(Robot.chassis);
 
   }
 
   @Override
-  protected void initialize() {
-    setTimeout(10);
+  public void initialize() {
+    timer.reset();
+    timer.start();
     double initAngle = Robot.chassis.getAngle();
     setSetpoint(initAngle + targetAngle);
     currentAngle = initAngle;
@@ -63,8 +66,8 @@ public class PIDrelativeAngleCommand extends PIDCommand {
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()) {
+  public boolean isFinished() {
+    if (timer.hasPeriodPassed(10.0)) {
       return true;
     }
     double getAngleDifference = Robot.chassis.getAngle() - getSetpoint();
@@ -72,7 +75,8 @@ public class PIDrelativeAngleCommand extends PIDCommand {
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
+    super.end(interrupted);
     Robot.chassis.drive(0, 0);
     Robot.chassis.setBrakingMode(previousBrakingMode);
   }

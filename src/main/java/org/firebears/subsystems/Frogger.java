@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.experimental.command.PIDSubsystem;
 
 /**
  * Add your docs here.
@@ -58,9 +58,9 @@ public class Frogger extends PIDSubsystem {
 
         this.isJumping = false;
 
-        addChild("jumpMotor", jumpMotor);
-        addChild("forwardMotor", forwardMotor);
-        addChild("encoder", encoder);
+//        addChild("jumpMotor", jumpMotor);
+//        addChild("forwardMotor", forwardMotor);
+//        addChild("encoder", encoder);
         
         dashDelay = config.getLong("dashDelay", 250);
         dashTimeout = System.currentTimeMillis() + dashDelay;
@@ -77,11 +77,6 @@ public class Frogger extends PIDSubsystem {
         if (!isJumping) {
             jumpMotor.set(-0.07);
         }
-    }
-
-    @Override
-    public void initDefaultCommand() {
-
     }
 
     @Override

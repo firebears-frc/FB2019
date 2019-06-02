@@ -1,14 +1,16 @@
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.experimental.command.ParallelCommandGroup;
 
-public class StartingConfigurationEnterCommand extends CommandGroup {
+public class StartingConfigurationEnterCommand extends ParallelCommandGroup {
 
-  public StartingConfigurationEnterCommand() {
-    // addSequential(new ElevatorSetBrakeCommand(false));
-    addParallel(new ElevatorCommand(20));
-    addParallel(new TiltyRetractCommand());
-    addParallel(new HatchHoldCommand());
-    // addSequential(new ElevatorSetBrakeCommand(true));
-  }
+    public StartingConfigurationEnterCommand() {
+        // addSequential(new ElevatorSetBrakeCommand(false));
+        super(
+                new ElevatorCommand(20),
+                new TiltyRetractCommand(),
+                new HatchHoldCommand()
+        );
+        // addSequential(new ElevatorSetBrakeCommand(true));
+    }
 }

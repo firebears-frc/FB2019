@@ -1,28 +1,34 @@
 package org.firebears.commands;
 
 import org.firebears.Robot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TiltyExtendCommand extends Command {
+public class TiltyExtendCommand extends SendableCommandBase {
+
+  private Timer timer = new Timer();
+
   public TiltyExtendCommand() {
-    requires(Robot.tilty);
+    addRequirements(Robot.tilty);
   }
 
   @Override
-  protected void initialize() {
-    setTimeout(4);
+  public void initialize() {
+    timer.reset();
+    timer.start();
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     Robot.tilty.extend();
 
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()) {
+  public boolean isFinished() {
+    if (timer.get() > 4.0) {
       return true;
     }
     // return Robot.tilty.isExtended();
@@ -30,7 +36,7 @@ public class TiltyExtendCommand extends Command {
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.tilty.freeze();
   }
 }

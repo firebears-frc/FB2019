@@ -1,7 +1,8 @@
 package org.firebears.commands;
 
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.firebears.Robot;
@@ -13,33 +14,35 @@ import org.firebears.subsystems.Frogger;
  * When this command starts, the elevator should be up above Hab 3 and the
  * chassis should have been driven forward so it barely touches the Hab.
  */
-public class FroggerElevatorClimbCommand extends Command {
+public class FroggerElevatorClimbCommand extends SendableCommandBase {
 
   final Preferences config = Preferences.getInstance();
   private final double ELEVATOR_CLIMB_SPEED;
   private final double ELEVATOR_FINAL_SETPOINT;
   private double elevatorMinSpeed;
   private final double CHASSIS_SPEED = 0.5;
+  private Timer timer = new Timer();
 
   public FroggerElevatorClimbCommand() {
-    requires(Robot.frogger);
-    requires(Robot.elevator);
-    requires(Robot.chassis);
+    addRequirements(Robot.frogger);
+    addRequirements(Robot.elevator);
+    addRequirements(Robot.chassis);
     ELEVATOR_CLIMB_SPEED = config.getDouble("elevator.climbSpeed", 0.6);
     ELEVATOR_FINAL_SETPOINT = config.getDouble("elevator.finalSetpoint", -1.0);
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
     Robot.elevator.disable();
     // Robot.frogger.enable();
     Robot.elevator.setCurrentLimiting(10, 25, 4000);
-    setTimeout(6);
+    timer.reset();
+    timer.start();
     elevatorMinSpeed = Robot.elevator.getMinElevatorSpeed();
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     double elevatorSpeed = ELEVATOR_CLIMB_SPEED;
     System.out.println("::: pitch = " + Robot.chassis.getPitchAngle());
     SmartDashboard.putNumber("Pitch", Robot.chassis.getPitchAngle());
@@ -66,8 +69,8 @@ public class FroggerElevatorClimbCommand extends Command {
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()) {
+  public boolean isFinished() {
+    if (timer.hasPeriodPassed(6.0)) {
       return true;
     }
     boolean froggerReached = Robot.frogger.encoderDistance() >= Frogger.MAX_FROGGER_DISTANCE
@@ -78,7 +81,7 @@ public class FroggerElevatorClimbCommand extends Command {
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     // Robot.frogger.footStop();
     Robot.elevator.setMinElevatorSpeed(elevatorMinSpeed);
     Robot.elevator.setSetpoint(Robot.elevator.inchesTraveled());

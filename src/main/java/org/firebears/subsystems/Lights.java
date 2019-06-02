@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.experimental.command.SendableSubsystemBase;
 
 /**
  * Control the light strip animations.
  */
-public class Lights extends Subsystem {
+public class Lights extends SendableSubsystemBase {
 
 	public static final int MAX_ANIMATIONS = 9;
 	public static final int MAX_PIXELSTRIPS = 3;
@@ -48,11 +48,7 @@ public class Lights extends Subsystem {
 		driverstation = DriverStation.getInstance();
 		DEBUG = config.getBoolean("debug", false);
 	}
-
-	@Override
-	public void initDefaultCommand() {
-	}
-
+	
 	/**
 	 * Find all changed animations and push the changes out to the Arduino.
 	 */

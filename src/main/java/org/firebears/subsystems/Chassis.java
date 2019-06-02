@@ -16,11 +16,11 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.experimental.command.SendableSubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Chassis extends Subsystem {
+public class Chassis extends SendableSubsystemBase {
 
     private double InchesAvg;
     private double InchesNew;
@@ -102,7 +102,7 @@ public class Chassis extends Subsystem {
         rearLeft.follow(frontLeft);
 
         robotDrive = new DifferentialDrive(pidFrontLeft, pidFrontRight);
-        addChild("RobotDrive", robotDrive);
+//        addChild("RobotDrive", robotDrive);
 
         robotDrive.setSafetyEnabled(true);
         robotDrive.setExpiration(0.1);
@@ -184,11 +184,6 @@ public class Chassis extends Subsystem {
 
     public boolean isBrakingMode() {
         return brakingMode;
-    }
-
-    @Override
-    public void initDefaultCommand() {
-        setDefaultCommand(new DriveCommand());
     }
 
     public double getRampRate() {

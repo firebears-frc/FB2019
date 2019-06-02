@@ -1,34 +1,31 @@
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 import org.firebears.Robot;
 
-public class CargoSpitCommand extends Command {
+public class CargoSpitCommand extends SendableCommandBase {
   public CargoSpitCommand() {
-    requires(Robot.cargoGrabber);
+    addRequirements(Robot.cargoGrabber);
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
 
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     Robot.cargoGrabber.spit();
   }
 
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return false;
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.cargoGrabber.hold();
   }
 
-  @Override
-  protected void interrupted() {
-  }
 }

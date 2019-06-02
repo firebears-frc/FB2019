@@ -9,7 +9,7 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
 
 /**
  * Turns on need cargo lights
@@ -17,10 +17,11 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class NeedsCargoCommand extends InstantCommand {
   
   public NeedsCargoCommand() {
-    requires(Robot.lights);
-  }  
+    addRequirements(Robot.lights);
+  }
+
   @Override
-  protected void initialize() {
+  public void initialize() {
     Robot.lights.setCargoMode(true);
   }
 

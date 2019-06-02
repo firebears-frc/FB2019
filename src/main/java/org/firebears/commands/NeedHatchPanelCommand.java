@@ -7,24 +7,21 @@
 
 package org.firebears.commands;
 
+import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
 import org.firebears.Robot;
-
-import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
  * turns on need hatchpanel lights.
- 
  */
 public class NeedHatchPanelCommand extends InstantCommand {
-  
-  public NeedHatchPanelCommand() {
-    requires(Robot.lights);
-  
-  }
 
-  @Override
-  protected void initialize() {
-    Robot.lights.setHatchPanelMode(true);
-  }
+    public NeedHatchPanelCommand() {
+        addRequirements(Robot.lights);
+    }
+
+    @Override
+    public void initialize() {
+        Robot.lights.setHatchPanelMode(true);
+    }
 
 }

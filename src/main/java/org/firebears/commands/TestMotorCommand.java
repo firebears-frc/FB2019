@@ -2,36 +2,33 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class TestMotorCommand extends Command {
+public class TestMotorCommand extends SendableCommandBase {
   double speed;
 
   public TestMotorCommand(double s) {
-    requires(Robot.chassis);
+    addRequirements(Robot.chassis);
     speed = s;
   }
 
   @Override
-  protected void initialize() {
+  public void initialize() {
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     Robot.chassis.drive(0, speed);
   }
 
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return false;
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.chassis.drive(0, 0);
   }
 
-  @Override
-  protected void interrupted() {
-  }
 }

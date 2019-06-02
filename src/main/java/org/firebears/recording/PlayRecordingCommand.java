@@ -11,12 +11,12 @@ import java.util.Iterator;
 import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
 /**
  * Play a previously recorded command.
  */
-public class PlayRecordingCommand extends Command {
+public class PlayRecordingCommand extends SendableCommandBase {
 
     private final RecordingFactory factory;
     private Recording recording;
@@ -35,7 +35,7 @@ public class PlayRecordingCommand extends Command {
      * @param factory the current factory for creating {@link Recording} objects.
      */
     public PlayRecordingCommand(RecordingFactory factory) {
-        requires(Robot.chassis);
+        addRequirements(Robot.chassis);
         this.factory = factory;
         useLatestRecording = true;
         label = "DEFAULT";
@@ -73,7 +73,8 @@ public class PlayRecordingCommand extends Command {
         label = fileName;
     }
 
-    protected void initialize() {
+    @Override
+    public void initialize() {
         startTime = System.currentTimeMillis();
         currentLine = null;
         if (useLatestRecording) {
@@ -89,7 +90,8 @@ public class PlayRecordingCommand extends Command {
         }
     }
 
-    protected void execute() {
+    @Override
+    public void execute() {
         long currentTime = System.currentTimeMillis() - startTime;
         while (currentLine != null && currentLine.getTime() < currentTime) {
             recording.executeLine(currentLine);
@@ -98,11 +100,12 @@ public class PlayRecordingCommand extends Command {
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return currentLine == null || !iter.hasNext();
     }
 
-    protected void end() {
+    @Override
+    public void end(boolean interrupted) {
         iter = null;
         currentLine = null;
         if (recording != null) {

@@ -15,7 +15,7 @@ public class FroggerDriveToWallCommand extends FroggerDriveCommand {
   }
 
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     if (super.isFinished()) {
       return true;
     }

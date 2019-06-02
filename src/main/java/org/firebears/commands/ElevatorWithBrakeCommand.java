@@ -2,9 +2,10 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class ElevatorWithBrakeCommand extends Command {
+public class ElevatorWithBrakeCommand extends SendableCommandBase {
   double distanceGoal;
 
   enum STATE {
@@ -13,20 +14,22 @@ public class ElevatorWithBrakeCommand extends Command {
 
   private STATE state = STATE.INITIAL;
   private long timeout;
+  private Timer timer = new Timer();
 
   public ElevatorWithBrakeCommand(double inches) {
-    requires(Robot.elevator);
+    addRequirements(Robot.elevator);
     distanceGoal = inches;
   }
 
   @Override
-  protected void initialize() {
-    setTimeout(3);
+  public void initialize() {
+    timer.reset();
+    timer.start();
     state = STATE.INITIAL;
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     switch (state) {
     case INITIAL:
       timeout = System.currentTimeMillis() + 300;
@@ -60,8 +63,8 @@ public class ElevatorWithBrakeCommand extends Command {
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()) {
+  public boolean isFinished() {
+    if (timer.hasPeriodPassed(3.0)) {
       return true;
     }
     return state == STATE.ENDING;
@@ -72,7 +75,7 @@ public class ElevatorWithBrakeCommand extends Command {
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.elevator.reset();
     Robot.elevator.setBrake(true);
   }

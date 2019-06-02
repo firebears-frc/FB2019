@@ -2,26 +2,31 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class TiltyRetractCommand extends Command {
+public class TiltyRetractCommand extends SendableCommandBase {
+
+  Timer timer = new Timer();
+
   public TiltyRetractCommand() {
-    requires(Robot.tilty);
+    addRequirements(Robot.tilty);
   }
 
   @Override
-  protected void initialize() {
-    setTimeout(8);
+  public void initialize() {
+    timer.reset();
+    timer.start();
   }
 
   @Override
-  protected void execute() {
+  public void execute() {
     Robot.tilty.retract();
   }
 
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()) {
+  public boolean isFinished() {
+    if (timer.get() > 8.0) {
       return true;
     }
     // return Robot.tilty.isRetracted();
@@ -29,11 +34,8 @@ public class TiltyRetractCommand extends Command {
   }
 
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.tilty.freeze();
   }
 
-  @Override
-  protected void interrupted() {
-  }
 }

@@ -1,7 +1,7 @@
 package org.firebears.recording;
 
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -13,7 +13,7 @@ import java.util.Date;
  * based on the current date and time. If a USB drive is plugged into the robot,
  * all recordings will be saved to that drive.
  */
-public class StartRecordingCommand extends Command {
+public class StartRecordingCommand extends SendableCommandBase {
     static boolean isRecording = false;
 
     private final RecordingFactory factory;
@@ -27,7 +27,8 @@ public class StartRecordingCommand extends Command {
         this.factory = factory;
     }
 
-    protected void initialize() {
+    @Override
+    public void initialize() {
         isRecording = true;
         recording = factory.newRecording();
         startTime = System.currentTimeMillis();
@@ -37,16 +38,19 @@ public class StartRecordingCommand extends Command {
         }
     }
 
-    protected void execute() {
+    @Override
+    public void execute() {
         long currentTime = System.currentTimeMillis() - startTime;
         recording.addLine(currentTime);
     }
 
-    protected boolean isFinished() {
+    @Override
+    public boolean isFinished() {
         return !isRecording;
     }
 
-    protected void end() {
+    @Override
+    public void end(boolean interrupted) {
         String comments = "Temporary recording as of " + (new Date());
         try (PrintWriter out = new PrintWriter(recordingFile)) {
             factory.save(recording, out, comments);

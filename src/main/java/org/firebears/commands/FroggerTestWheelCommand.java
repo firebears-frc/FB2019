@@ -9,29 +9,34 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 
-public class FroggerTestWheelCommand extends Command {
+public class FroggerTestWheelCommand extends SendableCommandBase {
+
+  private Timer timer = new Timer();
+
   public FroggerTestWheelCommand() {
-    requires(Robot.frogger);
+    addRequirements(Robot.frogger);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
-    setTimeout(2);
+  public void initialize() {
+    timer.reset();
+    timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     Robot.frogger.driveForward();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
-    if (isTimedOut()){
+  public boolean isFinished() {
+    if (timer.hasPeriodPassed(2.0)){
       return true;
     }
     return false;
@@ -39,13 +44,8 @@ public class FroggerTestWheelCommand extends Command {
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
     Robot.frogger.stopDrive();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }

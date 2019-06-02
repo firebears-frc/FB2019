@@ -10,18 +10,14 @@ package org.firebears.commands.auto.teleopAuto;
 import org.firebears.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.experimental.command.ConditionalCommand;
 
 public class SelectHatchCommand extends ConditionalCommand {
   public SelectHatchCommand() {
-    super("SelectHatchConditional", new ElevatorHatchPlaceCommand(2.2), new ElevatorHatchGrabCommand());
-    requires(Robot.hatchGrabber);
+    super(new ElevatorHatchPlaceCommand(2.2),
+            new ElevatorHatchGrabCommand(),
+            () -> { return Robot.hatchGrabber.getCapturedSensorValue(); });
+    addRequirements(Robot.hatchGrabber);
   }
-@Override
-protected boolean condition() {
-  if (Robot.hatchGrabber.getCapturedSensorValue()){
-    return true;
-  }
-  return false;
-}
+
 }
