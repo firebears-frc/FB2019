@@ -4,15 +4,28 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import org.junit.*;
 
-@Ignore
 public class HatchGrabberTest {
 
-    ShuffleboardTab programmerTab = Shuffleboard.getTab("Programmers");
+    ShuffleboardTab programmerTab = null;
+    SimpleWidget widget = null;
+    NetworkTableEntry networkTableEntry = null;
+
+    @Before
+    public void setup() {
+        networkTableEntry = mock(NetworkTableEntry.class);
+        widget = mock(SimpleWidget.class);
+        when(widget.withPosition(any(Integer.class),any(Integer.class))).thenReturn(widget);
+        when(widget.getEntry()).thenReturn(networkTableEntry);
+        programmerTab = mock(ShuffleboardTab.class);
+        when(programmerTab.add(any(String.class), any(Boolean.class))).thenReturn(widget);
+    }
 
     @Test
     public void testConstructor() {
