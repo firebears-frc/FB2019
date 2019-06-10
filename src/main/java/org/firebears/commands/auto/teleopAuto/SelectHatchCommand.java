@@ -7,17 +7,19 @@
 
 package org.firebears.commands.auto.teleopAuto;
 
-import org.firebears.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.experimental.command.ConditionalCommand;
+import org.firebears.subsystems.Chassis;
+import org.firebears.subsystems.Elevator;
+import org.firebears.subsystems.HatchGrabber;
+import org.firebears.subsystems.Vision;
 
 public class SelectHatchCommand extends ConditionalCommand {
-  public SelectHatchCommand() {
-    super(new ElevatorHatchPlaceCommand(2.2),
-            new ElevatorHatchGrabCommand(),
-            () -> { return Robot.hatchGrabber.getCapturedSensorValue(); });
-    addRequirements(Robot.hatchGrabber);
+  public SelectHatchCommand(final HatchGrabber hatchGrabber, final Elevator elevator, final Chassis chassis, final Vision vision) {
+    super(new ElevatorHatchPlaceCommand(2.2, hatchGrabber, elevator, chassis, vision),
+            new ElevatorHatchGrabCommand(hatchGrabber, elevator, chassis, vision),
+            () -> { return hatchGrabber.getCapturedSensorValue(); });
+    addRequirements(hatchGrabber);
   }
 
 }

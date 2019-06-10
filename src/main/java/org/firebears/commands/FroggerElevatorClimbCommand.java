@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.firebears.Robot;
+import org.firebears.subsystems.Elevator;
 import org.firebears.subsystems.Frogger;
 
 /**
@@ -22,10 +23,14 @@ public class FroggerElevatorClimbCommand extends SendableCommandBase {
   private double elevatorMinSpeed;
   private final double CHASSIS_SPEED = 0.5;
   private Timer timer = new Timer();
+  private final Frogger frogger;
+  private final Elevator elevator;
 
-  public FroggerElevatorClimbCommand() {
-    addRequirements(Robot.frogger);
-    addRequirements(Robot.elevator);
+  public FroggerElevatorClimbCommand(final Frogger frogger, final Elevator elevator) {
+    this.frogger = frogger;
+    this.elevator = elevator;
+    addRequirements(frogger);
+    addRequirements(elevator);
     addRequirements(Robot.chassis);
     ELEVATOR_CLIMB_SPEED = config.getDouble("elevator.climbSpeed", 0.6);
     ELEVATOR_FINAL_SETPOINT = config.getDouble("elevator.finalSetpoint", -1.0);
@@ -33,12 +38,12 @@ public class FroggerElevatorClimbCommand extends SendableCommandBase {
 
   @Override
   public void initialize() {
-    Robot.elevator.disable();
-    // Robot.frogger.enable();
-    Robot.elevator.setCurrentLimiting(10, 25, 4000);
+    elevator.disable();
+    // frogger.enable();
+    elevator.setCurrentLimiting(10, 25, 4000);
     timer.reset();
     timer.start();
-    elevatorMinSpeed = Robot.elevator.getMinElevatorSpeed();
+    elevatorMinSpeed = elevator.getMinElevatorSpeed();
   }
 
   @Override
@@ -54,16 +59,16 @@ public class FroggerElevatorClimbCommand extends SendableCommandBase {
     // elevatorSpeed += -0.1; // Tipping backwards, so raise elevator slower
     // System.out.println("::: TIPPING BACKWARDS");
     // }
-    boolean elevatorReached = Robot.elevator.inchesTraveled() <= ELEVATOR_FINAL_SETPOINT;
+    boolean elevatorReached = elevator.inchesTraveled() <= ELEVATOR_FINAL_SETPOINT;
     if (elevatorReached) {
-      Robot.elevator.setBrake(true);
+      elevator.setBrake(true);
     } else {
-      Robot.elevator.setSpeed(-1 * elevatorSpeed);
+      elevator.setSpeed(-1 * elevatorSpeed);
     }
 
-    Robot.frogger.footDown();
+    frogger.footDown();
 
-    Robot.frogger.driveForward();
+    frogger.driveForward();
 
     Robot.chassis.drive(CHASSIS_SPEED, -0.3);
   }
@@ -73,19 +78,19 @@ public class FroggerElevatorClimbCommand extends SendableCommandBase {
     if (timer.hasPeriodPassed(6.0)) {
       return true;
     }
-    boolean froggerReached = Robot.frogger.encoderDistance() >= Frogger.MAX_FROGGER_DISTANCE
-        || Robot.frogger.isDownwardsLimitHit();
-    boolean elevatorReached = Robot.elevator.inchesTraveled() <= ELEVATOR_FINAL_SETPOINT;
+    boolean froggerReached = frogger.encoderDistance() >= Frogger.MAX_FROGGER_DISTANCE
+        || frogger.isDownwardsLimitHit();
+    boolean elevatorReached = elevator.inchesTraveled() <= ELEVATOR_FINAL_SETPOINT;
 
     return froggerReached && elevatorReached;
   }
 
   @Override
   public void end(boolean interrupted) {
-    // Robot.frogger.footStop();
-    Robot.elevator.setMinElevatorSpeed(elevatorMinSpeed);
-    Robot.elevator.setSetpoint(Robot.elevator.inchesTraveled());
-    Robot.elevator.enable();
+    // frogger.footStop();
+    elevator.setMinElevatorSpeed(elevatorMinSpeed);
+    elevator.setSetpoint(elevator.inchesTraveled());
+    elevator.enable();
   }
 
 }

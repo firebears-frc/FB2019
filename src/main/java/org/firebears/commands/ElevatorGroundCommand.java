@@ -7,7 +7,7 @@
 
 package org.firebears.commands;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
@@ -15,29 +15,32 @@ import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 public class ElevatorGroundCommand extends SendableCommandBase {
 
   private Timer timer = new Timer();
+  private final Elevator elevator;
 
-  public ElevatorGroundCommand() {
-    addRequirements(Robot.elevator);
+  public ElevatorGroundCommand(final Elevator elevator) {
+    this.elevator = elevator;
+    addRequirements(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    Robot.elevator.disable();
+    elevator.disable();
     timer.reset();
     timer.start();
+    System.out.println("INITIALIZE: " + this);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    Robot.elevator.setSpeed(-0.3);
+    elevator.setSpeed(-0.3);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    if (Robot.elevator.getGroundSensor() == false){
+    if (elevator.getGroundSensor() == false){
       return true;
     }
     if (timer.get() > 4.0){
@@ -49,8 +52,8 @@ public class ElevatorGroundCommand extends SendableCommandBase {
   // Called once after isFinished returns true
   @Override
   public void end(boolean interrupted) {
-    Robot.elevator.enable();
-    Robot.elevator.setSetpoint(0);
+    elevator.enable();
+    elevator.setSetpoint(0);
   }
 
 }

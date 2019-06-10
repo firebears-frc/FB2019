@@ -1,23 +1,28 @@
 package org.firebears.commands.auto;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
+import org.firebears.subsystems.Vision;
 
 public class DriveToVisionTargetDistanceCommand extends DistanceCommand {
-  public DriveToVisionTargetDistanceCommand() {
-    super(0);
-  }
 
-  @Override
-  public void initialize() {
-      double distance = Robot.vision.getVisionTargetDistance();
-      distanceGoal = distance - 23;
-      super.initialize();
-      Robot.vision.setVisionTargetSaveImageTime(500);
-  }
+    private final Vision vision;
 
-  @Override
-  public void end(boolean interrupted) {
-    super.end(interrupted);
-    Robot.vision.setVisionTargetSaveImageTime(0.0);
-  }
+    public DriveToVisionTargetDistanceCommand(final Chassis chassis, final Vision vision) {
+        super(0, chassis);
+        this.vision = vision;
+    }
+
+    @Override
+    public void initialize() {
+        double distance = vision.getVisionTargetDistance();
+        distanceGoal = distance - 23;
+        super.initialize();
+        vision.setVisionTargetSaveImageTime(500);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        vision.setVisionTargetSaveImageTime(0.0);
+    }
 }

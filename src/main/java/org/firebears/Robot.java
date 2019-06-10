@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.*;
 import org.firebears.commands.*;
@@ -88,8 +90,15 @@ public class Robot extends TimedRobot {
                 new DigitalInput(config.getInt("hatchGrabber.hatchRotationSensor.dio", 9)),
                 programmerTab
         );
+
         cargoGrabber = new CargoGrabber();
-        tilty = new Tilty();
+
+        WPI_TalonSRX tiltyMotor = new WPI_TalonSRX(config.getInt("tilty.motor.canID", 12));
+        tiltyMotor.configFactoryDefault();
+        tiltyMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        tiltyMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        tilty = new Tilty(tiltyMotor, programmerTab);
+
         frogger = new Frogger();
         lights = new Lights();
         vision = new Vision();
@@ -113,12 +122,12 @@ public class Robot extends TimedRobot {
         hatchAquiredWidget = Robot.driverTab.add("Hatch Aquired", Robot.hatchGrabber.getCapturedSensorValue()).withPosition(0, 5).withSize(3, 3).getEntry();
         hatchRotationWidget = Robot.driverTab.add("Hatch Rotation", hatchGrabber.getRotationSensorValue()).withPosition(3, 8).withSize(3, 3).getEntry();
         visionAquiredWidget = Robot.driverTab.add("Vision Aquired", Robot.vision.getVisionTargetConfidenceBoolean()).withPosition(0, 2).withSize(3, 3).getEntry();
-        Robot.driverTab.add("Raise Frogger", new FroggerRaiseCommand()).withPosition(8, 2).withSize(5, 2);
+        Robot.driverTab.add("Raise Frogger", new FroggerRaiseCommand(frogger)).withPosition(8, 2).withSize(5, 2);
         Robot.driverTab.add("Test Wheel", new FroggerTestWheelCommand()).withPosition(8, 4).withSize(5, 2);
-        Robot.driverTab.add("Enter Starting Config", new StartingConfigurationEnterCommand()).withPosition(3, 4).withSize(5, 2);
-        Robot.driverTab.add("Leave Starting Config", new StartingConfigurationLeaveCommand()).withPosition(3, 6).withSize(5, 2);
-        Robot.driverTab.add("Disable Elevator Brake", new ElevatorSetBrakeCommand(false)).withPosition(3, 2).withSize(5, 2);
-        Robot.driverTab.add("Enable Elevator Brake", new ElevatorSetBrakeCommand(true)).withPosition(3, 0).withSize(5, 2);
+        Robot.driverTab.add("Enter Starting Config", new StartingConfigurationEnterCommand(Robot.tilty, Robot.elevator, Robot.hatchGrabber)).withPosition(3, 4).withSize(5, 2);
+        Robot.driverTab.add("Leave Starting Config", new StartingConfigurationLeaveCommand(Robot.tilty, Robot.elevator)).withPosition(3, 6).withSize(5, 2);
+        Robot.driverTab.add("Disable Elevator Brake", new ElevatorSetBrakeCommand(false, elevator)).withPosition(3, 2).withSize(5, 2);
+        Robot.driverTab.add("Enable Elevator Brake", new ElevatorSetBrakeCommand(true, elevator)).withPosition(3, 0).withSize(5, 2);
         Robot.driverTab.add("Auto mode", chooser).withPosition(8, 0).withSize(5, 2);
         elevatorHeightWidget = Robot.driverTab.add("Elevator Height", "0").withPosition(0, 0).withSize(3, 2).getEntry();
     }
@@ -146,11 +155,11 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         if (RIGHT_ROCKET_AUTO.equals(chooser.getSelected())) {
-            autonomousCommand = new RightRocketAutoCommand();
+            autonomousCommand = new RightRocketAutoCommand(chassis, tilty, elevator, hatchGrabber, vision);
         } else if (LEFT_ROCKET_AUTO.equals(chooser.getSelected())) {
-            autonomousCommand = new LeftRocketAutoCommand();
+            autonomousCommand = new LeftRocketAutoCommand(chassis, tilty, elevator, hatchGrabber, vision);
         } else if (CENTER_AUTO.equals(chooser.getSelected())) {
-            autonomousCommand = new CenterAutoCommand();
+            autonomousCommand = new CenterAutoCommand(chassis, tilty, elevator, hatchGrabber, vision);
         } else if (NO_AUTO.equals(chooser.getSelected())){
             autonomousCommand = null;
         }

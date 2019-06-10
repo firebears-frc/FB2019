@@ -70,10 +70,10 @@ public class OI {
         buttonX = new JoystickButton(xboxController, 3);
         buttonX.whenPressed(new PIDrelativeAngleCommand(45));
         buttonA = new JoystickButton(xboxController, 1);
-        buttonA.whenPressed(new ElevatorNudgeCommand(-2));
+        buttonA.whenPressed(new ElevatorNudgeCommand(-2, Robot.elevator));
 
         buttonY = new JoystickButton(xboxController, 4);
-        buttonY.whenPressed(new ElevatorNudgeCommand(2));
+        buttonY.whenPressed(new ElevatorNudgeCommand(2, Robot.elevator));
 
         buttonB = new JoystickButton(xboxController, 2);
         buttonB.whenPressed(new StopRecordingCommand(recordingFactory));
@@ -95,14 +95,14 @@ public class OI {
         // Removed because they use an axis in CargoGrabber.periodic
        
         leftBumper = new JoystickButton(xboxController, 5);
-        leftBumper.whenPressed(new HatchHoldCommand());
+        leftBumper.whenPressed(new HatchHoldCommand(Robot.hatchGrabber));
 
         rightBumper = new JoystickButton(xboxController, 6);
-        rightBumper.whenPressed(new HatchReleaseCommand());
+        rightBumper.whenPressed(new HatchReleaseCommand(Robot.hatchGrabber));
         // joystick/button box
 
         groundCargoButton = new JoystickButton(joystick, 1);
-        groundCargoButton.whenPressed(new ElevatorGroundCommand());
+        groundCargoButton.whenPressed(new ElevatorGroundCommand(Robot.elevator));
         /*
         // Auto teleop
         hatch1Button = new JoystickButton(joystick, 11);
@@ -121,15 +121,15 @@ public class OI {
 
         // Manual teleop
         hatch1Button = new JoystickButton(joystick, 7);
-        hatch1Button.whenPressed(new ElevatorCommand(2));
+        hatch1Button.whenPressed(new ElevatorCommand(2, Robot.elevator));
         hatch2Button = new JoystickButton(joystick, 6);
-        hatch2Button.whenPressed(new ElevatorCommand(29));
+        hatch2Button.whenPressed(new ElevatorCommand(29, Robot.elevator));
         hatch3Button = new JoystickButton(joystick, 5);
-        hatch3Button.whenPressed(new ElevatorCommand(57));
+        hatch3Button.whenPressed(new ElevatorCommand(57, Robot.elevator));
         cargo1Button = new JoystickButton(joystick, 2);
-        cargo1Button.whenPressed(new ElevatorCommand(23));
+        cargo1Button.whenPressed(new ElevatorCommand(23, Robot.elevator));
         cargo2Button = new JoystickButton(joystick, 3);
-        cargo2Button.whenPressed(new ElevatorCommand(50));
+        cargo2Button.whenPressed(new ElevatorCommand(50, Robot.elevator));
        // cargo3Button = new JoystickButton(joystick, 4);
         //cargo3Button.whenPressed(new ElevatorCommand(73));
 
@@ -137,34 +137,34 @@ public class OI {
         //tiltyButton.whenPressed(new TiltyToggleConditionalCommand());
 
         tiltyButton = new JoystickButton(joystick, 8);
-        tiltyButton.whenPressed(new StartingConfigurationLeaveCommand());
+        tiltyButton.whenPressed(new StartingConfigurationLeaveCommand(Robot.tilty, Robot.elevator));
 
         climbButton = new JoystickButton(joystick, 11);
-        climbButton.whenPressed(new FroggerClimbCommand());
+        climbButton.whenPressed(new FroggerClimbCommand(Robot.frogger, Robot.elevator, Robot.chassis));
 
 
-        SmartDashboard.putData(new ResetElevatorEncoderCommand());
-        SmartDashboard.putData(new DriveToVisionTargetCommand());
-        SmartDashboard.putData(new FroggerLowerCommand());
-        SmartDashboard.putData(new FroggerRaiseCommand());
-        SmartDashboard.putData(new FroggerDriveCommand());
-        SmartDashboard.putData("FroggerClimbCommand", new FroggerClimbCommand());
-        SmartDashboard.putData(new FroggerElevatorClimbCommand());
+        SmartDashboard.putData(new ResetElevatorEncoderCommand(Robot.elevator));
+        SmartDashboard.putData(new DriveToVisionTargetCommand(Robot.chassis, Robot.vision));
+        SmartDashboard.putData(new FroggerLowerCommand(Robot.frogger));
+        SmartDashboard.putData(new FroggerRaiseCommand(Robot.frogger));
+        SmartDashboard.putData(new FroggerDriveCommand(Robot.frogger, Robot.chassis));
+        SmartDashboard.putData("FroggerClimbCommand", new FroggerClimbCommand(Robot.frogger, Robot.elevator, Robot.chassis));
+        SmartDashboard.putData(new FroggerElevatorClimbCommand(Robot.frogger, Robot.elevator));
 
-        SmartDashboard.putData(new DriveToVisionTargetDistanceCommand());
+        SmartDashboard.putData(new DriveToVisionTargetDistanceCommand(Robot.chassis, Robot.vision));
 
-        SmartDashboard.putData(new TiltyRetractCommand());
-        SmartDashboard.putData(new TiltyExtendCommand());
-        SmartDashboard.putData(new StartingConfigurationEnterCommand());
-        SmartDashboard.putData(new StartingConfigurationLeaveCommand());
+        SmartDashboard.putData(new TiltyRetractCommand(Robot.tilty));
+        SmartDashboard.putData(new TiltyExtendCommand(Robot.tilty));
+        SmartDashboard.putData(new StartingConfigurationEnterCommand(Robot.tilty, Robot.elevator, Robot.hatchGrabber));
+        SmartDashboard.putData(new StartingConfigurationLeaveCommand(Robot.tilty, Robot.elevator));
         
-        SmartDashboard.putData(new DriveToWallCommand(20));
+        SmartDashboard.putData(new DriveToWallCommand(20, Robot.chassis));
 
-        SmartDashboard.putData("Brake 24", new ElevatorCommand(24));
-        SmartDashboard.putData("Brake 36", new ElevatorCommand(36));
+        SmartDashboard.putData("Brake 24", new ElevatorCommand(24, Robot.elevator));
+        SmartDashboard.putData("Brake 36", new ElevatorCommand(36, Robot.elevator));
 
-        SmartDashboard.putData("DriveToVisionDistance", new DriveToVisionTargetDistanceCommand());
-        SmartDashboard.putData("RotateToVision", new RotateToVisionTargetCommand());
+        SmartDashboard.putData("DriveToVisionDistance", new DriveToVisionTargetDistanceCommand(Robot.chassis, Robot.vision));
+        SmartDashboard.putData("RotateToVision", new RotateToVisionTargetCommand(Robot.chassis, Robot.vision));
         SmartDashboard.putData("FroggerClimbSync", new FroggerClimbSyncCommand());
         //SmartDashboard.putData("Elevator24Inches", new ElevatorCommand(24));
  

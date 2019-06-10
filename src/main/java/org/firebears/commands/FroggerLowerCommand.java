@@ -2,14 +2,16 @@ package org.firebears.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
-import org.firebears.Robot;
+import org.firebears.subsystems.Frogger;
 
 public class FroggerLowerCommand extends SendableCommandBase {
 
   private Timer timer = new Timer();
+  private final Frogger frogger;
 
-  public FroggerLowerCommand() {
-    addRequirements(Robot.frogger);
+  public FroggerLowerCommand(final Frogger frogger) {
+    this.frogger = frogger;
+    addRequirements(frogger);
   }
 
   @Override
@@ -21,7 +23,7 @@ public class FroggerLowerCommand extends SendableCommandBase {
 
   @Override
   public void execute() {
-    Robot.frogger.footDown();
+    frogger.footDown();
   }
 
   @Override
@@ -29,7 +31,7 @@ public class FroggerLowerCommand extends SendableCommandBase {
     if (timer.hasPeriodPassed(3.0)){
       return true;
     }
-    if (Robot.frogger.isDownwardsLimitHit() == true) {
+    if (frogger.isDownwardsLimitHit() == true) {
       return true;
     }
     return false;
@@ -37,7 +39,7 @@ public class FroggerLowerCommand extends SendableCommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.frogger.footStop();
+    frogger.footStop();
   }
 
 }

@@ -1,23 +1,24 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
-
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
+import org.firebears.subsystems.CargoGrabber;
 
 public class CargoIntakeCommand extends SendableCommandBase {
 
-  public CargoIntakeCommand() {
-    addRequirements(Robot.cargoGrabber);
+  final CargoGrabber cargoGrabber;
+
+  public CargoIntakeCommand(final CargoGrabber cargoGrabber) {
+    this.cargoGrabber = cargoGrabber;
+    addRequirements(cargoGrabber);
   }
 
   @Override
   public void initialize() {
-
   }
 
   @Override
   public void execute() {
-    Robot.cargoGrabber.intake();
+    cargoGrabber.intake();
   }
 
   @Override
@@ -27,7 +28,7 @@ public class CargoIntakeCommand extends SendableCommandBase {
 
   @Override
   public void end(boolean inturrupted) {
-    Robot.cargoGrabber.hold();
+    cargoGrabber.hold();
   }
 
 }

@@ -16,14 +16,14 @@ public class ElevatorHatchPlaceCommand extends SequentialCommandGroup {
     /**
      * for placing hatches on the rocket durring teleop
      */
-    public ElevatorHatchPlaceCommand(Double elevatorHeight) {
+    public ElevatorHatchPlaceCommand(Double elevatorHeight, final HatchGrabber hatchGrabber, final Elevator elevator, final Chassis chassis, final Vision vision) {
         super(
-                new DriveToVisionTargetCommand(),
-                new ElevatorCommand(elevatorHeight),
-                new DriveToWallCommand(15),
-                new HatchReleaseCommand(),
+                new DriveToVisionTargetCommand(chassis, vision),
+                new ElevatorCommand(elevatorHeight, elevator),
+                new DriveToWallCommand(15, chassis),
+                new HatchReleaseCommand(hatchGrabber),
 //                new DistanceCommand(-6),
-                new ElevatorCommand(6)
+                new ElevatorCommand(6, elevator)
         );
     }
 }

@@ -6,15 +6,19 @@ import org.firebears.commands.*;
 
 import edu.wpi.first.wpilibj.experimental.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj.experimental.command.SequentialCommandGroup;
+import org.firebears.subsystems.Chassis;
+import org.firebears.subsystems.Elevator;
+import org.firebears.subsystems.HatchGrabber;
+import org.firebears.subsystems.Tilty;
 
 public class RightCargoShip1Command extends ParallelCommandGroup {
-  public RightCargoShip1Command() {
+  public RightCargoShip1Command(final Chassis chassis, final Tilty tilty, final Elevator elevator, final HatchGrabber hatchGrabber) {
     super(
-            new StartingConfigurationLeaveCommand(),
+            new StartingConfigurationLeaveCommand(tilty, elevator),
             new SequentialCommandGroup(
-                    new ResetNavXCommand(),
-                    new DistanceCommand(60),
-                    new RotateToAngleCommand(-90)
+                    new ResetNavXCommand(chassis),
+                    new DistanceCommand(60, chassis),
+                    new RotateToAngleCommand(-90, chassis)
             )
     );
 

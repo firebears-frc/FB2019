@@ -1,16 +1,21 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
 
 public class ResetNavXCommand extends InstantCommand {
-  public ResetNavXCommand() {
+
+  private final Chassis chassis;
+
+  public ResetNavXCommand(final Chassis chassis) {
+    this.chassis = chassis;
   }
 
   @Override
   public void initialize() {
-    Robot.chassis.resetNavX();
+    chassis.resetNavX();
+    System.out.println("INITIALIZE: " + this);
   }
 
 

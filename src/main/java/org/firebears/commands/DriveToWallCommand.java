@@ -1,6 +1,6 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
@@ -10,28 +10,31 @@ public class DriveToWallCommand extends SendableCommandBase {
   private Timer timer = new Timer();
   private double distance;
   private double distanceFromWall;
+  private final Chassis chassis;
 
-  public DriveToWallCommand(double inches) {
-    addRequirements(Robot.chassis);
+  public DriveToWallCommand(double inches, final Chassis chassis) {
+    this.chassis = chassis;
+    addRequirements(chassis);
     distanceFromWall = inches;
   }
 
   @Override
   public void initialize() {
-    distance = Robot.chassis.getLidarDistanceInches();
+    distance = chassis.getLidarDistanceInches();
     timer.reset();
     timer.start();
+    System.out.println("INITIALIZE: " + this);
   }
 
   @Override
   public void execute() {
-    if (Robot.chassis.getLidarDistanceInches() != -1.0) {
-      distance = Robot.chassis.getLidarDistanceInches();
+    if (chassis.getLidarDistanceInches() != -1.0) {
+      distance = chassis.getLidarDistanceInches();
     } else {
       distance = 0;
     }
 
-    Robot.chassis.drive(0.4, 0.0);
+    chassis.drive(0.4, 0.0);
 
   }
 
@@ -49,8 +52,12 @@ public class DriveToWallCommand extends SendableCommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.chassis.drive(0.0, 0.0);
+    chassis.drive(0.0, 0.0);
   }
 
+  @Override
+  public String toString() {
+    return "DriveToWallCommand(" + distanceFromWall + ")";
+  }
 
 }

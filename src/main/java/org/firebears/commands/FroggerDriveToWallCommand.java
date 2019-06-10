@@ -1,6 +1,8 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
+//import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
+import org.firebears.subsystems.Frogger;
 
 /**
  * Drive forward the Frogger foot until we are a certain distance from the wall.
@@ -10,7 +12,8 @@ public class FroggerDriveToWallCommand extends FroggerDriveCommand {
 
   private double distanceFromWall;
 
-  public FroggerDriveToWallCommand(double inches) {
+  public FroggerDriveToWallCommand(double inches, final Frogger frogger, final Chassis chassis) {
+    super(frogger, chassis);
     distanceFromWall = inches;
   }
 
@@ -20,8 +23,8 @@ public class FroggerDriveToWallCommand extends FroggerDriveCommand {
       return true;
     }
     double distance = 0.0;
-    if (Robot.chassis.getLidarDistanceInches() != -1.0) {
-      distance = Robot.chassis.getLidarDistanceInches();
+    if (chassis.getLidarDistanceInches() != -1.0) {
+      distance = chassis.getLidarDistanceInches();
     }
     return distance <= distanceFromWall;
   }

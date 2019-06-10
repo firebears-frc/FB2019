@@ -7,18 +7,21 @@
 
 package org.firebears.commands;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Elevator;
 
 public class ElevatorNudgeCommand extends ElevatorCommand {
-  private double offsetHeight;
-  public ElevatorNudgeCommand(double offset) {
-    super(0.0);
-    offsetHeight = offset;
-  }
+    private double offsetHeight;
+    private final Elevator elevator;
 
-  // Called just before this Command runs the first time
-  @Override
-  public void initialize() {
-    distanceGoal = Robot.elevator.inchesTraveled() + offsetHeight;
-  }
+    public ElevatorNudgeCommand(double offset, final Elevator elevator) {
+        super(0.0, elevator);
+        this.elevator = elevator;
+        offsetHeight = offset;
+    }
+
+    // Called just before this Command runs the first time
+    @Override
+    public void initialize() {
+        distanceGoal = elevator.inchesTraveled() + offsetHeight;
+    }
 }

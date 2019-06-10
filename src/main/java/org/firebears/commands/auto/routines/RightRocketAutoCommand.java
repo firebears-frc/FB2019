@@ -1,7 +1,6 @@
 package org.firebears.commands.auto.routines;
 
 import org.firebears.commands.auto.*;
-import org.firebears.commands.auto.teleopAuto.ElevatorCargoCommand;
 import org.firebears.commands.auto.teleopAuto.ElevatorHatchPlaceCommand;
 import org.firebears.commands.*;
 
@@ -11,20 +10,21 @@ import edu.wpi.first.wpilibj.experimental.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj.experimental.command.SequentialCommandGroup;
 import org.firebears.commands.VisionConditionalCommand;
 import org.firebears.commands.*;
+import org.firebears.subsystems.*;
 
 public class RightRocketAutoCommand extends SequentialCommandGroup {
-  public RightRocketAutoCommand() {
+  public RightRocketAutoCommand(final Chassis chassis, final Tilty tilty, final Elevator elevator, final HatchGrabber hatchGrabber, final Vision vision) {
     super(
-            new ResetNavXCommand(),
-            new DistanceCommand(60),
+            new ResetNavXCommand(chassis),
+            new DistanceCommand(60, chassis),
             new ParallelCommandGroup(
-                    new StartingConfigurationLeaveCommand(),
+                    new StartingConfigurationLeaveCommand(tilty, elevator),
                     new SequentialCommandGroup(
-                            new RotateToAngleCommand(90),
-                            new DistanceCommand(56),
-                            new RotateToAngleCommand(30),
-                            new DistanceCommand(35),
-                            new VisionConditionalCommand(new ElevatorHatchPlaceCommand(4.59))
+                            new RotateToAngleCommand(90, chassis),
+                            new DistanceCommand(56, chassis),
+                            new RotateToAngleCommand(30, chassis),
+                            new DistanceCommand(35, chassis),
+                            new VisionConditionalCommand(new ElevatorHatchPlaceCommand(4.59, hatchGrabber, elevator, chassis, vision), vision)
                     )
             )
     );

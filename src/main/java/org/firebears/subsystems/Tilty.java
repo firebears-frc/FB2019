@@ -1,7 +1,8 @@
 package org.firebears.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import org.firebears.Robot;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.experimental.command.SendableSubsystemBase;
 import edu.wpi.first.wpilibj.Preferences;
 
@@ -10,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Tilty extends SendableSubsystemBase {
-    private final double MOTOR_SPEED = 0.8;
+    public final double MOTOR_SPEED = 0.8;
 
     private final NetworkTableEntry extendedLimitSwitchWidget;
     private final NetworkTableEntry retractedLimitSwitchWidget;
@@ -21,14 +22,12 @@ public class Tilty extends SendableSubsystemBase {
     private final long dashDelay;
     private long dashTimeout;
 
-    public Tilty() {
-        motor = new WPI_TalonSRX(config.getInt("tilty.motor.canID", 12));
+    public Tilty(WPI_TalonSRX tiltyMotor, ShuffleboardTab programmerTab) {
+        motor = tiltyMotor;
         motor.configFactoryDefault();
-        motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
-        motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
 
-        extendedLimitSwitchWidget = Robot.programmerTab.add("Tilty extention", false).withPosition(0, 4).getEntry();
-        retractedLimitSwitchWidget = Robot.programmerTab.add("Tilty retraction", false).withPosition(3, 4).getEntry();
+        extendedLimitSwitchWidget = programmerTab.add("Tilty extention", false).withPosition(0, 4).getEntry();
+        retractedLimitSwitchWidget = programmerTab.add("Tilty retraction", false).withPosition(3, 4).getEntry();
  
         dashDelay = config.getLong("dashDelay", 250);
         dashTimeout = System.currentTimeMillis() + dashDelay;

@@ -10,13 +10,14 @@ package org.firebears.commands.auto;
 import org.firebears.commands.RelativeAngleCommand;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.firebears.subsystems.Chassis;
 
 public class AbsoluteAngleCommand extends RelativeAngleCommand {
   private double targetAngle;
-  public AbsoluteAngleCommand(double absoluteAngle) {
+  public AbsoluteAngleCommand(double absoluteAngle, final Chassis chassis) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    super(0.0);
+    super(0.0, chassis);
     targetAngle = absoluteAngle;
   }
 

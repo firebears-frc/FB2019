@@ -7,9 +7,8 @@
 
 package org.firebears.commands;
 
-import org.firebears.Robot;
-
 import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
+import org.firebears.subsystems.Elevator;
 
 /**
  * 
@@ -17,15 +16,17 @@ import edu.wpi.first.wpilibj.experimental.command.InstantCommand;
 public class ElevatorSetBrakeCommand extends InstantCommand {
 
   private final boolean engage;
+  private final Elevator elevator;
 
-  public ElevatorSetBrakeCommand(boolean b) {
+  public ElevatorSetBrakeCommand(boolean b, final Elevator elevator) {
     super();
+    this.elevator = elevator;
     engage = b;
   }
 
   @Override
   public void initialize() {
-    Robot.elevator.setBrake(engage);
+    elevator.setBrake(engage);
   }
 
 }

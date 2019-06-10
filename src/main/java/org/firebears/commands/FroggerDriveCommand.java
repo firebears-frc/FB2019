@@ -1,6 +1,7 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
+import org.firebears.subsystems.Frogger;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
@@ -9,10 +10,14 @@ public class FroggerDriveCommand extends SendableCommandBase {
 
   private final double CHASSIS_SPEED = 0.5;
   private Timer timer = new Timer();
+  private final Frogger frogger;
+  protected final Chassis chassis;
   
-  public FroggerDriveCommand() {
-    addRequirements(Robot.frogger);
-    addRequirements(Robot.chassis);
+  public FroggerDriveCommand(final Frogger frogger, final Chassis chassis) {
+    this.frogger = frogger;
+    this.chassis = chassis;
+    addRequirements(frogger);
+    addRequirements(chassis);
   }
 
   @Override
@@ -24,9 +29,9 @@ public class FroggerDriveCommand extends SendableCommandBase {
 
   @Override
   public void execute() {
-    Robot.frogger.footDown();
-    Robot.frogger.driveForward();
-    Robot.chassis.drive(CHASSIS_SPEED, -0.3);
+    frogger.footDown();
+    frogger.driveForward();
+    chassis.drive(CHASSIS_SPEED, -0.3);
   }
 
   @Override
@@ -39,8 +44,8 @@ public class FroggerDriveCommand extends SendableCommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.frogger.stopDrive();
-    Robot.frogger.footStop();
+    frogger.stopDrive();
+    frogger.footStop();
   }
 
 }

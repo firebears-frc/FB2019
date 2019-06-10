@@ -1,14 +1,14 @@
 
 package org.firebears.commands;
 
-import org.firebears.Robot;
-
-import edu.wpi.first.wpilibj.experimental.command.Command;
 import edu.wpi.first.wpilibj.experimental.command.ConditionalCommand;
+import org.firebears.subsystems.Tilty;
 
 public class TiltyToggleConditionalCommand extends ConditionalCommand {
-  public TiltyToggleConditionalCommand() {
-    super(new TiltyExtendCommand(), new TiltyRetractCommand(), () -> { return Robot.tilty.isRetracted();});
+  public TiltyToggleConditionalCommand(final Tilty tilty) {
+    super(new TiltyExtendCommand(tilty),
+            new TiltyRetractCommand(tilty),
+            () -> { return tilty.isRetracted();});
   }
 
 }

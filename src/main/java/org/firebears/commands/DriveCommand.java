@@ -13,8 +13,10 @@ public class DriveCommand extends SendableCommandBase {
     int joystickSpeedAxis;
     int joystickRotateAxis;
     double adjust;
+    private final Chassis chassis;
 
     public DriveCommand(Chassis chassis) {
+        this.chassis = chassis;
         config = Preferences.getInstance();
         joystickSpeedAxis = config.getInt("joystick1.speedAxis", 1);
         joystickRotateAxis = config.getInt("joystick1.rotateAxis", 4);
@@ -30,7 +32,7 @@ public class DriveCommand extends SendableCommandBase {
     public void execute() {
         double speed = -1 * Robot.oi.getXboxController().getRawAxis(joystickSpeedAxis);
         double rotation = Robot.oi.getXboxController().getRawAxis(joystickRotateAxis) * 0.6;
-        Robot.chassis.drive(deadBand(speed), deadBand(rotation));
+        chassis.drive(deadBand(speed), deadBand(rotation));
     }
 
     private double deadBand(double x) {

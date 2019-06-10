@@ -1,6 +1,6 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Tilty;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
 public class TiltyRetractCommand extends SendableCommandBase {
 
   Timer timer = new Timer();
+  private final Tilty tilty;
 
-  public TiltyRetractCommand() {
-    addRequirements(Robot.tilty);
+  public TiltyRetractCommand(Tilty t) {
+    tilty = t;
+    addRequirements(tilty);
   }
 
   @Override
@@ -21,7 +23,7 @@ public class TiltyRetractCommand extends SendableCommandBase {
 
   @Override
   public void execute() {
-    Robot.tilty.retract();
+    tilty.retract();
   }
 
   @Override
@@ -29,13 +31,13 @@ public class TiltyRetractCommand extends SendableCommandBase {
     if (timer.get() > 8.0) {
       return true;
     }
-    // return Robot.tilty.isRetracted();
+    // return tilty.isRetracted();
     return false;
   }
 
   @Override
   public void end(boolean interrupted) {
-    Robot.tilty.freeze();
+    tilty.freeze();
   }
 
 }

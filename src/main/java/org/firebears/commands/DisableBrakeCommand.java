@@ -1,31 +1,33 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
+import org.firebears.subsystems.Elevator;
 
 public class DisableBrakeCommand extends SendableCommandBase {
 
   private Timer timer = new Timer();
+  private final Elevator elevator;
 
-  public DisableBrakeCommand() {
-    addRequirements(Robot.elevator);
+  public DisableBrakeCommand(final Elevator elevator) {
+    this.elevator = elevator;
+    addRequirements(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    Robot.elevator.setBrake(false);
-    Robot.elevator.disable();
+    elevator.setBrake(false);
+    elevator.disable();
     timer.reset();
     timer.start();
+    System.out.println("INITIALIZE: " + this);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    Robot.elevator.setSpeed(0.42);
+    elevator.setSpeed(0.42);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -40,7 +42,7 @@ public class DisableBrakeCommand extends SendableCommandBase {
   // Called once after isFinished returns true
   @Override
   public void end(boolean interrupted) {
-    Robot.elevator.setSpeed(0.0);
+    elevator.setSpeed(0.0);
   }
 
 

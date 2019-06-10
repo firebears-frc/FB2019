@@ -1,12 +1,12 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
+import org.firebears.subsystems.Elevator;
 
 public class ElevatorWithBrakeCommand extends SendableCommandBase {
   double distanceGoal;
+  private final Elevator elevator;
 
   enum STATE {
     INITIAL, WAITING_FOR_BRAKE_TO_DISENGAGE, MOVING, WAITING_FOR_BRAKE_TO_ENAGE, ENDING
@@ -16,8 +16,9 @@ public class ElevatorWithBrakeCommand extends SendableCommandBase {
   private long timeout;
   private Timer timer = new Timer();
 
-  public ElevatorWithBrakeCommand(double inches) {
-    addRequirements(Robot.elevator);
+  public ElevatorWithBrakeCommand(double inches, final Elevator elevator) {
+    this.elevator = elevator;
+    addRequirements(elevator);
     distanceGoal = inches;
   }
 
@@ -33,32 +34,32 @@ public class ElevatorWithBrakeCommand extends SendableCommandBase {
     switch (state) {
     case INITIAL:
       timeout = System.currentTimeMillis() + 300;
-      Robot.elevator.setBrake(false);
-      Robot.elevator.enable();
-      Robot.elevator.setSetpoint(Robot.elevator.inchesTraveled() + 2);
+      elevator.setBrake(false);
+      elevator.enable();
+      elevator.setSetpoint(elevator.inchesTraveled() + 2);
       state = STATE.WAITING_FOR_BRAKE_TO_DISENGAGE;
       break;
     case WAITING_FOR_BRAKE_TO_DISENGAGE:
       if (System.currentTimeMillis() > timeout) {
-        Robot.elevator.setSetpoint(distanceGoal);
+        elevator.setSetpoint(distanceGoal);
         state = STATE.MOVING;
       }
       break;
     case MOVING:
       if (reachedSetpoint()) {
-        Robot.elevator.setBrake(true);
+        elevator.setBrake(true);
         timeout = System.currentTimeMillis() + 200;
         state = STATE.WAITING_FOR_BRAKE_TO_ENAGE;
       }
       break;
     case WAITING_FOR_BRAKE_TO_ENAGE:
       if (System.currentTimeMillis() > timeout) {
-        Robot.elevator.disable();
+        elevator.disable();
         state = STATE.ENDING;
       }
       break;
     case ENDING:
-      Robot.elevator.disable();
+      elevator.disable();
     }
   }
 
@@ -71,12 +72,12 @@ public class ElevatorWithBrakeCommand extends SendableCommandBase {
   }
 
   private boolean reachedSetpoint() {
-    return Math.abs(distanceGoal - Robot.elevator.inchesTraveled()) < 1;
+    return Math.abs(distanceGoal - elevator.inchesTraveled()) < 1;
   }
 
   @Override
   public void end(boolean interrupted) {
-    Robot.elevator.reset();
-    Robot.elevator.setBrake(true);
+    elevator.reset();
+    elevator.setBrake(true);
   }
 }

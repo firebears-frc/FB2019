@@ -1,29 +1,31 @@
 
 package org.firebears.commands;
 
-import org.firebears.Robot;
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
+import org.firebears.subsystems.HatchGrabber;
 
 public class HatchReleaseCommand extends SendableCommandBase {
 
-    public HatchReleaseCommand() {
-        addRequirements(Robot.hatchGrabber);
+    final HatchGrabber hatchGrabber;
+
+    public HatchReleaseCommand(final HatchGrabber hatchGrabber) {
+        this.hatchGrabber = hatchGrabber;
+        addRequirements(hatchGrabber);
     }
 
     @Override
     public void initialize() {
+        System.out.println("INITIALIZE: " + this);
     }
 
     @Override
     public void execute() {
-        Robot.hatchGrabber.rotate();
+        hatchGrabber.rotate();
     }
 
     @Override
     public boolean isFinished() {
-        if (Robot.hatchGrabber.getRotationSensorValue()) {
+        if (hatchGrabber.getRotationSensorValue()) {
             return true;
         }
         return false;
@@ -31,7 +33,7 @@ public class HatchReleaseCommand extends SendableCommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.hatchGrabber.stopRotate();
+        hatchGrabber.stopRotate();
 
     }
 

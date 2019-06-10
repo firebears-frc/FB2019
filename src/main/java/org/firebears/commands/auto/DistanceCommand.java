@@ -1,6 +1,6 @@
 package org.firebears.commands.auto;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Preferences;
@@ -16,11 +16,13 @@ public class DistanceCommand extends PIDCommand {
 
   private Timer timer = new Timer();
   private double timeout = 0.0;
+  private final Chassis chassis;
 
-  public DistanceCommand(double inches) {
+  public DistanceCommand(double inches, final Chassis chassis) {
     super("DistanceCommand", 0.024, 0.0, 0.0024);
+    this.chassis = chassis;
     distanceGoal = inches;
-    addRequirements(Robot.chassis);
+    addRequirements(chassis);
   }
 
   @Override
@@ -29,19 +31,17 @@ public class DistanceCommand extends PIDCommand {
     timeout = 2 + distanceGoal / 30.0;
     timer.reset();
     timer.start();
-    double initDistance = Robot.chassis.inchesTraveled();
+    double initDistance = chassis.inchesTraveled();
     setSetpoint(initDistance + distanceGoal);
     previousSpeed = 0;
-    previousBrakingMode = Robot.chassis.isBrakingMode();
-    Robot.chassis.setBrakingMode(true);
-    if (DEBUG) {
-      System.out.println("INITIALIZE: " + this);
-    }
+    previousBrakingMode = chassis.isBrakingMode();
+    chassis.setBrakingMode(true);
+    System.out.println("INITIALIZE: " + this);
   }
 
   protected void usePIDOutput(double output) {
     double speed = clamp((previousSpeed - 0.05), output, (previousSpeed + 0.05));
-    Robot.chassis.drive(speed, 0);
+    chassis.drive(speed, 0);
     previousSpeed = speed;
   }
 
@@ -50,7 +50,7 @@ public class DistanceCommand extends PIDCommand {
   }
 
   protected double returnPIDInput() {
-    return Robot.chassis.inchesTraveled();
+    return chassis.inchesTraveled();
   }
 
   @Override
@@ -59,15 +59,15 @@ public class DistanceCommand extends PIDCommand {
       System.out.println("TIMED OUT");
       return true;
     }
-    // System.out.println(Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()));
-    return Math.abs(getSetpoint() - Robot.chassis.inchesTraveled()) < 4;
+    // System.out.println(Math.abs(getSetpoint() - chassis.inchesTraveled()));
+    return Math.abs(getSetpoint() - chassis.inchesTraveled()) < 4;
   }
 
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Robot.chassis.drive(0, 0);
-    Robot.chassis.setBrakingMode(previousBrakingMode);
+    chassis.drive(0, 0);
+    chassis.setBrakingMode(previousBrakingMode);
 
   }
 

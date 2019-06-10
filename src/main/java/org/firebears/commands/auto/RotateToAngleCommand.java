@@ -1,6 +1,6 @@
 package org.firebears.commands.auto;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.experimental.command.PIDCommand;
@@ -13,12 +13,14 @@ public class RotateToAngleCommand extends PIDCommand {
   double angle;
   long timeout;
   double rampRate;
+  private final Chassis chassis;
 
-  public RotateToAngleCommand(double angle) {
+  public RotateToAngleCommand(double angle, final Chassis chassis) {
     super("RotateToAngleCommand", Preferences.getInstance().getDouble("RotateToAngleCommand.p", 0.0),
         Preferences.getInstance().getDouble("RotateToAngleCommand.i", 0.0),
         Preferences.getInstance().getDouble("RotateToAngleCommand.d", 0.0));
-    addRequirements(Robot.chassis);
+    this.chassis = chassis;
+    addRequirements(chassis);
 
     this.angle = bound(angle);
 
@@ -40,7 +42,7 @@ public class RotateToAngleCommand extends PIDCommand {
   }
 
   private double getAngleDifference() {
-    return getAngleDifference(Robot.chassis.getAngle(), targetAngle);
+    return getAngleDifference(chassis.getAngle(), targetAngle);
   }
 
   private boolean isClosedLoop;
@@ -48,13 +50,13 @@ public class RotateToAngleCommand extends PIDCommand {
   @Override
   public void initialize() {
     super.initialize();
-    isClosedLoop = Robot.chassis.pidFrontLeft.isClosedLoop();
-    Robot.chassis.pidFrontLeft.setClosedLoop(false);
-    Robot.chassis.pidFrontRight.setClosedLoop(false);
-    rampRate = Robot.chassis.getRampRate();
-    Robot.chassis.setRampRate(0.1);
+    isClosedLoop = chassis.pidFrontLeft.isClosedLoop();
+    chassis.pidFrontLeft.setClosedLoop(false);
+    chassis.pidFrontRight.setClosedLoop(false);
+    rampRate = chassis.getRampRate();
+    chassis.setRampRate(0.1);
     timeout = System.currentTimeMillis() + 1000 * 5;
-    turnValue = bound(angle - Robot.chassis.getAngle());
+    turnValue = bound(angle - chassis.getAngle());
     targetAngle = bound(angle);
     getPIDController().setSetpoint(0.0);
 
@@ -71,7 +73,7 @@ public class RotateToAngleCommand extends PIDCommand {
       return true;
     } else {
 
-      return Math.abs(Robot.chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;
+      return Math.abs(chassis.getVelocity()) < 1 && Math.abs(getAngleDifference()) < angleTolerance;
     }
     // return false;
   }
@@ -79,16 +81,16 @@ public class RotateToAngleCommand extends PIDCommand {
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    Robot.chassis.pidFrontLeft.setClosedLoop(isClosedLoop);
-    Robot.chassis.pidFrontRight.setClosedLoop(isClosedLoop);
-    Robot.chassis.drive(0.0, 0.0);
-    Robot.chassis.setRampRate(rampRate);
+    chassis.pidFrontLeft.setClosedLoop(isClosedLoop);
+    chassis.pidFrontRight.setClosedLoop(isClosedLoop);
+    chassis.drive(0.0, 0.0);
+    chassis.setRampRate(rampRate);
 
   }
 
   protected void usePIDOutput(double output) {
     output = Math.max(-SPEED, Math.min(output, SPEED));
-    Robot.chassis.drive(0, -output);
+    chassis.drive(0, -output);
   }
 
   protected double returnPIDInput() {

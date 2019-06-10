@@ -1,6 +1,6 @@
 package org.firebears.commands;
 
-import org.firebears.Robot;
+import org.firebears.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.experimental.command.SendableCommandBase;
@@ -10,15 +10,17 @@ public class RelativeAngleCommand extends SendableCommandBase {
   private final double angle;
   private double targetAngle;
   private Timer timer = new Timer();
+  protected final Chassis chassis;
 
-  public RelativeAngleCommand(double a) {
+  public RelativeAngleCommand(double a, final Chassis chassis) {
+    this.chassis = chassis;
     angle = a;
-    addRequirements(Robot.chassis);
+    addRequirements(chassis);
   }
 
   @Override
   public void initialize() {
-    setTargetAngle(Robot.chassis.getAngle() + angle);
+    setTargetAngle(chassis.getAngle() + angle);
     timer.reset();
     timer.start();
     System.out.println("INITIALIZE: " + this);
@@ -28,13 +30,13 @@ public class RelativeAngleCommand extends SendableCommandBase {
   public void execute() {
     double diff = getAngleDifference();
     if (diff < -25) {
-      Robot.chassis.drive(0, -0.5);
+      chassis.drive(0, -0.5);
     } else if (diff < 0) {
-      Robot.chassis.drive(0, -0.25);
+      chassis.drive(0, -0.25);
     } else if (diff > 25) {
-      Robot.chassis.drive(0, 0.5);
+      chassis.drive(0, 0.5);
     } else {
-      Robot.chassis.drive(0, 0.25);
+      chassis.drive(0, 0.25);
     }
   }
 
@@ -43,12 +45,13 @@ public class RelativeAngleCommand extends SendableCommandBase {
     if (timer.hasPeriodPassed(10.0)) {
       return true;
     }
-    return getAngleDifference() < 1 && getAngleDifference() > -1;
+    double diff = getAngleDifference();
+    return diff < 1 && diff > -1;
   }
 
   @Override
   public void end(boolean interrupted) {
-    Robot.chassis.drive(0, 0);
+    chassis.drive(0, 0);
   }
 
   private static double getAngleDifference(double angle1, double angle2) {
@@ -71,7 +74,7 @@ public class RelativeAngleCommand extends SendableCommandBase {
    *         in the range -180 to 180.
    */
   private double getAngleDifference() {
-    return getAngleDifference(Robot.chassis.getAngle(), targetAngle);
+    return getAngleDifference(chassis.getAngle(), targetAngle);
   }
 
   public void setTargetAngle(double angle) {

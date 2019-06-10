@@ -16,13 +16,13 @@ public class ElevatorHatchGrabCommand extends SequentialCommandGroup {
   /**
    * for grabbing hatches in teleop
    */
-  public ElevatorHatchGrabCommand() {
+  public ElevatorHatchGrabCommand(final HatchGrabber hatchGrabber, final Elevator elevator, final Chassis chassis, final Vision vision) {
     super(
-            new DriveToVisionTargetCommand(),
-            new ElevatorCommand(6),
-            new DistanceCommand(4),
-            new HatchHoldCommand(),
-            new DistanceCommand(-6)
+            new DriveToVisionTargetCommand(chassis, vision),
+            new ElevatorCommand(6, elevator),
+            new DistanceCommand(4, chassis),
+            new HatchHoldCommand(hatchGrabber),
+            new DistanceCommand(-6, chassis)
     );
 //    addSequential(new DriveToVisionTargetCommand());
 //    addSequential(new ElevatorCommand(6));
