@@ -86,4 +86,9 @@ public class PIDrelativeAngleCommand extends PIDCommand {
     targetAngle = bound(angle);
     setSetpoint(initAngle + targetAngle);
   }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

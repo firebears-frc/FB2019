@@ -1,13 +1,14 @@
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.experimental.RobotState;
-import edu.wpi.first.wpilibj.experimental.command.CommandScheduler;
-import org.firebears.subsystems.Elevator;
-import org.firebears.subsystems.Tilty;
-import org.junit.*;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+import org.firebears.subsystems.Elevator;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import edu.wpi.first.wpilibj.experimental.command.CommandScheduler;
 
 /** Testing an {@code InstantCommand}. */
 public class ResetElevatorEncoderCommandTest {
@@ -16,10 +17,7 @@ public class ResetElevatorEncoderCommandTest {
 
     @Before
     public void setup() {
-        RobotState robotState = mock(RobotState.class);
-        when(robotState.isDisabled()).thenReturn(false);
-        scheduler = new CommandScheduler(robotState) {
-        };
+        scheduler = CommandScheduler.getInstance();
     }
 
     @After

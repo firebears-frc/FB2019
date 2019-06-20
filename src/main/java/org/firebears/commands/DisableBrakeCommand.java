@@ -45,5 +45,8 @@ public class DisableBrakeCommand extends SendableCommandBase {
     elevator.setSpeed(0.0);
   }
 
-
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

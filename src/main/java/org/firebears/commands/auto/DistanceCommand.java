@@ -75,4 +75,9 @@ public class DistanceCommand extends PIDCommand {
   public String toString() {
     return "DistanceCommand(" + distanceGoal + ")";
   }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

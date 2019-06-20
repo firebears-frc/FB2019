@@ -31,4 +31,8 @@ public class TestMotorCommand extends SendableCommandBase {
     Robot.chassis.drive(0, 0);
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

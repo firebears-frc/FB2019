@@ -11,4 +11,9 @@ public class VisionConditionalCommand extends ConditionalCommand {
     public VisionConditionalCommand(Command Cmd, final Vision vision) {
         super(Cmd, new WaitCommand(0.0), () -> { return vision.getVisionTargetConfidence() == 1; });
     }
+
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

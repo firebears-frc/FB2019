@@ -85,4 +85,9 @@ public class RelativeAngleCommand extends SendableCommandBase {
   public String toString() {
     return this.getClass().getSimpleName() + "(" + angle + ")";
   }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

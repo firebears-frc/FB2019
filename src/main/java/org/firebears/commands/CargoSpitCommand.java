@@ -30,4 +30,8 @@ public class CargoSpitCommand extends SendableCommandBase {
         cargoGrabber.hold();
     }
 
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

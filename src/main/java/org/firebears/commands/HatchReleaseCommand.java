@@ -37,4 +37,8 @@ public class HatchReleaseCommand extends SendableCommandBase {
 
     }
 
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

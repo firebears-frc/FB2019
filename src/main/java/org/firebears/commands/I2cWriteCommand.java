@@ -36,4 +36,8 @@ public class I2cWriteCommand extends InstantCommand {
 		logger.fine("send to " + i2c);
 	}
 
+	@Override
+	public boolean runsWhenDisabled() {
+	  return true;
+	}
 }

@@ -25,4 +25,8 @@ public class NeedsCargoCommand extends InstantCommand {
     Robot.lights.setCargoMode(true);
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

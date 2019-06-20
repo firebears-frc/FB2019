@@ -11,4 +11,8 @@ public class TiltyToggleConditionalCommand extends ConditionalCommand {
             () -> { return tilty.isRetracted();});
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

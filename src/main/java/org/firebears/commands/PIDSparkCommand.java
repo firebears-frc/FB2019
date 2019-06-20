@@ -95,4 +95,8 @@ public class PIDSparkCommand extends SendableCommandBase {
         return this.getClass().getSimpleName() + "(" + distanceGoalLeft + "," + distanceGoalRight + ")";
     }
 
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

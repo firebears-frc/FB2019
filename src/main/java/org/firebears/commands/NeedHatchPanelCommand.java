@@ -24,4 +24,8 @@ public class NeedHatchPanelCommand extends InstantCommand {
         Robot.lights.setHatchPanelMode(true);
     }
 
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

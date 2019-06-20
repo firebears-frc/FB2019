@@ -42,4 +42,8 @@ public class HatchHoldCommand extends SendableCommandBase {
         hatchGrabber.stopRotate();
     }
 
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

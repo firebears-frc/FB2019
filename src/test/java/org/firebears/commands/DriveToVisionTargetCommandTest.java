@@ -1,13 +1,14 @@
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.experimental.RobotState;
-import edu.wpi.first.wpilibj.experimental.command.CommandScheduler;
-import org.firebears.commands.auto.DriveToVisionTargetCommand;
-import org.firebears.subsystems.*;
-import org.junit.*;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+import org.firebears.commands.auto.DriveToVisionTargetCommand;
+import org.firebears.subsystems.Chassis;
+import org.firebears.subsystems.Vision;
+import org.junit.*;
+
+import edu.wpi.first.wpilibj.experimental.command.CommandScheduler;
 
 /** Testing an {@code SequentialCommand}. */
 public class DriveToVisionTargetCommandTest {
@@ -16,10 +17,7 @@ public class DriveToVisionTargetCommandTest {
 
     @Before
     public void setup() {
-        RobotState robotState = mock(RobotState.class);
-        when(robotState.isDisabled()).thenReturn(false);
-        scheduler = new CommandScheduler(robotState) {
-        };
+        scheduler = CommandScheduler.getInstance();
     }
 
     @After

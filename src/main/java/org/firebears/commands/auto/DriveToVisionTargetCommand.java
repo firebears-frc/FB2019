@@ -15,4 +15,5 @@ public class DriveToVisionTargetCommand extends SequentialCommandGroup {
         super(new VisionConditionalCommand(new RotateToVisionTargetCommand(chassis, vision), vision),
                 new DriveToWallCommand(20, chassis));
     }
+    
 }

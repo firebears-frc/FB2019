@@ -28,4 +28,9 @@ public class RotateToVisionTargetCommand extends RelativeAngleCommand {
       super.end(interrupted);
       vision.setVisionTargetSaveImageTime(0.0);
     }
+
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

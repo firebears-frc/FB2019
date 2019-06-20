@@ -56,4 +56,8 @@ public class ElevatorGroundCommand extends SendableCommandBase {
     elevator.setSetpoint(0);
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

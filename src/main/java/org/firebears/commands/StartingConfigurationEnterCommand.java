@@ -8,12 +8,10 @@ import edu.wpi.first.wpilibj.experimental.command.ParallelCommandGroup;
 public class StartingConfigurationEnterCommand extends ParallelCommandGroup {
 
     public StartingConfigurationEnterCommand(final Tilty tilty, final Elevator elevator, final HatchGrabber hatchGrabber) {
-        // addSequential(new ElevatorSetBrakeCommand(false));
         super(
                 new ElevatorCommand(20, elevator),
                 new TiltyRetractCommand(tilty),
                 new HatchHoldCommand(hatchGrabber)
         );
-        // addSequential(new ElevatorSetBrakeCommand(true));
     }
 }

@@ -60,4 +60,8 @@ public class DriveToWallCommand extends SendableCommandBase {
     return "DriveToWallCommand(" + distanceFromWall + ")";
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

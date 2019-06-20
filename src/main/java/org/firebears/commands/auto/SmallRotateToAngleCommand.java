@@ -103,4 +103,9 @@ public class SmallRotateToAngleCommand extends PIDCommand {
   public void setTargetAngle(double angle) {
     targetAngle = bound(angle);
   }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

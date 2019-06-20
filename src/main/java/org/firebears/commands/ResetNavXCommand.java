@@ -18,5 +18,8 @@ public class ResetNavXCommand extends InstantCommand {
     System.out.println("INITIALIZE: " + this);
   }
 
-
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

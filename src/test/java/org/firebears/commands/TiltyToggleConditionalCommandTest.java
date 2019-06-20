@@ -1,17 +1,21 @@
 package org.firebears.commands;
 
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import org.firebears.subsystems.Tilty;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.experimental.RobotState;
 import edu.wpi.first.wpilibj.experimental.command.CommandScheduler;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import org.firebears.subsystems.Tilty;
-import org.junit.*;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 /** Testing a {@code ConditionalCommand} */
 public class TiltyToggleConditionalCommandTest {
@@ -29,9 +33,7 @@ public class TiltyToggleConditionalCommandTest {
         programmerTab = mock(ShuffleboardTab.class);
         when(programmerTab.add(any(String.class), any(Boolean.class))).thenReturn(widget);
 
-        RobotState robotState = mock(RobotState.class);
-        when(robotState.isDisabled()).thenReturn(false);
-        scheduler = new CommandScheduler(robotState) { };
+        scheduler = CommandScheduler.getInstance();
     }
 
     @After

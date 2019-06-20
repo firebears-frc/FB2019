@@ -41,4 +41,9 @@ public class TiltyExtendCommand extends SendableCommandBase {
   public void end(boolean interrupted) {
     tilty.freeze();
   }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

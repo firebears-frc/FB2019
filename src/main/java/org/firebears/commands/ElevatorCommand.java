@@ -44,4 +44,9 @@ public class ElevatorCommand extends SendableCommandBase {
     public String toString() {
         return "ElevatorCommand(" + distanceGoal + ")";
     }
+
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

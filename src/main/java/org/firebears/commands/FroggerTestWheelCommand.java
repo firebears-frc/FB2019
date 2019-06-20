@@ -48,4 +48,8 @@ public class FroggerTestWheelCommand extends SendableCommandBase {
     Robot.frogger.stopDrive();
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

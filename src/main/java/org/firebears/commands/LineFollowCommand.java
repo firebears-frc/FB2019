@@ -195,4 +195,8 @@ public class LineFollowCommand extends SendableCommandBase {
     System.out.println("last saved: " + lastOn);
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

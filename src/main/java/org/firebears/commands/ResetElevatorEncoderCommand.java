@@ -20,5 +20,8 @@ public class ResetElevatorEncoderCommand extends InstantCommand {
         elevator.resetEncoder();
     }
 
-
+    @Override
+    public boolean runsWhenDisabled() {
+      return true;
+    }
 }

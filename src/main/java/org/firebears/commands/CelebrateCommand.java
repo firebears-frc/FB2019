@@ -17,4 +17,8 @@ public class CelebrateCommand extends InstantCommand {
     Robot.lights.setCelebrateMode(true);
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }

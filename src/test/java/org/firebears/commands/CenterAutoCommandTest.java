@@ -1,13 +1,12 @@
 package org.firebears.commands;
 
-import edu.wpi.first.wpilibj.experimental.RobotState;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
 import edu.wpi.first.wpilibj.experimental.command.CommandScheduler;
 import org.firebears.commands.auto.routines.CenterAutoCommand;
 import org.firebears.subsystems.*;
 import org.junit.*;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 public class CenterAutoCommandTest {
 
@@ -15,9 +14,7 @@ public class CenterAutoCommandTest {
 
     @Before
     public void setup() {
-        RobotState robotState = mock(RobotState.class);
-        when(robotState.isDisabled()).thenReturn(false);
-        scheduler = new CommandScheduler(robotState) { };
+        scheduler = CommandScheduler.getInstance();
     }
 
     @After

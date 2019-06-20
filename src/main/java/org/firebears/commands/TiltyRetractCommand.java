@@ -40,4 +40,8 @@ public class TiltyRetractCommand extends SendableCommandBase {
     tilty.freeze();
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }
