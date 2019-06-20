@@ -17,8 +17,7 @@ public class CenterAutoCommandTest {
     public void setup() {
         RobotState robotState = mock(RobotState.class);
         when(robotState.isDisabled()).thenReturn(false);
-        scheduler = new CommandScheduler(robotState) {
-        };
+        scheduler = new CommandScheduler(robotState) { };
     }
 
     @After
