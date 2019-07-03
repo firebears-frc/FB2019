@@ -23,7 +23,8 @@ deploy {
             // Debug can be overridden by command line, for use with VSCode
             debug = frc.getDebugOrDefault(false)
             // Enable VisualVM
-            jvmArgs = [ "-Dcom.sun.management.jmxremote=true",
+           jvmArgs = [ "-XX:+HeapDumpOnOutOfMemoryError",
+                        "-Dcom.sun.management.jmxremote=true",
                         "-Dcom.sun.management.jmxremote.port=1099",
                         "-Dcom.sun.management.jmxremote.local.only=false",
                         "-Dcom.sun.management.jmxremote.ssl=false",
