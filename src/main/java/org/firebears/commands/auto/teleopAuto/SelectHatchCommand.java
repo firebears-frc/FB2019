@@ -9,7 +9,6 @@ package org.firebears.commands.auto.teleopAuto;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class SelectHatchCommand extends ConditionalCommand {

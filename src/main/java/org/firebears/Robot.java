@@ -4,15 +4,8 @@ import static org.firebears.util.Config.cleanAllPreferences;
 import static org.firebears.util.Config.loadConfiguration;
 import static org.firebears.util.Config.printPreferences;
 
-import java.io.File;
-import java.io.PrintStream;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-
 import org.firebears.commands.ElevatorSetBrakeCommand;
-import org.firebears.commands.ElevatorWithBrakeCommand;
-import org.firebears.commands.FroggerLowerCommand;
 import org.firebears.commands.FroggerRaiseCommand;
 import org.firebears.commands.FroggerTestWheelCommand;
 import org.firebears.commands.StartingConfigurationLeaveCommand;
@@ -29,7 +22,6 @@ import org.firebears.subsystems.Lights;
 import org.firebears.subsystems.Tilty;
 import org.firebears.subsystems.Vision;
 
-import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;

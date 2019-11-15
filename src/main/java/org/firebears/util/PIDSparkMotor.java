@@ -61,7 +61,7 @@ public class PIDSparkMotor implements SpeedController {
 
 	public void driveToPosition(double inches) {
 		double setPointPosition = (invertEncoder ? -1 : 1) * inches * ENCODER_TICKS_PER_INCH;
-		if (pidController.setReference(setPointPosition, ControlType.kPosition, SECONDARY_SLOT) != CANError.kOK) {
+		if (pidController.setReference(setPointPosition, ControlType.kPosition, SECONDARY_SLOT) != CANError.kOk) {
 			System.out.println("ERROR: Failed to set Setpoint on " + this);
 		}
 	}
@@ -76,7 +76,7 @@ public class PIDSparkMotor implements SpeedController {
 		currentSpeed = speed;
 		if (closedLoop) {
 			double setPointVelocity = speed * MAX_RPM;
-			if (pidController.setReference(setPointVelocity, ControlType.kVelocity) != CANError.kOK) {
+			if (pidController.setReference(setPointVelocity, ControlType.kVelocity) != CANError.kOk) {
 				System.out.println("ERROR: Failed to set setpoint on " + this);
 			}
 		} else {
