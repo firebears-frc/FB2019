@@ -9,8 +9,6 @@ package org.firebears.commands.auto;
 
 import org.firebears.commands.RelativeAngleCommand;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 public class AbsoluteAngleCommand extends RelativeAngleCommand {
   private double targetAngle;
   public AbsoluteAngleCommand(double absoluteAngle) {

@@ -8,10 +8,8 @@
 package org.firebears.commands.auto.teleopAuto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.firebears.commands.auto.*;
 import org.firebears.commands.*;
-import org.firebears.subsystems.*;
 
 public class ElevatorHatchGrabCommand extends CommandGroup {
   /**

@@ -167,16 +167,16 @@ public class Chassis extends Subsystem {
 
     public void setBrakingMode(boolean braking) {
         IdleMode idleMode = braking ? IdleMode.kBrake : IdleMode.kCoast;
-        if (rearRight.setIdleMode(idleMode) != CANError.kOK) {
+        if (rearRight.setIdleMode(idleMode) != CANError.kOk) {
             System.out.println("ERROR: Failed to set idleMode " + braking + " on rightRear");
         }
-        if (rearLeft.setIdleMode(idleMode) != CANError.kOK) {
+        if (rearLeft.setIdleMode(idleMode) != CANError.kOk) {
             System.out.println("ERROR: Failed to set idleMode " + braking + " on rearLeft");
         }
-        if (frontRight.setIdleMode(idleMode) != CANError.kOK) {
+        if (frontRight.setIdleMode(idleMode) != CANError.kOk) {
             System.out.println("ERROR: Failed to set idleMode " + braking + " on frontRight");
         }
-        if (frontLeft.setIdleMode(idleMode) != CANError.kOK) {
+        if (frontLeft.setIdleMode(idleMode) != CANError.kOk) {
             System.out.println("ERROR: Failed to set idleMode " + braking + " on frontLeft");
         }
         brakingMode = braking;

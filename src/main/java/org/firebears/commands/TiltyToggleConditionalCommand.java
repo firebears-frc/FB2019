@@ -3,7 +3,6 @@ package org.firebears.commands;
 
 import org.firebears.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class TiltyToggleConditionalCommand extends ConditionalCommand {
