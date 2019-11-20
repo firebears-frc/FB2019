@@ -162,7 +162,7 @@ public class Elevator extends PIDSubsystem {
 
   public void reset() {
     // setBrake(true);
-    disable();
+   // disable();
   }
 
   public boolean getGroundSensor() {

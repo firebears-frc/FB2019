@@ -50,12 +50,12 @@ public class ElevatorWithBrakeCommand extends Command {
       break;
     case WAITING_FOR_BRAKE_TO_ENAGE:
       if (System.currentTimeMillis() > timeout) {
-        Robot.elevator.disable();
+       // Robot.elevator.disable();
         state = STATE.ENDING;
       }
       break;
     case ENDING:
-      Robot.elevator.disable();
+      // Robot.elevator.disable();
     }
   }
 

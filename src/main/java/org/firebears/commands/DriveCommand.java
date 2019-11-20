@@ -27,7 +27,8 @@ public class DriveCommand extends Command {
     @Override
     protected void execute() {
         double speed = -1 * Robot.oi.getXboxController().getRawAxis(joystickSpeedAxis);
-        double rotation = Robot.oi.getXboxController().getRawAxis(joystickRotateAxis) * 0.6;
+
+        double rotation = Robot.oi.getXboxController().getRawAxis(joystickRotateAxis) * 0.7;
         Robot.chassis.drive(deadBand(speed), deadBand(rotation));
     }
 

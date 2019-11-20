@@ -67,22 +67,17 @@ public class OI {
         joystick = new Joystick(1);
 
         // xbox
-        buttonX = new JoystickButton(xboxController, 3);
-        buttonX.whenPressed(new PIDrelativeAngleCommand(45));
+       // buttonX = new JoystickButton(xboxController, 3);
+       // buttonX.whenPressed(new PIDrelativeAngleCommand(45));
+
         buttonA = new JoystickButton(xboxController, 1);
         buttonA.whenPressed(new ElevatorNudgeCommand(-2));
 
         buttonY = new JoystickButton(xboxController, 4);
         buttonY.whenPressed(new ElevatorNudgeCommand(2));
 
-        buttonB = new JoystickButton(xboxController, 2);
-        buttonB.whenPressed(new StopRecordingCommand(recordingFactory));
-
-        buttonBack = new JoystickButton(xboxController, 7);
-        buttonBack.whenPressed(new StartRecordingCommand(recordingFactory));
-
-        buttonStart = new JoystickButton(xboxController, 8);
-        buttonStart.whenPressed(new PlayRecordingCommand(recordingFactory));
+       // buttonB = new JoystickButton(xboxController, 2);
+       // buttonB.whenPressed(new PIDrelativeAngleCommand(180));
 
        // buttonElevator24 = new JoystickButton(xboxController, 8);
        // buttonElevator24.whenPressed(new ElevatorWithBrakeCommand(21));
