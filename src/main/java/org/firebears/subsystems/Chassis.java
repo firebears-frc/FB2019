@@ -95,9 +95,6 @@ public class Chassis extends Subsystem {
         pidFrontLeft = new PIDSparkMotor(frontLeft, kP, kI, kD);
         pidFrontLeft.setClosedLoop(closedLoop);
 
-        int chassisRearLeftCanID = config.getInt("chassis.rearleft.canID", 5);
-        rearLeft = new CANSparkMax(chassisRearLeftCanID, MotorType.kBrushless);
-        rearLeft.setInverted(false);
 
         rearLeft.follow(frontLeft);
 
